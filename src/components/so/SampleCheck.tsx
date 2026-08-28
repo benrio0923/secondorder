@@ -52,19 +52,26 @@ export function SampleCheck({ abv, asked }: { abv: number; asked: boolean }) {
             className="absolute top-[15px] h-[3px] rounded bg-amber/70"
             style={{ left: 0, width: `${Math.min(100, (abv / 75) * 100)}%`, transition: 'width .4s' }}
           />
-          {ABV_THRESHOLDS.map((t) => (
-            <div key={t.abv} className="group absolute top-0" style={{ left: `${(t.abv / 75) * 100}%` }}>
-              <div className="h-[33px] w-px -translate-x-1/2 bg-white/30" />
-              <span className="absolute left-0 top-[34px] -translate-x-1/2 font-mono text-[9.5px] text-stone">
-                {t.abv}°
-              </span>
-              <span className="pointer-events-none absolute bottom-full left-1/2 z-40 mb-1 w-52 -translate-x-1/2 rounded border border-white/15 bg-ink2 px-2.5 py-1.5 text-[11px] leading-snug text-stone opacity-0 shadow-2xl transition group-hover:opacity-100">
-                <b className="text-bone">{t.label}</b>
-                <br />
-                {t.detail}
-              </span>
-            </div>
-          ))}
+          {ABV_THRESHOLDS.map((t) => {
+            // 靠边的提示框往内展开，不然窄屏上会把整页撑宽
+            const pos = (t.abv / 75) * 100
+            const align = pos > 70 ? 'right-0' : pos < 30 ? 'left-0' : 'left-1/2 -translate-x-1/2'
+            return (
+              <div key={t.abv} className="group absolute top-0" style={{ left: `${pos}%` }}>
+                <div className="h-[33px] w-px -translate-x-1/2 bg-white/30" />
+                <span className="absolute left-0 top-[34px] -translate-x-1/2 font-mono text-[9.5px] text-stone">
+                  {t.abv}°
+                </span>
+                <span
+                  className={`pointer-events-none absolute bottom-full ${align} z-40 mb-1 w-[min(13rem,70vw)] rounded border border-white/15 bg-ink2 px-2.5 py-1.5 text-[11px] leading-snug text-stone opacity-0 shadow-2xl transition group-hover:opacity-100`}
+                >
+                  <b className="text-bone">{t.label}</b>
+                  <br />
+                  {t.detail}
+                </span>
+              </div>
+            )
+          })}
           <div
             className="absolute top-[9px] h-[15px] w-[3px] -translate-x-1/2 rounded bg-amber"
             style={{ left: `${Math.min(100, (abv / 75) * 100)}%`, transition: 'left .4s' }}
