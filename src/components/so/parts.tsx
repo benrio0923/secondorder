@@ -51,7 +51,7 @@ export function SourceTag({ source, asOf }: { source: string; asOf?: string }) {
         i
       </span>
       <span className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded border border-white/15 bg-ink2 px-3 py-2 text-[11px] leading-relaxed text-stone opacity-0 shadow-2xl transition group-hover:opacity-100">
-        <b className="text-bone">來源：</b>
+        <b className="text-bone">来源：</b>
         {source}
         {asOf && (
           <>

@@ -9,19 +9,19 @@ export function Waterfall({ p, m }: { p: PriceResult; m: Market }) {
   const max = p.retail
   const rows: { label: string; amount: number; cum: number; kind: 'china' | 'tax' | 'channel' | 'mark'; note?: string; src?: string; asOf?: string; changing?: string }[] = []
 
-  rows.push({ label: 'FOB 出口報價', amount: p.fob, cum: p.fob, kind: 'china', note: `保本線 ${fmt(p.breakeven)} 元＋加成` })
-  rows.push({ label: '物流與雜費', amount: p.cif - p.fob, cum: p.cif, kind: 'china', note: '每瓶分攤' })
+  rows.push({ label: '离岸报价', amount: p.fob, cum: p.fob, kind: 'china', note: `保本线 ${fmt(p.breakeven)} 元＋加成` })
+  rows.push({ label: '物流与杂费', amount: p.cif - p.fob, cum: p.cif, kind: 'china', note: '每瓶分摊' })
   let cum = p.cif
   for (const t of p.taxes) {
     cum += t.amount
-    rows.push({ label: t.label, amount: t.amount, cum, kind: 'tax', note: `${t.rate}｜基數：${t.basis}`, src: t.source, asOf: t.asOf, changing: t.changing })
+    rows.push({ label: t.label, amount: t.amount, cum, kind: 'tax', note: `${t.rate}｜基数：${t.basis}`, src: t.source, asOf: t.asOf, changing: t.changing })
   }
-  rows.push({ label: '完稅落地成本', amount: 0, cum, kind: 'mark', note: '進口商拿到貨的成本' })
+  rows.push({ label: '完税落地成本', amount: 0, cum, kind: 'mark', note: '进口商拿到货的成本' })
   for (const c of p.channel) {
     cum = c.to
-    rows.push({ label: `${c.label}加價`, amount: c.to - c.from, cum, kind: 'channel', note: `毛利率 ${Math.round(c.rate * 100)}%${c.note ? '｜' + c.note : ''}` })
+    rows.push({ label: `${c.label}加价`, amount: c.to - c.from, cum, kind: 'channel', note: `毛利率 ${Math.round(c.rate * 100)}%${c.note ? '｜' + c.note : ''}` })
   }
-  rows.push({ label: '終端零售價', amount: 0, cum: p.retail, kind: 'mark', note: '消費者看到的價格' })
+  rows.push({ label: '终端零售价', amount: 0, cum: p.retail, kind: 'mark', note: '消费者看到的价格' })
 
   const color = (k: string) =>
     k === 'china' ? 'bg-amber/70' : k === 'tax' ? 'bg-rose-500/60' : k === 'channel' ? 'bg-sky-500/45' : 'bg-white/25'
@@ -30,8 +30,8 @@ export function Waterfall({ p, m }: { p: PriceResult; m: Market }) {
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[10px] text-stone">
         <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-amber/70" />你的成本</span>
-        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-rose-500/60" />目的國稅費</span>
-        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-sky-500/45" />通路加價</span>
+        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-rose-500/60" />目的国税费</span>
+        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-sky-500/45" />通路加价</span>
       </div>
 
       <div className="space-y-[3px]">
@@ -76,22 +76,22 @@ export function Waterfall({ p, m }: { p: PriceResult; m: Market }) {
           .filter((r) => r.changing)
           .map((r, i) => (
             <p key={i} className="text-amber">
-              ⚠ {r.label}將調整：{r.changing}
+              ⚠ {r.label}将调整：{r.changing}
             </p>
           ))}
         <p>
-          終端零售約 <Num className="text-bone">{fmt(p.retailLocal)}</Num> {m.currency}
-          ，是內銷開票價的 <Num className="text-bone">{p.multiple}</Num> 倍；落地稅負占 CIF 的{' '}
+          终端零售约 <Num className="text-bone">{fmt(p.retailLocal)}</Num> {m.currency}
+          ，是内销开票价的 <Num className="text-bone">{p.multiple}</Num> 倍；落地税负占 到岸价 的{' '}
           <Num className="text-bone">{Math.round((p.taxTotal / p.cif) * 100)}%</Num>。
         </p>
       </div>
 
       <div className="mt-4 rounded border border-white/10 bg-white/[0.02] p-3.5">
         <div className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">
-          在 {m.name} 的貨架上，它會和這些酒站在一起
+          在 {m.name} 的货架上，它会和这些酒站在一起
         </div>
         <div className="space-y-1.5">
-          {[...m.benchmarks, { name: '★ 你的酒（本次測算）', priceLocal: p.retailLocal, note: '' }]
+          {[...m.benchmarks, { name: '★ 你的酒（本次测算）', priceLocal: p.retailLocal, note: '' }]
             .sort((a, b) => a.priceLocal - b.priceLocal)
             .map((b, i) => {
               const mine = b.name.startsWith('★')
@@ -115,7 +115,7 @@ export function Waterfall({ p, m }: { p: PriceResult; m: Market }) {
             })}
         </div>
         <p className="mt-2.5 text-[10.5px] leading-snug text-stone/60">
-          對標酒款為示意價，用於量級對照，非即時報價。匯率為估算值。
+          对标酒款为示意价，用于量级对照，非即时报价。汇率为估算值。
         </p>
       </div>
     </div>

@@ -7,11 +7,11 @@ import { Num } from './parts'
 const fmt = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 0 })
 
 const SPECS = [
-  { abv: 53, ml: 500, label: '53° / 500ml', note: '傳統醬香主力規格' },
+  { abv: 53, ml: 500, label: '53° / 500ml', note: '传统酱香主力规格' },
   { abv: 43, ml: 500, label: '43° / 500ml', note: '降度版' },
   { abv: 38, ml: 500, label: '38° / 500ml', note: '低度版' },
   { abv: 19, ml: 500, label: '19° / 500ml', note: '越南 20 度分界以下' },
-  { abv: 53, ml: 100, label: '53° / 100ml', note: '小容量嘗鮮裝（按每 100ml 比價）' },
+  { abv: 53, ml: 100, label: '53° / 100ml', note: '小容量尝鲜装（按每 100ml 比价）' },
 ]
 
 export function SpecAdvisor({
@@ -20,7 +20,7 @@ export function SpecAdvisor({
   const rows = useMemo(
     () =>
       SPECS.map((sp) => {
-        // 小容量按比例縮放內銷開票價
+        // 小容量按比例缩放内销开票价
         const dp = domesticPrice * (sp.ml / 500)
         const logi = logistics * (sp.ml === 500 ? 1 : 0.55)
         const r = computePrice({
@@ -38,11 +38,11 @@ export function SpecAdvisor({
   return (
     <div className="rounded border border-white/10 bg-white/[0.02] p-4">
       <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">
-        反推：為了{m.name}這個市場，你該出什麼規格的酒
+        反推：为了{m.name}这个市场，你该出什么规格的酒
       </div>
       <p className="mb-3.5 max-w-[74ch] text-[11.5px] leading-relaxed text-stone">
-        低度化在產業裡常被講成「迎合年輕人口味」。但在出海這件事上，它首先是一筆帳——
-        <span className="text-bone">稅是按度數和純酒精量收的，不是按你的情懷收的。</span>
+        低度化在产业里常被讲成「迎合年轻人口味」。但在出海这件事上，它首先是一笔帐——
+        <span className="text-bone">税是按度数和纯酒精量收的，不是按你的情怀收的。</span>
       </p>
 
       <div className="space-y-1.5">
@@ -72,13 +72,13 @@ export function SpecAdvisor({
                   />
                 </div>
                 <div className="font-mono text-[10.5px] text-stone/70">
-                  落地稅負 {row.taxRate}% · 終端 {fmt(row.r.retailLocal)} {m.currency}
+                  落地税负 {row.taxRate}% · 终端 {fmt(row.r.retailLocal)} {m.currency}
                   {!sameSize && <span className="text-stone/50">（折算每 100ml {fmt(row.per100)}）</span>}
                 </div>
               </div>
               <div className="w-[86px] shrink-0 text-right">
                 {isBase ? (
-                  <span className="font-mono text-[10.5px] text-stone/60">現況</span>
+                  <span className="font-mono text-[10.5px] text-stone/60">现况</span>
                 ) : (
                   <span className={`font-mono text-[11.5px] tabular-nums ${diff < 0 ? 'text-emerald-300' : 'text-rose-300/80'}`}>
                     {diff < 0 ? '−' : '+'}
@@ -95,24 +95,24 @@ export function SpecAdvisor({
       <div className="mt-3.5 border-t border-white/8 pt-3 text-[12px] leading-relaxed text-stone">
         {best.taxRate < base.taxRate ? (
           <>
-            在{m.name}，把主力規格從 <Num className="text-bone">{base.label}</Num> 換成{' '}
-            <Num className="text-emerald-300">{best.label}</Num>，落地稅負從{' '}
+            在{m.name}，把主力规格从 <Num className="text-bone">{base.label}</Num> 换成{' '}
+            <Num className="text-emerald-300">{best.label}</Num>，落地税负从{' '}
             <Num className="text-bone">{base.taxRate}%</Num> 降到 <Num className="text-emerald-300">{best.taxRate}%</Num>
-            ，終端價低 <Num className="text-emerald-300">{fmt(Math.abs(best.r.retailLocal - base.r.retailLocal))} {m.currency}</Num>。
+            ，终端价低 <Num className="text-emerald-300">{fmt(Math.abs(best.r.retailLocal - base.r.retailLocal))} {m.currency}</Num>。
             {market === 'vn' && best.abv < 20 && (
               <span className="text-amber">
-                {' '}越南的 SCT 以 20 度為分界：20 度以上 65%，以下 35%。一度之差，稅率差近一半。
+                {' '}越南的 特别消费税 以 20 度为分界：20 度以上 65%，以下 35%。一度之差，税率差近一半。
               </span>
             )}
             {market === 'sg' && (
-              <span className="text-amber"> 新加坡按純酒精量課稅，降度數等於直接少繳稅。</span>
+              <span className="text-amber"> 新加坡按纯酒精量课税，降度数等于直接少缴税。</span>
             )}
           </>
         ) : (
-          <>在{m.name}，稅是按貨值課的，降度數省不到稅——這個市場的解法在定價與通路層級，不在酒體。</>
+          <>在{m.name}，税是按货值课的，降度数省不到税——这个市场的解法在定价与通路层级，不在酒体。</>
         )}
         <p className="mt-1.5 text-[10.5px] leading-snug text-stone/55">
-          小容量規格的內銷開票價按容量比例估算、物流按 0.55 係數估算，僅供規格方向比較。
+          小容量规格的内销开票价按容量比例估算、物流按 0.55 系数估算，仅供规格方向比较。
         </p>
       </div>
     </div>

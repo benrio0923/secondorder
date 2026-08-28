@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>*{margin:0;padding:0}</style>
+<title>第二单 SecondOrder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ink:#0A100D; --ink2:#111813; --surf:#151D18;
+  --bone:#EFEAE0; --bone2:#C8CCC4; --stone:#8B928B; --stone2:#6C736C;
+  --amber:#D9873F; --gold:#C9A24A; --jade:#4ADE9B; --rose:#F5657A; --sky:#5AA9DE;
+  --line:rgba(239,234,224,.10); --line2:rgba(239,234,224,.055);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+  font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+/* head */
+.head{border-bottom:1px solid var(--line);padding:56px 0 44px;background:linear-gradient(180deg,rgba(217,135,63,.055),transparent)}
+.kicker{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:24px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.kicker .a{color:var(--amber)} .kicker .b{color:var(--stone)}
+.kicker i{display:block;width:22px;height:1px;background:var(--line);flex:0 0 auto}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(42px,7vw,74px);line-height:1.06;margin:0;letter-spacing:-.01em}
+h1 small{display:inline-block;margin-left:16px;font-family:"Noto Sans TC",sans-serif;font-size:.22em;font-weight:400;letter-spacing:.24em;color:var(--stone);vertical-align:middle}
+.lede{margin:22px 0 0;max-width:60ch;font-size:17.5px;line-height:1.85;color:var(--bone2);border-left:3px solid var(--amber);padding-left:20px}
+.meta{margin-top:26px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+.meta div{background:var(--ink2);padding:13px 16px}
+.meta dt{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--stone2);margin-bottom:5px}
+.meta dd{margin:0;font-size:13.5px;color:var(--bone)}
+
+section{padding:52px 0;border-bottom:1px solid var(--line2)}
+.snum{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.22em;color:var(--amber);display:block;margin-bottom:12px}
+h2{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(23px,3.4vw,31px);line-height:1.32;margin:0 0 10px;text-wrap:balance}
+.sub{color:var(--stone);font-size:14.5px;max-width:64ch;margin:0 0 30px}
+p{max-width:70ch;margin:0 0 17px;color:var(--bone2)}
+strong{color:var(--bone);font-weight:700}
+em{font-style:normal;color:var(--amber)}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:8px;margin:0 0 22px}
+.frow{display:grid;grid-template-columns:minmax(150px,210px) 1fr auto;gap:16px;align-items:center}
+.flabel{font-size:13.5px;color:var(--bone2);text-align:right}
+.fbar{height:34px;background:rgba(239,234,224,.04);border-radius:3px;overflow:hidden;position:relative}
+.fbar i{display:block;height:100%;border-radius:3px}
+.fval{width:96px;text-align:right;font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums}
+.fpct{font-size:11px;color:var(--stone2);margin-left:6px}
+
+/* grid cards */
+.cards{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:0 0 22px}
+.c2{grid-template-columns:1fr} @media(min-width:760px){.c2{grid-template-columns:1fr 1fr}}
+.c3{grid-template-columns:1fr} @media(min-width:760px){.c3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--ink2);padding:20px}
+.card h4{font-family:"Noto Serif TC",serif;font-size:15.5px;font-weight:700;margin:0 0 9px;line-height:1.45;color:var(--bone)}
+.card p{font-size:13px;line-height:1.75;margin:0 0 9px;color:var(--stone);max-width:none}
+.card p:last-child{margin:0}
+.tagline{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.big{font-family:"Noto Serif TC",serif;font-size:30px;line-height:1;color:var(--amber);margin-bottom:9px}
+
+/* pipeline */
+.pipe{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 16px}
+.pipe span{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:3px;background:rgba(239,234,224,.02)}
+.pipe .llm{color:var(--amber);border-color:rgba(217,135,63,.32)}
+.pipe .rule{color:var(--sky);border-color:rgba(90,169,222,.30)}
+.pipe .human{color:var(--bone);border-color:rgba(239,234,224,.28)}
+.pipe .ar{color:var(--stone2);border:none;background:none;padding:0 1px}
+
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);margin:0 0 20px;background:var(--ink2)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line2);vertical-align:top;line-height:1.62}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--stone2);font-weight:600;background:rgba(239,234,224,.025);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .s{display:block;color:var(--stone2);font-size:12px;margin-top:3px}
+
+/* score chips */
+.sc{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600}
+.sc i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.hi i{background:var(--rose)} .hi{color:var(--rose)}
+.mi i{background:var(--amber)} .mi{color:var(--amber)}
+.lo i{background:var(--jade)} .lo{color:var(--jade)}
+
+.note{border-left:3px solid var(--amber);background:rgba(217,135,63,.05);padding:16px 20px;margin:0 0 20px;font-size:13.5px;line-height:1.8;color:var(--bone2)}
+.note b{color:var(--bone)}
+.note.rose{border-left-color:var(--rose);background:rgba(245,101,122,.05)}
+
+ul.pl{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:11px;max-width:72ch}
+ul.pl li{padding-left:19px;position:relative;font-size:14px;line-height:1.78;color:var(--bone2)}
+ul.pl li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:6px;background:var(--amber);border-radius:50%}
+
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+ol.steps li{background:var(--ink2);padding:15px 18px;display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:baseline}
+ol.steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--amber)}
+ol.steps b{display:block;font-size:14px;color:var(--bone);margin-bottom:3px}
+ol.steps span{font-size:12.5px;color:var(--stone);line-height:1.7}
+
+footer{padding:40px 0 64px}
+.srcs{columns:2;column-gap:32px;font-size:12px;line-height:1.85;color:var(--stone2);list-style:none;padding:0;margin:0}
+@media(max-width:700px){.srcs{columns:1}}
+.srcs li{break-inside:avoid;margin-bottom:6px}
+.cf{margin-top:26px;padding-top:20px;border-top:1px solid var(--line2);font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.85;color:var(--stone2)}
+::selection{background:var(--gold);color:var(--ink)}
+</style>
+
+</head>
+<body>
+<div class="head">
+  <div class="wrap">
+    <div class="kicker">
+      <span class="a">赛道二 · 传统行业 AI 解决方案</span><i></i>
+      <span class="b">方向：AI × 白酒 · 经销商运营 Agent</span>
+    </div>
+    <h1>第二单<small></small></h1>
+    <p class="lede">
+      贵州白酒出海的首单决策副驾。把一张展会名片，变成一份可执行的首单决策简报——
+      判断对方是真的想卖酒还是在做税差、算出这瓶酒到他货架上要卖多少钱、告诉你合同该写死哪几条。
+    </p>
+    <dl class="meta">
+      <div><dt>服务的岗位</dt><dd>仁怀／遵义中小酒企的外贸专员</dd></div>
+      <div><dt>主链路</dt><dd>名片 → 决策简报，六步</dd></div>
+      <div><dt>现场耗时</dt><dd>约 90 秒（含两次模型呼叫）</dd></div>
+      <div><dt>断网时</dt><dd>主链路照样跑完</dd></div>
+    </dl>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <span class="snum">01 ／ 问题洞察</span>
+  <h2>我们锁定的不是「白酒怎么出海」，是「怎么让第一个经销商下第二单」</h2>
+  <p class="sub">遵义综合保税区 2025 年的工作总结，给了一组罕见的诚实数字——大多数出海报导只给增长率。</p>
+
+  <div class="funnel">
+    <div class="frow">
+      <span class="flabel">完成出口资质备案</span>
+      <span class="fbar"><i style="width:100%;background:rgba(217,135,63,.75)"></i></span>
+      <span class="fval">89 <span class="fpct">家</span></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">新增出口意向</span>
+      <span class="fbar"><i style="width:39.3%;background:rgba(217,135,63,.6)"></i></span>
+      <span class="fval">35 <span class="fpct">39%</span></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">首次通过综保区出海</span>
+      <span class="fbar"><i style="width:12.4%;background:rgba(90,169,222,.6)"></i></span>
+      <span class="fval">11 <span class="fpct">12%</span></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">与东南亚经销商<br>建立初步联系</span>
+      <span class="fbar"><i style="width:5.6%;background:rgba(245,101,122,.75)"></i></span>
+      <span class="fval">5 <span class="fpct">5.6%</span></span>
+    </div>
+  </div>
+
+  <p>
+    注意最后一级的措辞：是<strong>「建立初步联系」</strong>——不是签约，更不是复购。
+    公开资料在这里就断了，而真正的问题正好在断点之后。
+  </p>
+
+  <p>
+    遵义自己总结的第一个障碍不是关税、不是文化差异，而是一句很具体的话：
+    <em>「找客户困难——白酒属管制商品，进口方需酒牌资质。」</em>
+    你的潜在客户不是「想卖酒的人」，是「已经持牌的人」。这个池子在任何国家都有限、封闭，而且早被洋酒喂饱。
+  </p>
+
+  <div class="note rose">
+    <p style="margin:0"><b>而中国的税制让事情更复杂。</b>
+    白酒出口<b>免征消费税</b>（20% 从价 ＋ 0.5 元／500ml 从量）、<b>退增值税 13%</b>。
+    这个税差本身就有人要——与酒卖不卖得掉无关。
+    业内的描述很直白：<b>「有些货根本没出境，在自贸区转一圈就回来了。」</b>
+    另一半回流的成因更值得中小酒企警惕：<b>海外经销商卖不掉，折价把货倒回中国</b>，砸掉你自己的价格体系。</p>
+  </div>
+
+  <p>所以那位外贸专员真正的问题只有三个，而市面上的工具一个都没答：</p>
+  <ul class="pl">
+    <li><strong>这个买家是真的想卖酒，还是在做税差？</strong></li>
+    <li><strong>这瓶酒到他的货架上要卖多少钱？卖得动吗？</strong></li>
+    <li><strong>第一份合同该写死哪几条，才能让他有动机下第二单？</strong></li>
+  </ul>
+</section>
+
+<section>
+  <span class="snum">02 ／ 只有蹲过现场才知道的三件事</span>
+  <h2>这三件事都写进了规则库，不是讲稿</h2>
+  <p class="sub">它们在产品里是可以被点开、看到出处与生效日期的规则，不是幻灯片上的金句。</p>
+
+  <div class="cards c3">
+    <div class="card">
+      <div class="tagline">中国香港</div>
+      <div class="big">100% → 40%</div>
+      <h4>减税只减「200 港元以上的那一段」</h4>
+      <p>2024/10/16 起，酒精浓度高于 30% 的酒类，进口价 200 港元<b>以上的部分</b>税率由 100% 降至 10%；200 港元及以下的部分维持 100%。</p>
+      <p>结果：同一批酒，内销开票 320 元的版本落地税负 100%，开票 800 元的版本只有 40%。
+      <b style="color:var(--amber)">想用低价光瓶酒打进香港，是税制上最贵的路。</b></p>
+    </div>
+    <div class="card">
+      <div class="tagline">新加坡 · 越南</div>
+      <div class="big">65% → 35%</div>
+      <h4>低度化首先是一笔帐，不是情怀</h4>
+      <p>新加坡按<b>纯酒精量</b>课税：S$88／公升纯酒精。53 度 500ml 一瓶含 0.265 公升纯酒精，光消费税就 S$23.32，与你的出厂价无关。</p>
+      <p>越南更极端：特别消费税以 <b>20 度</b>为分界，20 度以上 65%、以下 35%。
+      <b style="color:var(--amber)">一度之差，税率差近一半。</b>而且 2027 年起逐年上调，2031 年到 90%。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">美国</div>
+      <div class="big">$13.50 → $2.70</div>
+      <h4>CBMA 额度必须由中国酒厂主动指派</h4>
+      <p>联邦消费税标准 $13.50／标准酒精加仑（proof gallon），CBMA 优惠为前 10 万 标准酒精加仑（proof gallon） $2.70。2023 年起进口商须先全额缴给 CBP，再凭<b>外国生产商指派的额度</b>向 TTB 申请退税。</p>
+      <p>不指派，进口商每瓶多付约 10.7 元人民币，一个 20 尺柜就是十几万。
+      <b style="color:var(--amber)">而这个动作不花你一毛钱。</b></p>
+    </div>
+  </div>
+
+  <div class="note">
+    <p style="margin:0">这三件事的共同点：<b>它们都不是「白酒出海很难」这种正确的废话，而是一个外贸专员今天下午就会撞上、
+    但没人告诉他的具体规则。</b>把它们变成产品里可查、可算、带出处的东西，就是这个原型存在的理由。</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">03 ／ 做了什么</span>
+  <h2>一条主链路，六步跑完</h2>
+  <p class="sub">粘贴一段展会对话，到拿到可以直接寄出的回信。</p>
+
+  <ol class="steps">
+    <li><b>粘贴名片／微信对话／邮件</b><span>展会上拿到的原始素材，不需要整理格式。</span></li>
+    <li><b>抽取买家身分、诉求与关键引述</b><span>谁、在哪个市场、什么身分、要你提供什么、哪几句话值得警觉。</span></li>
+    <li><b>六项讯号初判 → 套利风险评分</b><span>下游／规格／首单量／目的地／品牌素材／动销透明度。AI 初判，六组按钮交给业务员覆核。</span></li>
+    <li><b>目的国持牌核查</b><span>买方必须持有什么、你必须备齐什么、缺了会怎样。每条带来源。</span></li>
+    <li><b>落地价逐层推演 ＋ 规格反推</b><span>从 56 支真实的贵州酒里选一支，一路算到终端零售价，对标当地同价位烈酒；再反推该出什么度数与容量。</span></li>
+    <li><b>卖点弹药：香型 × 料理 × 该市场已验证的用法</b><span>他一定会问「这酒在我这里怎么卖」。系统给出香型对应的料理方向、一句话说法、非华人第一次闻到白酒的真实反应，以及该市场已经被记录下来的白酒用法。</span></li>
+    <li><b>首单决策简报</b><span>去／追问／暂缓的判定、必问清单、该写进合同的条款、第一封回信草稿。可一键复制成约 1,200 字纯文字。</span></li>
+  </ol>
+
+  <div class="note" style="margin-top:22px">
+    <p style="margin:0 0 10px"><b>一件让抽象变具体的事：工具里是 56 支真实的贵州白酒。</b></p>
+    <p style="margin:0">
+      茅台系列、习酒、董酒、珍酒、国台、金沙回沙、鸭溪窖、贵州醇……每一支都有生产企业、产区带、香型、
+      典型酒精度、酿造工艺，以及那支酒自己的香气与口感描述。选一支，香型与度数就自动带进落地价测算与卖点弹药。<br><br>
+      现场最有说服力的一个动作：把 54 度的<b>董酒</b>换成 35 度的<b>贵州醇</b>，
+      新加坡的落地税负<b style="color:var(--amber)">从 69% 掉到 48%</b>，终端价少一百多块——
+      因为新加坡是按纯酒精量课税的。低度化不是抽象主张，
+      <b>是同一个产区里两支真实的酒之间，看得见的价差。</b><br><br>
+      每一支都标了资料可信度：「已查证」与「香型通则推定」分开标，界面上也会显示。
+    </p>
+  </div>
+
+  <div class="cards c2" style="margin-top:22px">
+    <div class="card">
+      <div class="tagline">容易被忽略但重要 一</div>
+      <h4>规格反推：为了这个市场，你该出什么酒</h4>
+      <p>选定市场后，系统用同一套税则试算 53°／43°／38°／19° 与小容量五种规格。
+      在越南，19 度版本的落地税负<b>从 172% 降到 123%</b>——因为 特别消费税 以 20 度为分界。</p>
+      <p style="color:var(--amber)">低度化在这里不是口味问题，是财务问题。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">容易被忽略但重要 二</div>
+      <h4>规则库没涵盖的市场，会明讲</h4>
+      <p>贴一段日本买家的对话，系统不会默默套用默认市场，而是明确告诉你
+      「这个买家看起来在日本，规则库只涵盖五个市场，下方测算<b>不适用于这个买家</b>」。</p>
+      <p style="color:var(--amber)">假装全知，比诚实的边界危险得多。</p>
+    </div>
+  </div>
+
+  <div class="note rose" style="margin-top:22px">
+    <p style="margin:0 0 10px"><b>其中一块值得单独拿出来讲：非华人第一次闻到白酒，会说什么。</b></p>
+    <p style="margin:0 0 10px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.04em;color:var(--rose)">
+      「臭起司」　「八角」　「凤梨」　「麝香」　「汽油」
+    </p>
+    <p style="margin:0">
+      这些高强度酯类与吡嗪类香气，在调酒里可以被其他材料平衡，但在菜肴里会主导整道菜——容错率很低。
+      所以海外的主战场是吧台，不是厨房。<b>系统据此提醒业务员：第一次让对方试酒，不要单独纯饮。</b>
+      这种事没有人会在展会上告诉你，但它决定了你的样品有没有机会活过第一口。
+    </p>
+  </div>
+
+  <h2 style="margin-top:38px;font-size:20px">三张名片，三种答案</h2>
+  <p class="sub" style="margin-bottom:18px">同一场展会拿到的三张名片，系统给出三个层次的判定。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>示范案例</th><th>市场</th><th>风险分</th><th>判定</th><th>系统看到了什么</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>GoldenLink Trading</b><span class="s">展会微信 · 扫码</span></td>
+          <td class="n">🇸🇬 新加坡</td>
+          <td class="n"><span class="sc hi"><i></i>100</span></td>
+          <td>高度疑似套利型买家</td>
+          <td>六项讯号全负。开口 3 个柜只议价不议规格、「标签不用改我们自己处理」、货只到自贸仓、拒绝提供动销。</td>
+        </tr>
+        <tr>
+          <td><b>Pacific Rim Beverage</b><span class="s">英文邮件 · 主动来信</span></td>
+          <td class="n">🇺🇸 美国</td>
+          <td class="n"><span class="sc mi"><i></i>36</span></td>
+          <td>需要进一步尽调</td>
+          <td>合规讯号很强（TTB 许可、要 COLA、要 FDA 代理人、主动提 CBMA），但还没说要卖给谁。系统据此生成该补问的三个问题。</td>
+        </tr>
+        <tr>
+          <td><b>An Phú Foods</b><span class="s">展会后邮件</span></td>
+          <td class="n">🇻🇳 越南</td>
+          <td class="n"><span class="sc lo"><i></i>0</span></td>
+          <td>偏向真实经销需求</td>
+          <td>问 38 度规格、要越南文标签与检测报告、首批 150 箱放 12 家中餐厅试、要品鉴培训、每月给动销报告。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p style="margin:0"><b>现场 demo 脚本（约 90 秒）：</b>
+    先让评委看三张卡的分数差异（100／36／0，本机计算，零延迟）→
+    点开新加坡那张，读出「标签不用改，我们自己处理」→
+    按下解析，看六项讯号全红、风险 100 →
+    卷到落地价，指出这瓶酒在新加坡货架上比响 Harmony 还贵 →
+    卷到卖点那一区，念出那排红色标签（臭起司／汽油）→
+    生成回信，念出第一句。<br>
+    <b>备用：</b>若模型不可用，界面会标示已切换本机预解析，主链路照样走完。</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">04 ／ 方案完整度</span>
+  <h2>为什么这么做，以及为什么不那么做</h2>
+  <p class="sub">钱算错不起，所以钱的部分不归模型管。</p>
+
+  <div class="pipe">
+    <span>名片／对话</span><span class="ar">→</span>
+    <span class="llm">大模型抽取</span><span class="ar">→</span>
+    <span class="llm">六讯号初判</span><span class="ar">→</span>
+    <span class="human">人工覆核</span><span class="ar">→</span>
+    <span class="rule">风险评分</span><span class="ar">→</span>
+    <span class="rule">落地价</span><span class="ar">→</span>
+    <span class="rule">持牌核查</span><span class="ar">→</span>
+    <span class="rule">条款选取</span><span class="ar">→</span>
+    <span class="llm">大模型写回信</span><span class="ar">→</span>
+    <span class="human">决策简报</span>
+  </div>
+  <p style="font-size:13px;color:var(--stone)">
+    <span style="color:var(--amber)">琥珀</span>是模型负责的、
+    <span style="color:var(--sky)">蓝色</span>是规则库负责的、
+    <span style="color:var(--bone)">白色</span>是人负责的。
+  </p>
+
+  <div class="cards c2" style="margin-top:22px">
+    <div class="card">
+      <div class="tagline">规则引擎 × 大模型 混合</div>
+      <h4>为什么税则不交给大模型算？</h4>
+      <p>因为算错就是真金白银的亏损。所有税率、牌照、条款都写在可审计的 TypeScript 纯函数里，每一条都带 <span class="mono">source</span> 与 <span class="mono">asOf</span>，界面上鼠标移到 ⓘ 就能看到出处与版本。模型只做两件它真正擅长的事：把自然语言抽成结构、把结论写成人话。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">AI 初判 · 人做决定</div>
+      <h4>为什么六项讯号还要人来按？</h4>
+      <p>AI 看得到文字，看不到展位上对方说「标签不用改」时的表情。所以 AI 只给初判，最终判定权在业务员手上——他改了，风险分数、合同条款、回信内容立刻跟着重算。这一题的关键证据本来就有一半不在文字里。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">垂直而不是通用</div>
+      <h4>为什么不做成通用的外贸 SaaS？</h4>
+      <p>白酒的堵点是三件别的品类没有的事：它是管制商品，买方必须持牌，客户池是封闭的；它出口免消费税、退增值税 13%，税差会吸引不打算卖酒的人；它在多数国家的税则里没有自己的名字，只能被归进为别的酒种设计的税率。通用工具处理不了这三件事。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">离线可跑完主链路</div>
+      <h4>网络断了怎么办？</h4>
+      <p>三个示范案例都带本机预解析结果，模型不可用时自动切换并在画面上标示。落地价、牌照核查、规格反推、合同条款全部是本机计算，不依赖任何外部服务。<b>已实测：拦截全部 API 回 503，主链路仍从头跑到尾。</b></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="snum">05 ／ 最常被问的一题</span>
+  <h2>那我直接问通用大模型不就好了？</h2>
+  <p class="sub">可以问，而且会得到一个听起来很像样的答案。问题出在三个地方——恰好就是外贸专员拿这个答案去跟老板报价时，会出事的三个地方。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>通用模型</th><th>这个工具</th></tr></thead>
+      <tbody>
+        <tr><td><b>细节</b></td>
+          <td>多半给你「约 30–50% 综合税负」的模糊区间。新加坡按纯酒精量课税、越南 20 度分界、美国 CBMA 要你主动指派——这些不是常识，是散在各国官方文件里、要一条条查出来的东西。</td>
+          <td>逐条查出来写进规则库，每一条可以被点开检查。</td></tr>
+        <tr><td><b>稳定性</b></td>
+          <td>同一题问两次，数字可能不一样。</td>
+          <td>纯函数计算：同样的输入永远得到同样的输出，可逐行覆核。<b>报价要拿去跟人谈，数字不能每次都变。</b></td></tr>
+        <tr><td><b>可追溯</b></td>
+          <td>不会告诉你出处与生效日期。</td>
+          <td>每条税率标了 <span class="mono">source</span> 与 <span class="mono">asOf</span>：香港那条 2024/10/16 起生效，越南那条 2027 年就要改。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p style="margin:0">换句话说：<b>我们不是在跟通用模型比谁更会讲话，是把一个垂直领域的规则翻出来、写死、标上出处。</b>
+    模型在这套系统里负责的是它真正擅长的两件事——把一段乱七八糟的微信对话读成结构，和把结论写成一封能寄出去的信。</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">06 ／ 落地可行性</span>
+  <h2>这套东西要真上线，第一步得干什么</h2>
+  <p class="sub">不是「未来可以接入大数据平台」，是下周就能开始的三个下午。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>问题</th><th>回答</th></tr></thead>
+      <tbody>
+        <tr><td><b>资料从哪来</b></td><td>税则与牌照全部来自各国官方公开资料：香港政府新闻公报、新加坡海关、越南 2025 年新 特别消费税 法、美国酒精烟草税务贸易局 TTB／FDA。中国侧税务来自财政部与税务总局公告。<b>产区侧的企业台帐已经存在</b>——遵义综保区手上就有 89 家的完整备案名单。</td></tr>
+        <tr><td><b>谁真的会用</b></td><td>第一线是酒企的外贸专员。但更有效率的入口是<b>遵义综保区的外贸综合服务团队</b>——他们已经在做「陪跑式」服务、办 2–3 周的长培班，一个团队服务 89 家企业。这套工具是他们的放大器，不是又一个要企业自己学的系统。</td></tr>
+        <tr><td><b>怎么接进现有系统</b></td><td>第一阶段<b>不接任何系统</b>，因为外贸专员现在用的就是微信和 Excel。第二阶段接两个口：综保区的企业备案台帐、海关单一窗口的报关数据，让「出口了什么」和「卖掉了没有」对得上——这正是回流问题今天无解的原因。</td></tr>
+        <tr><td><b>成本多少</b></td><td>每次解析约两次模型呼叫，以目前价格计算<b>单次成本在人民币一毛以内</b>。落地价、牌照核查、规格反推是本机计算，零边际成本。真正的成本在规则库维护——税则会变（越南 2027 就要改），这需要一个人定期核。</td></tr>
+        <tr><td><b>第一步该干什么</b></td><td>找 2025 年首次通过综保区出海的那 11 家企业里的 3 家，把他们真实的买家对话跑一遍，回头<b>校准六项讯号的权重</b>。这件事不需要写任何程序，只需要三个下午。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p style="margin:0"><b>我们没有解决的事，也写在这里：</b>
+    美国州级酒税未计入（各州差异极大）；越南关税采 最惠国 50%，ACFTA 优惠税率须逐案核定；
+    韩国税目为二手来源，界面上标注「建议向韩国国税厅核实」；
+    对标酒款为示意价；六项讯号的权重目前是团队设置值，<b>尚未用真实案例校准——这是上线前的第一件事</b>。<br><br>
+    规则库目前涵盖五个市场。日本原本在候选名单里，但公开资料对スピリッツ税率的表述不够明确，<b>宁可不收</b>——
+    加一个市场的成本大约是一个人半天，因为税则本来就是公开的；但收一条不确定的税率，赔上的是整个规则库的可信度。</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">07 ／ 交付</span>
+  <h2>仓库、体验与部署</h2>
+  <p class="sub">Next.js 16 标准应用，两个 API route，无数据库、无外部服务依赖。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>项目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>技术栈</td><td class="n">Next.js 16.3.3 · React 19 · TypeScript · Tailwind 4 · bun</td></tr>
+        <tr><td>本机启动</td><td class="n">bun install &nbsp;→&nbsp; cp .env.example .env.local &nbsp;→&nbsp; bun run dev</td></tr>
+        <tr><td>生产建置</td><td class="n">bun run build &amp;&amp; bun run start　<span class="s">已通过，路由：/ · /api/so/extract · /api/so/brief</span></td></tr>
+        <tr><td>部署</td><td>可直接部署到 Vercel 或任何支援 Node.js 的环境。两个 API route 为 <span class="mono">runtime='nodejs'</span>、<span class="mono">maxDuration=60</span>。</td></tr>
+        <tr><td>环境变数</td><td class="n">OPENAI_API_KEY · OPENAI_BASE_URL · N25_TEXT_MODEL<span class="s">缺少金钥时自动走本机备用路径，主链路仍可完整展示</span></td></tr>
+        <tr><td>品项库</td><td class="n">src/lib/so/baijiu.ts　<span class="s">56 支贵州白酒：企业、产区带、香型、典型酒精度、酿造工艺、香气与口感，每支标注资料可信度</span></td></tr>
+        <tr><td>知识库</td><td class="n">src/lib/so/aroma.ts　<span class="s">香型 × 料理对应、非华人的第一印象、各市场已验证的白酒用法（每条标注证据强度）</span></td></tr>
+        <tr><td>核心程序</td><td class="n">src/lib/so/markets.ts　<span class="s">5 个市场的税则、牌照、行家洞察、对标酒款——产品的核心资产都在这一个文件</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <h2 style="font-size:18px;margin-bottom:16px">资料来源</h2>
+    <ul class="srcs">
+      <li>香港特区政府新闻公报 · 调低酒精浓度高于 30% 的酒类税率（2024-10-16 起）</li>
+      <li>新加坡海关 · Duties and Dutiable Goods（S$88／公升纯酒精、商品服务税 9%）</li>
+      <li>越南国会 2025-06-14 通过之特别消费税法（含 2027–2031 逐年调升表）</li>
+      <li>美国酒精烟草税务贸易局 TTB · 进口商基本许可 F 5100.24、COLA F 5100.31、CBMA Imports</li>
+      <li>美国 FDA · 食品设施注册与美国代理人规定</li>
+      <li>财政部、税务总局 · 关于出口业务增值税和消费税政策的公告</li>
+      <li>白酒消费税：20% 从价 ＋ 0.5 元／500ml 从量复合计税</li>
+      <li>《出口额增超 300%，白酒出海的遵义实践值得研究》（89→35→11→5 漏斗）</li>
+      <li>虎嗅《税负，白酒出海的头一道坎？》（回流与各国税负量级）</li>
+      <li>华创食饮《全球烈酒专题四：白酒出海，破局之道》（出口集中度）</li>
+    </ul>
+    <div class="cf">
+      第二单 SecondOrder · 赛道二 传统行业 AI 解决方案 · AI × 白酒 · 经销商运营<br>
+      落地价为估算值，实际以海关核定为准；汇率为估算汇率；对标酒款为示意价。<br>
+      本原型为情报汇整与决策辅助工具，非法律或税务意见。
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -13,7 +13,7 @@ export function PitchKit({
 
   return (
     <div className="space-y-4">
-      {/* 香型選擇 */}
+      {/* 香型选择 */}
       <div className="flex flex-wrap gap-2">
         {AROMA_LIST.map((x) => (
           <button
@@ -42,7 +42,7 @@ export function PitchKit({
           <div className="mb-2 text-[13px] text-bone">{bottle?.nose ?? a.profile}</div>
           {bottle?.palate && <div className="mb-2 text-[12.5px] text-stone">{bottle.palate}</div>}
           <div className="mb-3 text-[11.5px] text-stone">代表：{a.rep}</div>
-          <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">配什麼吃</div>
+          <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">配什么吃</div>
           <div className="flex flex-wrap gap-1.5">
             {a.dishes.map((d) => (
               <Chip key={d}>{d}</Chip>
@@ -50,16 +50,16 @@ export function PitchKit({
           </div>
         </div>
         <div className="bg-ink2/70 p-4">
-          <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">一句話怎麼講</div>
+          <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">一句话怎么讲</div>
           <p className="text-[13px] leading-relaxed text-bone">{a.pitch}</p>
           <p className="mt-3 border-t border-white/8 pt-3 text-[11.5px] leading-relaxed text-stone">{PRINCIPLE}</p>
         </div>
       </div>
 
-      {/* 心理準備 */}
+      {/* 心理准备 */}
       <div className="rounded border-l-2 border-l-rose-500/60 bg-rose-950/15 px-4 py-3.5">
         <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">
-          上場前先知道：非華人第一次聞到白酒，會說什麼
+          上场前先知道：非华人第一次闻到白酒，会说什么
         </div>
         <div className="mb-2.5 flex flex-wrap gap-1.5">
           {FIRST_IMPRESSION.words.map((w) => (
@@ -72,10 +72,10 @@ export function PitchKit({
         <p className="mt-2 text-[12px] leading-relaxed text-bone">→ {FIRST_IMPRESSION.advice}</p>
       </div>
 
-      {/* 該市場已驗證的用法 */}
+      {/* 该市场已验证的用法 */}
       <div className="rounded border border-white/10 bg-white/[0.02] p-4">
         <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">
-          在{m.name}，白酒已經有人這樣用
+          在{m.name}，白酒已经有人这样用
         </div>
         {cases.length ? (
           <div className="space-y-2.5">
@@ -88,7 +88,7 @@ export function PitchKit({
                       c.strength === 'high' ? 'text-emerald-300/80' : c.strength === 'mid' ? 'text-amber/80' : 'text-stone/60'
                     }`}
                   >
-                    證據 {c.strength === 'high' ? '高' : c.strength === 'mid' ? '中' : '低'}｜{c.source}
+                    证据 {c.strength === 'high' ? '高' : c.strength === 'mid' ? '中' : '低'}｜{c.source}
                   </span>
                 </div>
                 <p className="text-[12px] leading-relaxed text-stone">{c.what}</p>
@@ -97,13 +97,13 @@ export function PitchKit({
           </div>
         ) : (
           <p className="text-[12.5px] leading-relaxed text-stone">
-            這個市場我們還沒查到公開記錄的白酒入食／調飲案例。
-            <span className="text-bone">這不代表沒有，是代表你可以是第一個——</span>
-            但也意味著談第一單時，市場教育的成本要算進報價裡。
+            这个市场我们还没查到公开记录的白酒入食／调饮案例。
+            <span className="text-bone">这不代表没有，是代表你可以是第一个——</span>
+            但也意味着谈第一单时，市场教育的成本要算进报价里。
           </p>
         )}
         <div className="mt-4 border-t border-white/8 pt-3">
-          <div className="mb-1 text-[12.5px] font-medium text-bone">現成的落地活動：{GLOBAL_HOOK.name}</div>
+          <div className="mb-1 text-[12.5px] font-medium text-bone">现成的落地活动：{GLOBAL_HOOK.name}</div>
           <p className="text-[11.5px] leading-relaxed text-stone">{GLOBAL_HOOK.detail}</p>
           <p className="mt-1.5 text-[11.5px] leading-relaxed text-amber">{GLOBAL_HOOK.use}</p>
         </div>

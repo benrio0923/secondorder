@@ -51,7 +51,7 @@ export default function Copilot() {
     [dp, ml, abv, logi, market, margin, cbma],
   )
   const clauses = useMemo(() => pickClauses(risk.badKeys).slice(0, 4), [risk.badKeys])
-  // 去留是規則說了算，模型只負責把理由寫成人話
+  // 去留是规则说了算，模型只负责把理由写成人话
   const ruleVerdict: Brief['verdict'] = risk.level === 'high' ? 'hold' : risk.level === 'mid' ? 'probe' : 'go'
 
   function pickBottle(id: string | null) {
@@ -95,11 +95,11 @@ export default function Copilot() {
     const fb = CASES.find((c) => c.raw === raw)?.fallback
     if (!out && fb) {
       out = fb
-      setAiNote('模型未回應，已切換為本機預解析結果（現場備援路徑）')
+      setAiNote('模型未回应，已切换为本机预解析结果（现场备用路径）')
     }
     if (!out) {
       setStage('input')
-      setAiNote('模型未回應，且這段文字沒有本機備援。請手動勾選下方六項訊號後繼續。')
+      setAiNote('模型未回应，且这段文字没有本机备用。请手动勾选下方六项讯号后继续。')
       setEx({ signals: EMPTY })
       setStage('done')
       return
@@ -110,8 +110,8 @@ export default function Copilot() {
       setMarket(out.market as MarketId)
       setUncovered(null)
     } else {
-      // 規則庫沒有這個市場——說出來，不要默默套用預設值
-      setUncovered(out.marketGuess || '無法判斷')
+      // 规则库没有这个市场——说出来，不要默默套用默认值
+      setUncovered(out.marketGuess || '无法判断')
     }
     setStage('done')
     setTimeout(() => document.getElementById('so-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
@@ -150,36 +150,36 @@ export default function Copilot() {
     if (!brief) return ''
     const L = (s: string) => s
     return [
-      `【首單決策簡報】${ex?.company ?? '未具名買家'}　${m.flag} ${m.name}`,
-      `判定：${brief.verdict === 'hold' ? '暫緩' : brief.verdict === 'probe' ? '追問後再定' : '可談'}　${brief.headline}`,
+      `【首单决策简报】${ex?.company ?? '未具名买家'}　${m.flag} ${m.name}`,
+      `判定：${brief.verdict === 'hold' ? '暂缓' : brief.verdict === 'probe' ? '追问后再定' : '可谈'}　${brief.headline}`,
       '',
-      `套利風險：${risk.score}/100（${risk.label}）`,
+      `套利风险：${risk.score}/100（${risk.label}）`,
       ...(risk.badKeys.length
-        ? [`負向訊號：${risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}`]
+        ? [`负向讯号：${risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}`]
         : []),
       '',
       '── 判定理由 ──',
       ...(brief.reasons ?? []).map((r) => `· ${r}`),
       '',
-      '── 落地價測算（人民幣／瓶）──',
-      `內銷開票 ${fmt(dp)} → 出口保本線 ${fmt(price.breakeven)} → FOB ${fmt(price.fob)} → CIF ${fmt(price.cif)}`,
-      `目的國稅費 ${fmt(price.taxTotal)}（占 CIF ${Math.round((price.taxTotal / price.cif) * 100)}%）→ 完稅落地 ${fmt(price.landed)}`,
-      `終端零售約 ${fmt(price.retail)} 元（${fmt(price.retailLocal)} ${m.currency}），為內銷開票價的 ${price.multiple} 倍`,
+      '── 落地价测算（人民币／瓶）──',
+      `内销开票 ${fmt(dp)} → 出口保本线 ${fmt(price.breakeven)} → 离岸价 ${fmt(price.fob)} → 到岸价 ${fmt(price.cif)}`,
+      `目的国税费 ${fmt(price.taxTotal)}（占 到岸价 ${Math.round((price.taxTotal / price.cif) * 100)}%）→ 完税落地 ${fmt(price.landed)}`,
+      `终端零售约 ${fmt(price.retail)} 元（${fmt(price.retailLocal)} ${m.currency}），为内销开票价的 ${price.multiple} 倍`,
       '',
-      `── ${m.name}的持牌門檻 ──`,
-      `買方：${m.gate}`,
-      ...m.licences.map((l) => `· [${l.who === 'buyer' ? '買方' : '你方'}] ${l.name}${l.form ? `（${l.form}）` : ''}｜缺了會怎樣：${l.ifMissing}`),
+      `── ${m.name}的持牌门槛 ──`,
+      `买方：${m.gate}`,
+      ...m.licences.map((l) => `· [${l.who === 'buyer' ? '买方' : '你方'}] ${l.name}${l.form ? `（${l.form}）` : ''}｜缺了会怎样：${l.ifMissing}`),
       '',
-      '── 必問清單 ──',
+      '── 必问清单 ──',
       ...(brief.questions ?? []).map((q, i) => `${i + 1}. ${q}`),
       '',
-      '── 建議寫進第一份合同的條款 ──',
-      ...clauses.map((c) => `【${c.title}】擋掉：${c.blocks}\n${c.body}`),
+      '── 建议写进第一份合同的条款 ──',
+      ...clauses.map((c) => `【${c.title}】挡掉：${c.blocks}\n${c.body}`),
       '',
       '── 第一封回信草稿 ──',
       brief.reply,
       '',
-      '（落地價為估算值，實際以海關核定為準；稅則來源與版本見工具介面）',
+      '（落地价为估算值，实际以海关核定为准；税则来源与版本见工具界面）',
     ].map(L).join('\n')
   }
 
@@ -188,20 +188,20 @@ export default function Copilot() {
     return {
       verdict: v,
       headline:
-        v === 'hold' ? '暫緩：這一單的性質需要重新評估' : v === 'probe' ? '可談，但先把缺口問清楚' : '可進入首單談判',
+        v === 'hold' ? '暂缓：这一单的性质需要重新评估' : v === 'probe' ? '可谈，但先把缺口问清楚' : '可进入首单谈判',
       reasons: [
         risk.summary,
-        `${m.name}買方必須持有：${m.licences.filter((l) => l.who === 'buyer').map((l) => l.name).join('、')}`,
-        `終端零售約 ${fmt(price.retailLocal)} ${m.currency}，是內銷開票價的 ${price.multiple} 倍`,
+        `${m.name}买方必须持有：${m.licences.filter((l) => l.who === 'buyer').map((l) => l.name).join('、')}`,
+        `终端零售约 ${fmt(price.retailLocal)} ${m.currency}，是内销开票价的 ${price.multiple} 倍`,
       ],
       questions: [
-        '請提供貴司的酒類進口／分銷牌照編號與有效期。',
-        '首批貨的落地倉在哪裡？可否提供地址與倉儲合約？',
-        '這批貨預計進入哪些具體售點？可否給我們一份清單？',
-        '我們可以提供品鑑小樣與品牌手冊，貴司需要幾套？',
-        '動銷報告可否每季提供一次？含售點清單與陳列照片。',
+        '请提供贵司的酒类进口／分销牌照编号与有效期。',
+        '首批货的落地仓在哪里？可否提供地址与仓储合约？',
+        '这批货预计进入哪些具体售点？可否给我们一份清单？',
+        '我们可以提供品鉴小样与品牌手册，贵司需要几套？',
+        '动销报告可否每季提供一次？含售点清单与陈列照片。',
       ],
-      reply: '（模型未回應，此為本機備援草稿）感謝來訊。為了讓後續報價與合規安排更準確，我們需要先確認幾件事：貴司的酒類進口牌照、首批貨的落地倉，以及預計進入的售點類型。收到後我們會提供正式報價與可供品鑑的小樣。',
+      reply: '（模型未回应，此为本机备用草稿）感谢来讯。为了让后续报价与合规安排更准确，我们需要先确认几件事：贵司的酒类进口牌照、首批货的落地仓，以及预计进入的售点类型。收到后我们会提供正式报价与可供品鉴的小样。',
     }
   }
 
@@ -209,35 +209,35 @@ export default function Copilot() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-5 pb-28 pt-10 sm:px-8">
-      {/* ── 產品頭 ── */}
+      {/* ── 产品头 ── */}
       <header className="mb-9">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <span className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-amber">
-            AI × 白酒 · 經銷商運營
+            AI × 白酒 · 经销商运营
           </span>
           <span className="h-px w-6 bg-white/20" />
-          <span className="font-mono text-[10.5px] tracking-[0.14em] text-stone">貴州中小酒企 · 外貿專員</span>
+          <span className="font-mono text-[10.5px] tracking-[0.14em] text-stone">贵州中小酒企 · 外贸专员</span>
         </div>
         <h1 className="font-serif text-[38px] leading-[1.14] text-bone sm:text-[52px]">
-          第二單
+          第二单
           <span className="ml-3 align-middle font-sans text-[13px] font-normal tracking-[0.2em] text-stone">
-            SECOND&nbsp;ORDER
+            
           </span>
         </h1>
         <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-stone">
-          出海不缺第一單，缺的是第二單。這是一個把展會名片變成首單決策簡報的副駕——
+          出海不缺第一单，缺的是第二单。这是一个把展会名片变成首单决策简报的副驾——
           <span className="text-bone">
-            判斷對方是真的想賣酒還是在做稅差、算出這瓶酒到他貨架上要賣多少錢、告訴你合同該寫死哪幾條。
+            判断对方是真的想卖酒还是在做税差、算出这瓶酒到他货架上要卖多少钱、告诉你合同该写死哪几条。
           </span>
         </p>
       </header>
 
-      {/* ── 痛點錨定 ── */}
+      {/* ── 痛点锚定 ── */}
       <div className="mb-9 grid gap-px overflow-hidden rounded-lg border border-white/10 bg-white/8 sm:grid-cols-3">
         {[
-          { k: '89 → 5', t: '遵義 2025 年出海漏斗', d: '89 家完成出口備案，最後只有 5 家與東南亞經銷商建立初步聯繫。轉化率 5.6%。' },
-          { k: '36%', t: '出口之後又回來的貨', d: '某年上半年出口 5.30 億美元，同期 1.90 億美元從進口渠道回流。有些貨根本沒出境。' },
-          { k: '20% + 13%', t: '套利者盯上的那筆錢', d: '白酒出口免徵消費稅、退增值稅 13%。這個差價本身就有人要，與酒賣不賣得掉無關。' },
+          { k: '89 → 5', t: '遵义 2025 年出海漏斗', d: '89 家完成出口备案，最后只有 5 家与东南亚经销商建立初步联系。转化率 5.6%。' },
+          { k: '36%', t: '出口之后又回来的货', d: '某年上半年出口 5.30 亿美元，同期 1.90 亿美元从进口渠道回流。有些货根本没出境。' },
+          { k: '20% + 13%', t: '套利者盯上的那笔钱', d: '白酒出口免征消费税、退增值税 13%。这个差价本身就有人要，与酒卖不卖得掉无关。' },
         ].map((x) => (
           <div key={x.k} className="bg-ink2/60 p-5">
             <div className="font-serif text-[26px] leading-none text-amber">{x.k}</div>
@@ -247,8 +247,8 @@ export default function Copilot() {
         ))}
       </div>
 
-      {/* ── 輸入 ── */}
-      <Panel eyebrow="STEP 1" title="把展會拿到的名片與對話貼進來">
+      {/* ── 输入 ── */}
+      <Panel eyebrow="步骤 1" title="把展会拿到的名片与对话贴进来">
         <div className="mb-4 grid gap-px overflow-hidden rounded border border-white/10 bg-white/8 sm:grid-cols-3">
           {CASES.map((c) => {
             const pre = scoreRisk(c.fallback.signals ?? {})
@@ -282,8 +282,8 @@ export default function Copilot() {
           })}
         </div>
         <p className="mb-3.5 text-[11.5px] leading-relaxed text-stone">
-          三張名片來自同一場展會。左邊那家開口就要 3 個櫃，右邊那家只要 150 箱——
-          <span className="text-bone">分數低的那個才是能給你第二單的人。</span>
+          三张名片来自同一场展会。左边那家开口就要 3 个柜，右边那家只要 150 箱——
+          <span className="text-bone">分数低的那个才是能给你第二单的人。</span>
         </p>
         <textarea
           value={raw}
@@ -291,14 +291,14 @@ export default function Copilot() {
           rows={9}
           spellCheck={false}
           className="w-full resize-y rounded border border-white/12 bg-ink/70 p-3.5 font-mono text-[12.5px] leading-relaxed text-bone outline-none transition placeholder:text-stone/40 focus:border-amber/50"
-          placeholder="貼上微信對話、郵件、或名片上的文字…"
+          placeholder="粘贴微信对话、邮件、或名片上的文字…"
         />
         <div className="mt-3.5 flex flex-wrap items-center gap-3">
           <Btn onClick={analyze} disabled={stage === 'busy' || raw.trim().length < 10}>
-            {stage === 'busy' ? '解析中…' : '解析這個買家'}
+            {stage === 'busy' ? '解析中…' : '解析这个买家'}
           </Btn>
           <span className="text-[11.5px] text-stone">
-            抽取買家身分與六項訊號 · 判定套利風險 · 算出落地價 · 生成回信
+            抽取买家身分与六项讯号 · 判定套利风险 · 算出落地价 · 生成回信
           </span>
         </div>
         {stage === 'busy' && (
@@ -307,7 +307,7 @@ export default function Copilot() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
             </span>
-            <span className="text-[12.5px] text-bone">模型正在讀這段對話，抽取買家身分與六項訊號</span>
+            <span className="text-[12.5px] text-bone">模型正在读这段对话，抽取买家身分与六项讯号</span>
             <span className="ml-auto font-mono text-[11.5px] tabular-nums text-stone">{elapsed.toFixed(1)}s</span>
           </div>
         )}
@@ -316,11 +316,11 @@ export default function Copilot() {
 
       {stage === 'done' && ex && (
         <div id="so-result" className="mt-6 space-y-6">
-          {/* ── 買家卡 ＋ 風險 ── */}
+          {/* ── 买家卡 ＋ 风险 ── */}
           <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr]">
-            <Panel eyebrow="STEP 2" title="這個買家是誰">
+            <Panel eyebrow="步骤 2" title="这个买家是谁">
               <div className="mb-4">
-                <div className="font-serif text-lg text-bone">{ex.company ?? '（對話中未具名）'}</div>
+                <div className="font-serif text-lg text-bone">{ex.company ?? '（对话中未具名）'}</div>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-[12px] text-stone">
                   {ex.contact && <span>{ex.contact}</span>}
                   {ex.role && <Chip>{ex.role}</Chip>}
@@ -342,7 +342,7 @@ export default function Copilot() {
               )}
               {!!ex.redFlags?.length && (
                 <div className="mb-4 rounded border border-rose-900/40 bg-rose-950/20 p-3">
-                  <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">值得警覺</div>
+                  <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">值得警觉</div>
                   <ul className="space-y-1">
                     {ex.redFlags.map((f, i) => (
                       <li key={i} className="text-[12px] leading-snug text-rose-200/90">· {f}</li>
@@ -352,7 +352,7 @@ export default function Copilot() {
               )}
               {!!ex.quotes?.length && (
                 <div>
-                  <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">判斷依據（原文）</div>
+                  <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">判断依据（原文）</div>
                   <div className="space-y-1.5">
                     {ex.quotes.map((q, i) => (
                       <p key={i} className="border-l-2 border-white/15 pl-2.5 font-mono text-[11.5px] leading-snug text-stone/85">
@@ -365,8 +365,8 @@ export default function Copilot() {
             </Panel>
 
             <Panel
-              eyebrow="STEP 3"
-              title="他是在賣酒，還是在做稅差"
+              eyebrow="步骤 3"
+              title="他是在卖酒，还是在做税差"
               right={<span className="font-mono text-[10px] text-stone">AI 初判 · 你可覆核</span>}
             >
               <RiskDial risk={risk} />
@@ -374,15 +374,15 @@ export default function Copilot() {
                 <SignalGrid verdicts={verdicts} onToggle={(id, v) => setVerdicts((s) => ({ ...s, [id]: v }))} />
               </div>
               <p className="mt-3 text-[11px] leading-relaxed text-stone/70">
-                模型只做語意抽取與初判，最終判定由業務員按下這六組按鈕決定——因為只有他知道展位上對方的表情。
+                模型只做语意抽取与初判，最终判定由业务员按下这六组按钮决定——因为只有他知道展位上对方的表情。
               </p>
             </Panel>
           </div>
 
           {/* ── 牌照 ── */}
           <Panel
-            eyebrow="STEP 4"
-            title={`在${m.name}，能合法買你酒的人有多少`}
+            eyebrow="步骤 4"
+            title={`在${m.name}，能合法买你酒的人有多少`}
             right={
               <select
                 value={market}
@@ -397,24 +397,24 @@ export default function Copilot() {
           >
             {uncovered && (
               <div className="mb-4 rounded border border-rose-500/35 bg-rose-950/25 px-3.5 py-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">規則庫未涵蓋</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">规则库未涵盖</span>
                 <p className="mt-1 text-[12.5px] leading-relaxed text-bone">
-                  這個買家看起來在<span className="text-rose-200">「{uncovered}」</span>，
-                  目前規則庫只涵蓋香港、新加坡、越南、美國、韓國五個市場。
-                  下方的落地價與牌照核查<span className="text-rose-200">不適用於這個買家</span>，
-                  請手動選一個最接近的市場作參考，或先把這個市場加進規則庫再來談。
+                  这个买家看起来在<span className="text-rose-200">「{uncovered}」</span>，
+                  目前规则库只涵盖香港、新加坡、越南、美国、韩国五个市场。
+                  下方的落地价与牌照核查<span className="text-rose-200">不适用于这个买家</span>，
+                  请手动选一个最接近的市场作参考，或先把这个市场加进规则库再来谈。
                 </p>
               </div>
             )}
             <div className="mb-4 rounded border border-amber/25 bg-amber/[0.06] px-3.5 py-2.5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-amber">買方門檻</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-amber">买方门槛</span>
               <p className="mt-1 text-[13px] leading-snug text-bone">{m.gate}</p>
             </div>
             <div className="grid gap-px overflow-hidden rounded border border-white/10 bg-white/8 sm:grid-cols-2">
               {m.licences.map((l, i) => (
                 <div key={i} className="bg-ink2/60 p-3.5">
                   <div className="mb-1.5 flex items-center gap-2">
-                    <Chip tone={l.who === 'buyer' ? 'warn' : 'neutral'}>{l.who === 'buyer' ? '買方須有' : '你須備齊'}</Chip>
+                    <Chip tone={l.who === 'buyer' ? 'warn' : 'neutral'}>{l.who === 'buyer' ? '买方须有' : '你须备齐'}</Chip>
                     {l.form && <span className="font-mono text-[10px] text-stone/70">{l.form}</span>}
                   </div>
                   <div className="text-[13px] font-medium leading-snug text-bone">
@@ -422,7 +422,7 @@ export default function Copilot() {
                     <SourceTag source={l.source} />
                   </div>
                   <p className="mt-1.5 text-[11.5px] leading-snug text-stone">{l.detail}</p>
-                  <p className="mt-1.5 text-[11.5px] leading-snug text-rose-300/75">缺了會怎樣：{l.ifMissing}</p>
+                  <p className="mt-1.5 text-[11.5px] leading-snug text-rose-300/75">缺了会怎样：{l.ifMissing}</p>
                 </div>
               ))}
             </div>
@@ -445,19 +445,19 @@ export default function Copilot() {
             </div>
           </Panel>
 
-          {/* ── 落地價 ── */}
+          {/* ── 落地价 ── */}
           <Panel
-            eyebrow="STEP 5"
-            title="這瓶酒到他的貨架上，要賣多少錢"
+            eyebrow="步骤 5"
+            title="这瓶酒到他的货架上，要卖多少钱"
             right={
-              heavyTax ? <Chip tone="bad">落地稅負 &gt; 100%</Chip> : <Chip tone="neutral">落地稅負 {Math.round((price.taxTotal / price.cif) * 100)}%</Chip>
+              heavyTax ? <Chip tone="bad">落地税负 &gt; 100%</Chip> : <Chip tone="neutral">落地税负 {Math.round((price.taxTotal / price.cif) * 100)}%</Chip>
             }
           >
             <div className="mb-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <Stat label="出口保本線" value={fmt(price.breakeven)} unit="元／瓶" sub="低於此價這單就是虧的" />
-              <Stat label="FOB 報價" value={fmt(price.fob)} unit="元／瓶" sub={`加成 ${Math.round(margin * 100)}%`} />
-              <Stat label="完稅落地" value={fmt(price.landed)} unit="元／瓶" tone="warn" sub="進口商的成本" />
-              <Stat label="終端零售" value={fmt(price.retail)} unit="元／瓶" tone={price.multiple > 6 ? 'bad' : undefined} sub={`${price.multiple} 倍於內銷開票價`} />
+              <Stat label="出口保本线" value={fmt(price.breakeven)} unit="元／瓶" sub="低于此价这单就是亏的" />
+              <Stat label="离岸报价" value={fmt(price.fob)} unit="元／瓶" sub={`加成 ${Math.round(margin * 100)}%`} />
+              <Stat label="完税落地" value={fmt(price.landed)} unit="元／瓶" tone="warn" sub="进口商的成本" />
+              <Stat label="终端零售" value={fmt(price.retail)} unit="元／瓶" tone={price.multiple > 6 ? 'bad' : undefined} sub={`${price.multiple} 倍于内销开票价`} />
             </div>
 
             <div className="mb-4">
@@ -465,10 +465,10 @@ export default function Copilot() {
             </div>
 
             <div className="mb-5 grid gap-3 rounded border border-white/10 bg-white/[0.02] p-3.5 sm:grid-cols-5">
-              <NumField label="內銷開票價" value={dp} set={setDp} step={20} unit="元" />
+              <NumField label="内销开票价" value={dp} set={setDp} step={20} unit="元" />
               <NumField label="容量" value={ml} set={setMl} step={50} unit="ml" />
               <NumField label="酒精度" value={abv} set={setAbv} step={1} unit="%" />
-              <NumField label="物流分攤" value={logi} set={setLogi} step={2} unit="元" />
+              <NumField label="物流分摊" value={logi} set={setLogi} step={2} unit="元" />
               <div>
                 <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">出口加成</div>
                 <input
@@ -484,13 +484,13 @@ export default function Copilot() {
               <label className="mb-4 flex cursor-pointer items-start gap-3 rounded border border-amber/30 bg-amber/[0.06] p-3.5">
                 <input type="checkbox" checked={cbma} onChange={(e) => setCbma(e.target.checked)} className="mt-0.5 accent-[#D9873F]" />
                 <span>
-                  <span className="text-[13px] font-medium text-bone">把 CBMA 稅收優惠額度指派給這家進口商</span>
+                  <span className="text-[13px] font-medium text-bone">把 CBMA 税收优惠额度指派给这家进口商</span>
                   <p className="mt-1 text-[12px] leading-relaxed text-stone">
-                    聯邦消費稅標準 $13.50／proof gallon，指派後降到 $2.70。
+                    联邦消费税标准 $13.50／标准酒精加仑（proof gallon），指派后降到 $2.70。
                     <span className="text-amber">
-                      {' '}這一個動作值 {fmt(computePrice({ domesticPrice: dp, ml, abv, logistics: logi, market: 'us', exportMargin: margin }).landed - computePrice({ domesticPrice: dp, ml, abv, logistics: logi, market: 'us', exportMargin: margin, cbmaAssigned: true }).landed)} 元／瓶
+                      {' '}这一个动作值 {fmt(computePrice({ domesticPrice: dp, ml, abv, logistics: logi, market: 'us', exportMargin: margin }).landed - computePrice({ domesticPrice: dp, ml, abv, logistics: logi, market: 'us', exportMargin: margin, cbmaAssigned: true }).landed)} 元／瓶
                     </span>
-                    ，一個 20 尺櫃 12,000 瓶就是十幾萬人民幣——而且不花你一毛錢。
+                    ，一个 20 尺柜 12,000 瓶就是十几万人民币——而且不花你一毛钱。
                   </p>
                 </span>
               </label>
@@ -504,37 +504,37 @@ export default function Copilot() {
 
             <div className="mt-5 rounded border border-white/10 bg-white/[0.02] p-3.5">
               <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">
-                同一瓶酒，出口和內銷的稅務身分不同
+                同一瓶酒，出口和内销的税务身分不同
               </div>
               <p className="text-[12.5px] leading-relaxed text-stone">
-                內銷開票 <Num className="text-bone">{fmt(dp)}</Num> 元，其中消費稅約{' '}
-                <Num className="text-bone">{fmt(price.consumptionTaxSaved)}</Num> 元出口免徵
-                <SourceTag source="消費稅：20% 從價 ＋ 0.5 元／500ml 從量；出口免徵不退" />
-                ，另可退增值稅 <Num className="text-bone">{fmt(price.vatRebate)}</Num> 元
-                <SourceTag source="白酒出口增值稅退稅率 13%" />
-                。合計 <Num className="text-amber">{fmt(price.arbitragePool)}</Num> 元／瓶——
-                <span className="text-bone">這筆錢就是套利型買家真正要的東西，跟酒賣不賣得掉無關。</span>
+                内销开票 <Num className="text-bone">{fmt(dp)}</Num> 元，其中消费税约{' '}
+                <Num className="text-bone">{fmt(price.consumptionTaxSaved)}</Num> 元出口免征
+                <SourceTag source="消费税：20% 从价 ＋ 0.5 元／500ml 从量；出口免征不退" />
+                ，另可退增值税 <Num className="text-bone">{fmt(price.vatRebate)}</Num> 元
+                <SourceTag source="白酒出口增值税退税率 13%" />
+                。合计 <Num className="text-amber">{fmt(price.arbitragePool)}</Num> 元／瓶——
+                <span className="text-bone">这笔钱就是套利型买家真正要的东西，跟酒卖不卖得掉无关。</span>
               </p>
             </div>
           </Panel>
 
-          {/* ── 賣點 ── */}
+          {/* ── 卖点 ── */}
           <Panel
-            eyebrow="STEP 6"
-            title="他一定會問「這酒在我這裡怎麼賣」"
-            right={<span className="font-mono text-[10px] text-stone">香型 × 料理 × 該市場已驗證的用法</span>}
+            eyebrow="步骤 6"
+            title="他一定会问「这酒在我这里怎么卖」"
+            right={<span className="font-mono text-[10px] text-stone">香型 × 料理 × 该市场已验证的用法</span>}
           >
             <PitchKit market={market} m={m} aroma={aroma} setAroma={setAroma} bottle={bottleId ? BAIJIU_BY_ID[bottleId] : null} />
           </Panel>
 
-          {/* ── 簡報 ── */}
-          <Panel eyebrow="STEP 7" title="首單決策簡報">
+          {/* ── 简报 ── */}
+          <Panel eyebrow="步骤 7" title="首单决策简报">
             {!brief ? (
               <div className="flex flex-wrap items-center gap-3">
                 <Btn onClick={makeBrief} disabled={briefBusy}>
-                  {briefBusy ? '生成中…' : '生成決策簡報與回信'}
+                  {briefBusy ? '生成中…' : '生成决策简报与回信'}
                 </Btn>
-                <span className="text-[11.5px] text-stone">判定去留 · 必問清單 · 合同條款 · 第一封回信</span>
+                <span className="text-[11.5px] text-stone">判定去留 · 必问清单 · 合同条款 · 第一封回信</span>
               </div>
             ) : (
               <div id="so-brief" className="space-y-5">
@@ -548,8 +548,8 @@ export default function Copilot() {
                   }`}
                 >
                   <div className="mb-1 flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-stone">
-                    <span>{brief.verdict === 'hold' ? '判定 · 暫緩' : brief.verdict === 'probe' ? '判定 · 追問後再定' : '判定 · 可談'}</span>
-                    <span className="text-stone/50">由規則引擎決定 · 模型只負責寫理由</span>
+                    <span>{brief.verdict === 'hold' ? '判定 · 暂缓' : brief.verdict === 'probe' ? '判定 · 追问后再定' : '判定 · 可谈'}</span>
+                    <span className="text-stone/50">由规则引擎决定 · 模型只负责写理由</span>
                   </div>
                   <div className="font-serif text-[17px] leading-snug text-bone">{brief.headline}</div>
                   <ul className="mt-2.5 space-y-1">
@@ -561,7 +561,7 @@ export default function Copilot() {
 
                 <div className="grid gap-5 lg:grid-cols-2">
                   <div>
-                    <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">必問清單</div>
+                    <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">必问清单</div>
                     <ol className="space-y-2">
                       {brief.questions?.map((q, i) => (
                         <li key={i} className="flex gap-2.5 rounded border border-white/10 bg-white/[0.02] p-2.5 text-[12.5px] leading-snug text-bone">
@@ -573,7 +573,7 @@ export default function Copilot() {
                   </div>
                   <div>
                     <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">
-                      建議寫進第一份合同的條款
+                      建议写进第一份合同的条款
                     </div>
                     <div className="space-y-2">
                       {clauses.map((c) => (
@@ -581,7 +581,7 @@ export default function Copilot() {
                           <summary className="cursor-pointer list-none text-[12.5px] font-medium text-bone">
                             <span className="mr-1.5 text-amber">▸</span>
                             {c.title}
-                            <span className="ml-2 text-[11px] font-normal text-stone">擋掉：{c.blocks}</span>
+                            <span className="ml-2 text-[11px] font-normal text-stone">挡掉：{c.blocks}</span>
                           </summary>
                           <p className="mt-2 border-l-2 border-amber/40 pl-2.5 text-[11.5px] leading-relaxed text-stone">
                             {c.body}
@@ -604,7 +604,7 @@ export default function Copilot() {
                         setTimeout(() => setCopied(false), 1600)
                       }}
                     >
-                      {copied ? '已複製' : '複製'}
+                      {copied ? '已复制' : '复制'}
                     </Btn>
                   </div>
                   <pre className="whitespace-pre-wrap rounded border border-white/10 bg-ink/60 p-3.5 font-sans text-[12.5px] leading-relaxed text-bone">
@@ -621,7 +621,7 @@ export default function Copilot() {
                       setTimeout(() => setCopiedAll(false), 1800)
                     }}
                   >
-                    {copiedAll ? '整份簡報已複製' : '複製整份決策簡報'}
+                    {copiedAll ? '整份简报已复制' : '复制整份决策简报'}
                   </Btn>
                   <Btn variant="ghost" size="sm" onClick={makeBrief} disabled={briefBusy}>
                     {briefBusy ? '重新生成中…' : '重新生成'}

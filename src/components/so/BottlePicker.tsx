@@ -18,7 +18,7 @@ export function BottlePicker({
           onChange={(e) => onPick(e.target.value || null)}
           className="min-w-[220px] flex-1 rounded border border-white/15 bg-ink2 px-2.5 py-1.5 text-[12.5px] text-bone outline-none focus:border-amber/50"
         >
-          <option value="">自己填參數（不選具體品項）</option>
+          <option value="">自己填参数（不选具体品项）</option>
           {groups.map((g) => (
             <optgroup key={g.zone} label={g.zone}>
               {g.items.map((x) => (
@@ -56,18 +56,18 @@ export function BottlePicker({
             </div>
             {b.craft && (
               <p className="mt-2.5 border-t border-white/8 pt-2.5 text-[11.5px] leading-relaxed text-stone">
-                <span className="text-stone/60">工藝：</span>
+                <span className="text-stone/60">工艺：</span>
                 {b.craft}
               </p>
             )}
           </div>
           <div className="bg-ink2/70 p-3.5">
             <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">
-              這支酒自己的風味描述
+              这支酒自己的风味描述
             </div>
             {b.nose && (
               <p className="mb-1.5 text-[12px] leading-relaxed text-bone">
-                <span className="text-stone/60">香氣　</span>
+                <span className="text-stone/60">香气　</span>
                 {b.nose}
               </p>
             )}
@@ -79,19 +79,19 @@ export function BottlePicker({
             )}
             {b.products && (
               <p className="mt-2.5 border-t border-white/8 pt-2.5 text-[11.5px] leading-relaxed text-stone">
-                <span className="text-stone/60">代表產品：</span>
+                <span className="text-stone/60">代表产品：</span>
                 {b.products}
               </p>
             )}
-            {b.trust && b.trust !== '已查證' && (
-              <p className="mt-2 font-mono text-[10px] text-amber/80">資料可信度：{b.trust}</p>
+            {b.trust && b.trust !== '已查证' && (
+              <p className="mt-2 font-mono text-[10px] text-amber/80">资料可信度：{b.trust}</p>
             )}
           </div>
         </div>
       ) : (
         <p className="text-[11.5px] leading-relaxed text-stone">
-          選一支之後，<span className="text-bone">香型與酒精度會自動帶進落地價測算與賣點彈藥</span>——
-          因為稅是按度數收的，而香型決定了你能怎麼跟對方講這支酒。
+          选一支之后，<span className="text-bone">香型与酒精度会自动带进落地价测算与卖点弹药</span>——
+          因为税是按度数收的，而香型决定了你能怎么跟对方讲这支酒。
         </p>
       )}
     </div>

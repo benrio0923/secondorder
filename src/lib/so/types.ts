@@ -3,17 +3,17 @@ export type MarketId = 'hk' | 'sg' | 'vn' | 'us' | 'kr'
 export type TaxLine = {
   key: string
   label: string
-  /** 本層稅費金額（人民幣元／瓶） */
+  /** 本层税费金额（人民币元／瓶） */
   amount: number
-  /** 計算基數說明，寫給人看的 */
+  /** 计算基数说明，写给人看的 */
   basis: string
-  /** 稅率或單位稅的文字表達 */
+  /** 税率或单位税的文字表达 */
   rate: string
-  /** 這條稅的依據來源 */
+  /** 这条税的依据来源 */
   source: string
   /** 生效日期或版本 */
   asOf: string
-  /** 未來會變的，寫在這 */
+  /** 未来会变的，写在这 */
   changing?: string
 }
 
@@ -23,7 +23,7 @@ export type LicenceReq = {
   detail: string
   form?: string
   source: string
-  /** 缺這一項的後果 */
+  /** 缺这一项的后果 */
   ifMissing: string
 }
 
@@ -33,28 +33,28 @@ export type Market = {
   nameEn: string
   flag: string
   currency: string
-  /** 1 單位當地幣 = ? 人民幣，僅供估算 */
+  /** 1 单位当地币 = ? 人民币，仅供估算 */
   fx: number
-  /** 通路加價層級，[進口商, 批發商, 零售商] 毛利率 */
+  /** 通路加价层级，[进口商, 批发商, 零售商] 毛利率 */
   channelMarkup: { label: string; rate: number; note: string }[]
   licences: LicenceReq[]
-  /** 該市場的關鍵提醒，是產品的「行家知識」 */
+  /** 该市场的关键提醒，是产品的「行家知识」 */
   insights: { title: string; body: string; tone: 'warn' | 'edge' | 'info' }[]
-  /** 對標酒款：落地價會和什麼酒站在一起 */
+  /** 对标酒款：落地价会和什么酒站在一起 */
   benchmarks: { name: string; priceLocal: number; note: string }[]
   calcTax: (i: TaxInput) => TaxLine[]
-  /** 買方是否為封閉持牌池 */
+  /** 买方是否为封闭持牌池 */
   gate: string
 }
 
 export type TaxInput = {
-  /** 每瓶 CIF 價，人民幣 */
+  /** 每瓶 到岸价 价，人民币 */
   cifRmb: number
   /** 容量 ml */
   ml: number
   /** 酒精度 % */
   abv: number
-  /** 是否已把美國 CBMA 額度指派給進口商 */
+  /** 是否已把美国 CBMA 额度指派给进口商 */
   cbmaAssigned?: boolean
 }
 
@@ -63,7 +63,7 @@ export type BuyerSignal = {
   label: string
   good: string
   bad: string
-  /** 使用者判定：true=好訊號 false=壞訊號 null=未知 */
+  /** 使用者判定：true=好讯号 false=坏讯号 null=未知 */
   verdict: boolean | null
   weight: number
 }

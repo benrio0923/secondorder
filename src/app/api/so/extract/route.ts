@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { chatJSON } from '@/lib/llm'
+import { deepSimplify } from '@/lib/so/zh'
 import { SIGNALS } from '@/lib/so/signals'
 import { MARKET_LIST } from '@/lib/so/markets'
 import type { Extracted } from '@/lib/so/types'
@@ -8,66 +9,66 @@ export const runtime = 'nodejs'
 export const maxDuration = 60
 
 const SIGNAL_SPEC = SIGNALS.map(
-  (s) => `- ${s.id}（${s.label}）：true = ${s.good}；false = ${s.bad}；資訊不足填 null`,
+  (s) => `- ${s.id}（${s.label}）：true = ${s.good}；false = ${s.bad}；资讯不足填 null`,
 ).join('\n')
 
 const MARKET_SPEC = MARKET_LIST.map((m) => `${m.id}=${m.name}`).join('、')
 
-const SYSTEM = `你是中國白酒出口業務的盡職調查助手，服務對象是貴州仁懷一家中小酒企的外貿專員。
-他剛從展會回來，手上是一段與潛在海外買家的對話或郵件。你的工作是把它拆成可判斷的結構。
+const SYSTEM = `你是中国白酒出口业务的尽职调查助手，服务对象是贵州仁怀一家中小酒企的外贸专员。
+他刚从展会回来，手上是一段与潜在海外买家的对话或邮件。你的工作是把它拆成可判断的结构。
 
-只輸出 JSON，一律使用繁體中文（引述原文除外，原文照抄不翻譯）。
+只输出 JSON，一律使用繁体中文（引述原文除外，原文照抄不翻译）。
 
-判定六個訊號，這是核心：
+判定六个讯号，这是核心：
 ${SIGNAL_SPEC}
 
-判定原則（嚴格照這些規則，不要自行放寬）：
-- 只根據文字裡真正出現的證據判定。完全沒有線索才填 null。
+判定原则（严格照这些规则，不要自行放宽）：
+- 只根据文字里真正出现的证据判定。完全没有线索才填 null。
 
 downstream：
-  true = 講得出具體售點（幾家餐廳、哪個通路、什麼場景）。
-  false = 只說「我有渠道」「看情況分銷」「後面再說」這類沒有指名的說法。
-  提到「分銷」但講不出對象，是 false 不是 null。
+  true = 讲得出具体售点（几家餐厅、哪个通路、什么场景）。
+  false = 只说「我有渠道」「看情况分销」「后面再说」这类没有指名的说法。
+  提到「分销」但讲不出对象，是 false 不是 null。
 
 spec：
-  true = 主動追問標籤、度數、容量、檢測報告、當地法規、合規文件。
-  false = 只問價格和數量；或說「標籤不用改／我們自己處理／不用你管」——
-          這代表他不打算讓這批貨用你的品牌合規落地，是強烈負向訊號。
-  只是在訊息裡提到「53度500ml」用來指認品項，不算 true。
+  true = 主动追问标签、度数、容量、检测报告、当地法规、合规文件。
+  false = 只问价格和数量；或说「标签不用改／我们自己处理／不用你管」——
+          这代表他不打算让这批货用你的品牌合规落地，是强烈负向讯号。
+  只是在讯息里提到「53度500ml」用来指认品项，不算 true。
 
 size：
-  true = 首單偏小、講得出試銷安排（多少箱、放在哪裡試）。
-  false = 首單一次要多個貨櫃、或只壓價不談試銷與鋪貨支持。
-  「先來 3 個櫃試試水」是 false——櫃是量，不是試。
+  true = 首单偏小、讲得出试销安排（多少箱、放在哪里试）。
+  false = 首单一次要多个货柜、或只压价不谈试销与铺货支持。
+  「先来 3 个柜试试水」是 false——柜是量，不是试。
 
 dest：
-  true = 指名終端市場與落地倉儲。
-  false = 只到保稅倉／自貿倉／免稅倉，或目的地含糊。
+  true = 指名终端市场与落地仓储。
+  false = 只到保税仓／自贸仓／免税仓，或目的地含糊。
 
 brand：
-  true = 要品牌手冊、小樣、品鑑培訓、聯合推廣素材。
-  false = 明說不需要品牌資料、不做零售、對品牌建設沒興趣。
+  true = 要品牌手册、小样、品鉴培训、联合推广素材。
+  false = 明说不需要品牌资料、不做零售、对品牌建设没兴趣。
 
 sellthrough：
-  true = 願意提供動銷報告、終端照片、售點清單。
-  false = 拒絕，或稱之為商業機密。
+  true = 愿意提供动销报告、终端照片、售点清单。
+  false = 拒绝，或称之为商业机密。
 
-對方主動提出合規要求（酒標、檢測報告、牌照、稅務文件、COLA、FDA、CBMA）一律視為 spec = true。
+对方主动提出合规要求（酒标、检测报告、牌照、税务文件、COLA、FDA、CBMA）一律视为 spec = true。
 
-market 只能是這些代碼之一：${MARKET_SPEC}；判斷不出來就填 null，並在 marketGuess 寫下你看到的地理線索。
+market 只能是这些代码之一：${MARKET_SPEC}；判断不出来就填 null，并在 marketGuess 写下你看到的地理线索。
 
-輸出格式：
+输出格式：
 {
  "company": "公司名，抓不到填 null",
- "contact": "聯絡人，抓不到填 null",
- "market": "市場代碼或 null",
- "marketGuess": "地理線索，沒有填 null",
- "role": "對方在產業鏈上的身分，例如：持牌進口商／貿易商／餐飲通路商",
- "claims": ["對方宣稱的能力，每則不超過 20 字"],
- "askedFor": ["對方明確要求你提供的東西，每則不超過 25 字"],
+ "contact": "联络人，抓不到填 null",
+ "market": "市场代码或 null",
+ "marketGuess": "地理线索，没有填 null",
+ "role": "对方在产业链上的身分，例如：持牌进口商／贸易商／餐饮通路商",
+ "claims": ["对方宣称的能力，每则不超过 20 字"],
+ "askedFor": ["对方明确要求你提供的东西，每则不超过 25 字"],
  "signals": {"downstream":true/false/null, "spec":..., "size":..., "dest":..., "brand":..., "sellthrough":...},
- "redFlags": ["值得警覺的具體事實，每則不超過 35 字，沒有就空陣列"],
- "quotes": ["最能支撐你判斷的原文片段，最多 3 則，照抄不翻譯"]
+ "redFlags": ["值得警觉的具体事实，每则不超过 35 字，没有就空数组"],
+ "quotes": ["最能支撑你判断的原文片段，最多 3 则，照抄不翻译"]
 }`
 
 export async function POST(req: Request) {
@@ -75,7 +76,8 @@ export async function POST(req: Request) {
   if (!raw || raw.trim().length < 10) {
     return NextResponse.json({ error: 'empty' }, { status: 400 })
   }
-  const out = await chatJSON<Extracted>(SYSTEM, `以下是對話原文：\n\n${raw.slice(0, 4000)}`, 45000)
+  const out = await chatJSON<Extracted>(SYSTEM, `以下是对话原文：\n\n${raw.slice(0, 4000)}`, 45000)
   if (!out) return NextResponse.json({ error: 'llm_unavailable' }, { status: 503 })
-  return NextResponse.json({ extracted: out, source: 'ai' })
+  // 模型偶爾會回繁體，這裡強制轉簡體再送出
+  return NextResponse.json({ extracted: deepSimplify(out), source: 'ai' })
 }
