@@ -117,6 +117,56 @@ export function Method() {
         </div>
       </Panel>
 
+      <Panel eyebrow="赛后 100 天" title="如果给我们 100 天 PoC 陪跑，我们会做这四件事">
+        <p className="mb-4 max-w-[72ch] text-[13px] leading-relaxed text-stone">
+          写得具体一点，因为这四件事我们已经知道该找谁、要什么、验什么。
+          <span className="text-bone">前三件都不需要写新代码</span>，第四件才是工程。
+        </p>
+        <div className="space-y-px overflow-hidden rounded border border-white/10 bg-white/8">
+          {[
+            {
+              w: '第 1–2 周',
+              t: '拿到台账，选 10 家试点',
+              d: '遵义综保区手上有 89 家完成出口备案的完整名单，其中 11 家是 2025 年首次出海的。从这 11 家里选 3 家、再从有意向的 35 家里选 7 家。不需要开发，需要的是一次对接会。',
+            },
+            {
+              w: '第 3–6 周',
+              t: '用真实对话校准六项信号',
+              d: '把这 10 家手上真实的买家对话跑一遍，比对系统判定与业务员的判断。权重目前是我们设的，这一步就是把它换成有数据支撑的版本。这是整个产品最需要被证伪的地方。',
+            },
+            {
+              w: '第 7–10 周',
+              t: '跟 3 家走完一次首单，验落地价',
+              d: '拿实际的报关单与对方的进价回来对，看我们算的完税落地成本差多少。差 5% 以内这个工具就能用，差 20% 就得重做税则模型。',
+            },
+            {
+              w: '第 11–14 周',
+              t: '搬进微信',
+              d: '业务员不会为了判断一个买家去开网页——他整天在微信里。这一步把主链路做成企业微信机器人：转发一段对话给它，回一份决策简报。这才是它真正会被用起来的形态。',
+            },
+          ].map((x) => (
+            <div key={x.w} className="grid gap-2 bg-ink2/60 p-4 sm:grid-cols-[92px_1fr] sm:gap-5">
+              <div className="font-mono text-[11px] uppercase tracking-[0.08em] text-amber">{x.w}</div>
+              <div>
+                <div className="mb-1.5 text-[13.5px] font-medium text-bone">{x.t}</div>
+                <p className="text-[12.5px] leading-relaxed text-stone">{x.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 rounded border border-white/10 bg-white/[0.02] p-4">
+          <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">怎么收钱？现在谈还太早</div>
+          <p className="max-w-[72ch] text-[12.5px] leading-relaxed text-stone">
+            诚实说：这个阶段谈商业模式是自欺欺人。
+            <span className="text-bone">先证明它能让 89 家里搭上线的从 5 家变成 10 家</span>
+            ，再谈谁付钱。
+            真要往下推，最现实的入口是产区服务平台的一个模块——综保区本来就在做外贸陪跑，有预算、有台账、有企业名单；
+            酒企自己订阅是第二步，而且要等到它已经进了微信之后。
+          </p>
+        </div>
+      </Panel>
+
       <Panel eyebrow="问题从哪来" title="这不是拍脑袋想的题目">
         <p className="mb-4 max-w-[70ch] text-[13px] leading-relaxed text-stone">
           做这个原型之前，我们先做了两份产业研究：一份是贵州白酒出海的产业全景，一份是中小酒企出海的路径成本比较。
