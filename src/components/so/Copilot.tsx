@@ -11,6 +11,8 @@ import { RiskDial, SignalGrid } from './Gauge'
 import { Waterfall } from './Waterfall'
 import { Method } from './Method'
 import { SpecAdvisor } from './SpecAdvisor'
+import { PitchKit } from './PitchKit'
+import type { AromaId } from '@/lib/so/aroma'
 
 const fmt = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 0 })
 const EMPTY: Record<string, boolean | null> = Object.fromEntries(SIGNALS.map((s) => [s.id, null]))
@@ -32,6 +34,7 @@ export default function Copilot() {
   const [logi, setLogi] = useState(18)
   const [margin, setMargin] = useState(0.15)
   const [cbma, setCbma] = useState(false)
+  const [aroma, setAroma] = useState<AromaId>('sauce')
 
   const [brief, setBrief] = useState<Brief | null>(null)
   const [briefBusy, setBriefBusy] = useState(false)
@@ -496,8 +499,17 @@ export default function Copilot() {
             </div>
           </Panel>
 
+          {/* ── 賣點 ── */}
+          <Panel
+            eyebrow="STEP 6"
+            title="他一定會問「這酒在我這裡怎麼賣」"
+            right={<span className="font-mono text-[10px] text-stone">香型 × 料理 × 該市場已驗證的用法</span>}
+          >
+            <PitchKit market={market} m={m} aroma={aroma} setAroma={setAroma} />
+          </Panel>
+
           {/* ── 簡報 ── */}
-          <Panel eyebrow="STEP 6" title="首單決策簡報">
+          <Panel eyebrow="STEP 7" title="首單決策簡報">
             {!brief ? (
               <div className="flex flex-wrap items-center gap-3">
                 <Btn onClick={makeBrief} disabled={briefBusy}>
