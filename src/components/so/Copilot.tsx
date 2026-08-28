@@ -48,6 +48,8 @@ export default function Copilot() {
     [dp, ml, abv, logi, market, margin, cbma],
   )
   const clauses = useMemo(() => pickClauses(risk.badKeys).slice(0, 4), [risk.badKeys])
+  // 去留是規則說了算，模型只負責把理由寫成人話
+  const ruleVerdict: Brief['verdict'] = risk.level === 'high' ? 'hold' : risk.level === 'mid' ? 'probe' : 'go'
 
   function pickCase(id: string) {
     const c = CASES.find((x) => x.id === id)!
@@ -112,6 +114,7 @@ export default function Copilot() {
         body: JSON.stringify({
           extracted: ex,
           market,
+          verdict: ruleVerdict,
           riskScore: risk.score,
           riskLabel: risk.label,
           badSignals: risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k),
@@ -169,7 +172,7 @@ export default function Copilot() {
   }
 
   function localBrief(): Brief {
-    const v = risk.level === 'high' ? 'hold' : risk.level === 'mid' ? 'probe' : 'go'
+    const v = ruleVerdict
     return {
       verdict: v,
       headline:
@@ -528,8 +531,9 @@ export default function Copilot() {
                         : 'border-l-emerald-500 bg-emerald-950/15'
                   }`}
                 >
-                  <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-stone">
-                    {brief.verdict === 'hold' ? '判定 · 暫緩' : brief.verdict === 'probe' ? '判定 · 追問後再定' : '判定 · 可談'}
+                  <div className="mb-1 flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-stone">
+                    <span>{brief.verdict === 'hold' ? '判定 · 暫緩' : brief.verdict === 'probe' ? '判定 · 追問後再定' : '判定 · 可談'}</span>
+                    <span className="text-stone/50">由規則引擎決定 · 模型只負責寫理由</span>
                   </div>
                   <div className="font-serif text-[17px] leading-snug text-bone">{brief.headline}</div>
                   <ul className="mt-2.5 space-y-1">

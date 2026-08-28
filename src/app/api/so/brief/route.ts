@@ -9,10 +9,10 @@ export const maxDuration = 60
 const SYSTEM = `你是中國白酒出口業務的談判顧問，服務對象是貴州仁懷一家中小酒企的外貿專員。
 你要根據盡職調查結果，產出一份「首單決策簡報」。只輸出 JSON，一律繁體中文。
 
-判定規則：
-- verdict = "go"：訊號一致正向，可進入首單談判。
-- verdict = "probe"：有疑點但可談，先問清楚再決定。
-- verdict = "hold"：高度疑似套利型買家，或關鍵合規缺口未解，暫緩。
+判定（verdict）已經由規則引擎算好，會在輸入裡告訴你。
+你的工作不是重新判斷，而是**照這個判定寫出理由與行動**——
+把它原樣放進輸出的 verdict 欄位，headline 與 reasons 必須與它一致，不得唱反調。
+  go = 可進入首單談判｜probe = 有疑點，先問清楚再決定｜hold = 暫緩
 
 questions 是「必問清單」——寫成可以直接複製貼給對方的問句，每則不超過 40 字，最多 6 則。
 必須針對這個買家的具體缺口來問，不要寫通用問題。
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
   const body = (await req.json()) as {
     extracted?: Extracted
     market?: MarketId
+    verdict?: 'go' | 'probe' | 'hold'
     riskScore?: number
     riskLabel?: string
     badSignals?: string[]
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
     m
       ? `你這一側必須備齊：${m.licences.filter((l) => l.who === 'you').map((l) => l.name).join('、')}`
       : '',
+    `規則引擎的判定：${body.verdict ?? 'probe'}（這是定案，照著寫）`,
     `套利風險評分：${body.riskScore ?? '未評'}／100（${body.riskLabel ?? ''}）`,
     body.badSignals?.length ? `負向訊號：${body.badSignals.join('、')}` : '負向訊號：無',
     body.extracted?.redFlags?.length ? `紅旗：${body.extracted.redFlags.join('；')}` : '',
@@ -61,5 +63,7 @@ export async function POST(req: Request) {
 
   const out = await chatJSON<Brief>(SYSTEM, ctx, 45000)
   if (!out) return NextResponse.json({ error: 'llm_unavailable' }, { status: 503 })
-  return NextResponse.json({ brief: out, source: 'ai' })
+  // 判定歸規則，模型只負責文案——即使它寫錯了也以規則為準
+  const brief: Brief = { ...out, verdict: body.verdict ?? out.verdict }
+  return NextResponse.json({ brief, source: 'ai' })
 }

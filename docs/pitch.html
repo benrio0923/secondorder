@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>*{margin:0;padding:0}</style>
+<title>第二單 Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ink:#0A100D; --ink2:#121A15; --surf:#18211B;
+  --bone:#EFEAE0; --bone2:#CBD0C7; --stone:#8B928B; --stone2:#69706A;
+  --amber:#D9873F; --gold:#C9A24A; --jade:#4ADE9B; --rose:#F5657A; --sky:#5AA9DE;
+  --line:rgba(239,234,224,.11); --line2:rgba(239,234,224,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;background:var(--ink);overflow:hidden}
+body{
+  color:var(--bone);
+  font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+#deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;display:none;
+  padding:clamp(36px,5.5vh,72px) clamp(32px,6vw,104px);
+  flex-direction:column;justify-content:center;
+  opacity:0;
+}
+.slide.on{display:flex;animation:in .45s cubic-bezier(.2,.75,.25,1) forwards}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none;opacity:1}}
+
+.inner{width:100%;max-width:1180px;margin:0 auto}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1.05vw,12px);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:clamp(16px,2.4vh,28px);
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.eyebrow b{color:var(--stone);font-weight:400;letter-spacing:.16em}
+.eyebrow i{display:block;width:24px;height:1px;background:var(--line);flex:0 0 auto}
+
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(52px,10vw,132px);line-height:1;margin:0;letter-spacing:-.02em}
+h1 small{display:block;margin-top:18px;font-family:"Noto Sans TC",sans-serif;font-size:clamp(12px,1.5vw,19px);font-weight:400;letter-spacing:.3em;color:var(--stone)}
+h2{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(30px,4.6vw,62px);line-height:1.16;margin:0 0 clamp(16px,2.6vh,30px);letter-spacing:-.01em;text-wrap:balance;max-width:22ch}
+h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,29px);line-height:1.35;margin:0 0 14px}
+.lede{font-size:clamp(15px,1.75vw,23px);line-height:1.7;color:var(--bone2);max-width:44ch;margin:0}
+.lede.wide{max-width:56ch}
+.small{font-size:clamp(12px,1.25vw,16px);line-height:1.7;color:var(--stone);max-width:60ch;margin:14px 0 0}
+
+.mega{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(80px,17vw,240px);line-height:.85;color:var(--amber);letter-spacing:-.03em}
+.mega.rose{color:var(--rose)}
+.megasub{font-size:clamp(14px,1.6vw,21px);color:var(--bone2);margin-top:20px;max-width:40ch;line-height:1.65}
+
+/* funnel */
+.fn{display:flex;flex-direction:column;gap:clamp(8px,1.5vh,15px);margin-top:clamp(14px,2.6vh,30px)}
+.fn .r{display:grid;grid-template-columns:minmax(120px,236px) 1fr auto;gap:clamp(12px,2vw,26px);align-items:center}
+.fn .l{font-size:clamp(12px,1.3vw,17px);color:var(--bone2);text-align:right;line-height:1.35}
+.fn .b{height:clamp(26px,4.4vh,48px);background:rgba(239,234,224,.045);border-radius:3px;overflow:hidden}
+.fn .b i{display:block;height:100%;border-radius:3px;transform-origin:left;animation:grow .85s cubic-bezier(.2,.8,.25,1) forwards;transform:scaleX(0)}
+@keyframes grow{to{transform:scaleX(1)}}
+.fn .v{font-family:"IBM Plex Mono",monospace;font-size:clamp(17px,2.4vw,34px);width:clamp(88px,11vw,148px);text-align:right;font-variant-numeric:tabular-nums}
+.fn .v s{text-decoration:none;font-size:.5em;color:var(--stone2);margin-left:8px}
+
+/* cards */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(14px,2.6vh,30px)}
+.g2{grid-template-columns:1fr 1fr} .g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+.cell{background:var(--ink2);padding:clamp(16px,2.4vw,30px)}
+.cell .tag{font-family:"IBM Plex Mono",monospace;font-size:clamp(9px,.95vw,11px);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.cell .num{font-family:"Noto Serif TC",serif;font-size:clamp(26px,3.6vw,52px);line-height:1;color:var(--amber);margin-bottom:14px;letter-spacing:-.01em}
+.cell .num.j{color:var(--jade)} .cell .num.r{color:var(--rose)}
+.cell h4{font-family:"Noto Serif TC",serif;font-size:clamp(15px,1.6vw,21px);font-weight:700;margin:0 0 10px;line-height:1.4}
+.cell p{font-size:clamp(11.5px,1.15vw,15px);line-height:1.7;color:var(--stone);margin:0}
+.cell p+p{margin-top:9px}
+.cell b{color:var(--bone2)}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(12px,2.4vh,26px)}
+.steps .s{background:var(--ink2);padding:clamp(11px,1.7vh,18px) clamp(16px,2.2vw,26px);display:grid;grid-template-columns:32px 1fr;gap:16px;align-items:baseline}
+.steps .n{font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1vw,13px);color:var(--amber)}
+.steps b{display:block;font-size:clamp(13px,1.4vw,18px);color:var(--bone);margin-bottom:3px;font-weight:600}
+.steps span{font-size:clamp(11px,1.1vw,14px);color:var(--stone);line-height:1.6}
+.steps .who{font-family:"IBM Plex Mono",monospace;font-size:clamp(9px,.9vw,11px);letter-spacing:.1em;padding:2px 7px;border-radius:2px;margin-left:9px;white-space:nowrap}
+.who.ai{background:rgba(217,135,63,.14);color:var(--amber)}
+.who.rule{background:rgba(90,169,222,.14);color:var(--sky)}
+.who.human{background:rgba(239,234,224,.1);color:var(--bone2)}
+
+/* buyer cards */
+.buyers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(14px,2.6vh,30px)}
+@media(max-width:760px){.buyers{grid-template-columns:1fr}}
+.buyer{background:var(--ink2);padding:clamp(16px,2.2vw,28px)}
+.buyer .flag{font-size:clamp(19px,2.4vw,32px);margin-bottom:10px}
+.buyer .co{font-size:clamp(12px,1.25vw,16px);color:var(--bone);font-weight:600;margin-bottom:4px}
+.buyer .src{font-size:clamp(10px,1vw,12.5px);color:var(--stone2);margin-bottom:16px}
+.buyer .score{font-family:"IBM Plex Mono",monospace;font-size:clamp(32px,4.6vw,64px);line-height:1;margin-bottom:8px}
+.buyer .verdict{font-size:clamp(11px,1.1vw,14px);margin-bottom:12px}
+.buyer .bar{height:5px;background:rgba(239,234,224,.07);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.buyer .bar i{display:block;height:100%;border-radius:3px;transform-origin:left;animation:grow .8s cubic-bezier(.2,.8,.25,1) forwards;transform:scaleX(0)}
+.buyer .why{font-size:clamp(10.5px,1.05vw,13.5px);line-height:1.65;color:var(--stone)}
+.hi{color:var(--rose)} .mi{color:var(--amber)} .lo{color:var(--jade)}
+
+/* pipeline */
+.pipe{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:clamp(14px,2.4vh,26px)}
+.pipe span{font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1.05vw,14px);padding:7px 11px;border:1px solid var(--line);border-radius:3px;background:rgba(239,234,224,.02)}
+.pipe .llm{color:var(--amber);border-color:rgba(217,135,63,.34)}
+.pipe .rule{color:var(--sky);border-color:rgba(90,169,222,.32)}
+.pipe .human{color:var(--bone);border-color:rgba(239,234,224,.3)}
+.pipe .ar{border:none;background:none;color:var(--stone2);padding:0 2px}
+
+.quote{border-left:3px solid var(--amber);padding-left:clamp(16px,2vw,26px);margin:clamp(14px,2.4vh,28px) 0 0;
+  font-family:"Noto Serif TC",serif;font-size:clamp(17px,2.3vw,32px);line-height:1.5;color:var(--bone);max-width:26ch}
+.quote cite{display:block;margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1vw,12.5px);font-style:normal;letter-spacing:.1em;color:var(--stone2)}
+
+.two{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4.5vw,72px);align-items:center}
+@media(max-width:860px){.two{grid-template-columns:1fr;gap:24px}}
+
+ul.pl{list-style:none;padding:0;margin:clamp(12px,2vh,22px) 0 0;display:flex;flex-direction:column;gap:clamp(9px,1.5vh,15px)}
+ul.pl li{padding-left:22px;position:relative;font-size:clamp(13px,1.5vw,20px);line-height:1.6;color:var(--bone2)}
+ul.pl li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;background:var(--amber);border-radius:50%}
+ul.pl li b{color:var(--bone)}
+
+/* chrome */
+#bar{position:fixed;left:0;top:0;height:2px;background:var(--amber);z-index:40;transition:width .35s cubic-bezier(.2,.8,.25,1)}
+#hud{position:fixed;bottom:clamp(14px,2.4vh,26px);right:clamp(18px,3vw,40px);z-index:40;
+  display:flex;gap:14px;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--stone2);letter-spacing:.12em}
+#hud button{background:none;border:1px solid var(--line);color:var(--stone2);width:26px;height:26px;border-radius:3px;cursor:pointer;font-size:12px;line-height:1;transition:.15s}
+#hud button:hover{border-color:var(--amber);color:var(--amber)}
+#brand{position:fixed;bottom:clamp(14px,2.4vh,26px);left:clamp(18px,3vw,40px);z-index:40;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--stone2);text-transform:uppercase}
+#brand b{color:var(--amber);font-weight:600}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+::selection{background:var(--gold);color:var(--ink)}
+</style>
+
+</head>
+<body>
+<div id="bar"></div>
+<div id="brand">第二單 · <b>SecondOrder</b></div>
+<div id="hud"><button id="pv" aria-label="上一頁">‹</button><span id="pg">1 / 15</span><button id="nx" aria-label="下一頁">›</button></div>
+
+<div id="deck">
+
+<!-- 1 封面 -->
+<section class="slide on"><div class="inner">
+  <div class="eyebrow"><span>賽道二 · 傳統行業 AI 解決方案</span><i></i><b>AI × 白酒 · 經銷商運營</b></div>
+  <h1>第二單<small>SECOND ORDER</small></h1>
+  <p class="lede wide" style="margin-top:34px">
+    貴州白酒出海的首單決策副駕。<br>
+    把一張展會名片，變成一份可執行的首單決策簡報。
+  </p>
+  <p class="small">服務的崗位：仁懷／遵義中小酒企的外貿專員</p>
+</div></section>
+
+<!-- 2 漏斗 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>問題</span><i></i><b>遵義綜保區 2025 年工作總結</b></div>
+  <h2>出海不缺第一單。<br>缺的是第二單。</h2>
+  <div class="fn">
+    <div class="r"><span class="l">完成出口資質備案</span><span class="b"><i style="width:100%;background:rgba(217,135,63,.78);animation-delay:.05s"></i></span><span class="v">89<s>家</s></span></div>
+    <div class="r"><span class="l">新增出口意向</span><span class="b"><i style="width:39.3%;background:rgba(217,135,63,.58);animation-delay:.15s"></i></span><span class="v">35<s>39%</s></span></div>
+    <div class="r"><span class="l">首次通過綜保區出海</span><span class="b"><i style="width:12.4%;background:rgba(90,169,222,.6);animation-delay:.25s"></i></span><span class="v">11<s>12%</s></span></div>
+    <div class="r"><span class="l">與東南亞經銷商<br>建立初步聯繫</span><span class="b"><i style="width:5.6%;background:rgba(245,101,122,.8);animation-delay:.35s"></i></span><span class="v hi">5<s>5.6%</s></span></div>
+  </div>
+  <p class="small">
+    注意最後一級的措辭是<b style="color:var(--bone)">「建立初步聯繫」</b>——不是簽約，更不是複購。
+    公開資料在這裡就斷了，而真正的問題正好在斷點之後。
+  </p>
+</div></section>
+
+<!-- 3 為什麼斷 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>為什麼斷在這裡</span></div>
+  <div class="two">
+    <div>
+      <h2>你的客戶不是<br>「想賣酒的人」</h2>
+      <p class="lede">是「已經持牌的人」。這個池子在任何國家都有限、封閉，而且早就被洋酒餵飽了。</p>
+    </div>
+    <div>
+      <blockquote class="quote">
+        找客戶困難——白酒屬管制商品，進口方需酒牌資質。
+        <cite>遵義綜保區自己總結的第一個障礙</cite>
+      </blockquote>
+    </div>
+  </div>
+</div></section>
+
+<!-- 4 稅差 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>而且，有人要的根本不是你的酒</span></div>
+  <div class="two">
+    <div>
+      <div class="mega">36<span style="font-size:.42em">%</span></div>
+      <p class="megasub">某年上半年白酒出口 5.30 億美元，同期<b style="color:var(--bone)">有 1.90 億美元從進口渠道回流</b>。業內的描述：「有些貨根本沒出境，在自貿區轉一圈就回來了。」</p>
+    </div>
+    <div>
+      <h3>白酒出口的稅務身分</h3>
+      <ul class="pl">
+        <li><b>消費稅免徵</b>　20% 從價 ＋ 0.5 元／500ml 從量</li>
+        <li><b>增值稅退 13%</b>　出口退稅率</li>
+      </ul>
+      <p class="small" style="margin-top:22px">
+        這個稅差<b style="color:var(--amber)">本身就有人要</b>，與酒賣不賣得掉無關。<br><br>
+        另一半回流的成因更該讓中小酒企警惕：
+        <b style="color:var(--bone)">海外經銷商賣不掉，折價把貨倒回中國</b>——
+        砸掉的是你自己的價格體系。
+      </p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 5 三個問題 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>所以那位外貿專員真正的問題只有三個</span><i></i><b>而市面上的工具一個都沒答</b></div>
+  <h2 style="max-width:26ch">他手上有 12 張名片，<br>不知道哪一張值得跟進。</h2>
+  <ul class="pl" style="font-size:clamp(15px,1.9vw,26px)">
+    <li><b>這個買家是真的想賣酒，還是在做稅差？</b></li>
+    <li><b>這瓶酒到他的貨架上要賣多少錢？賣得動嗎？</b></li>
+    <li><b>第一份合同該寫死哪幾條，才能讓他有動機下第二單？</b></li>
+  </ul>
+</div></section>
+
+<!-- 6 主鏈路 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>我們做了什麼</span><i></i><b>一條主鏈路，七步跑完</b></div>
+  <h2 style="margin-bottom:18px">名片進去，決策簡報出來。</h2>
+  <div class="steps">
+    <div class="s"><span class="n">01</span><span><b>貼上名片／微信對話／郵件<span class="who human">人</span></b><span>展會上拿到的原始素材，不需要整理格式。</span></span></div>
+    <div class="s"><span class="n">02</span><span><b>抽取買家身分、訴求與關鍵引述<span class="who ai">LLM</span></b><span>誰、在哪個市場、什麼身分、要你提供什麼、哪幾句話值得警覺。</span></span></div>
+    <div class="s"><span class="n">03</span><span><b>六項訊號初判 → 套利風險評分<span class="who ai">LLM</span><span class="who human">人覆核</span></b><span>下游／規格／首單量／目的地／品牌素材／動銷透明度。</span></span></div>
+    <div class="s"><span class="n">04</span><span><b>目的國持牌核查<span class="who rule">規則庫</span></b><span>買方必須持有什麼、你必須備齊什麼、缺了會怎樣。每條帶來源。</span></span></div>
+    <div class="s"><span class="n">05</span><span><b>落地價逐層推演 ＋ 規格反推<span class="who rule">規則庫</span></b><span>從內銷開票價算到終端零售價，對標當地同價位烈酒，再反推該出什麼度數。</span></span></div>
+    <div class="s"><span class="n">06</span><span><b>賣點彈藥：香型 × 料理 × 該市場已驗證的用法<span class="who rule">知識庫</span></b><span>他一定會問「這酒在我這裡怎麼賣」——這一步就是回答那句。</span></span></div>
+    <div class="s"><span class="n">07</span><span><b>首單決策簡報<span class="who rule">規則庫</span><span class="who ai">LLM</span></b><span>判定、必問清單、合同條款、第一封回信。可一鍵複製成 1,200 字純文字。</span></span></div>
+  </div>
+</div></section>
+
+<!-- 7 三張名片 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>現場 DEMO</span><i></i><b>同一場展會的三張名片</b></div>
+  <h2 style="margin-bottom:8px">三張名片，三種答案。</h2>
+  <div class="buyers">
+    <div class="buyer">
+      <div class="flag">🇸🇬</div>
+      <div class="co">GoldenLink Trading</div>
+      <div class="src">展會微信 · 攤位掃碼</div>
+      <div class="score hi">100</div>
+      <div class="verdict hi">高度疑似套利型買家</div>
+      <div class="bar"><i style="width:100%;background:var(--rose)"></i></div>
+      <p class="why">六項訊號全負。開口 3 個櫃只議價不議規格、<b style="color:var(--bone2)">「標籤不用改，我們自己處理」</b>、貨只到自貿倉、拒絕提供動銷數據。</p>
+    </div>
+    <div class="buyer">
+      <div class="flag">🇺🇸</div>
+      <div class="co">Pacific Rim Beverage</div>
+      <div class="src">英文郵件 · 主動來信</div>
+      <div class="score mi">36</div>
+      <div class="verdict mi">需要進一步盡調</div>
+      <div class="bar"><i style="width:36%;background:var(--amber);animation-delay:.1s"></i></div>
+      <p class="why">合規訊號很強：TTB 許可在案、要 COLA、要 FDA 代理人、主動提 CBMA。但<b style="color:var(--bone2)">還沒說要賣給誰</b>——系統據此生成該補問的三個問題。</p>
+    </div>
+    <div class="buyer">
+      <div class="flag">🇻🇳</div>
+      <div class="co">An Phú Foods</div>
+      <div class="src">展會後郵件</div>
+      <div class="score lo">0</div>
+      <div class="verdict lo">偏向真實經銷需求</div>
+      <div class="bar"><i style="width:3%;background:var(--jade);animation-delay:.2s"></i></div>
+      <p class="why">問 38 度規格、要越南文標籤與檢測報告、<b style="color:var(--bone2)">首批只要 150 箱放 12 家中餐廳試銷</b>、要品鑑培訓、每月給動銷報告。</p>
+    </div>
+  </div>
+  <p class="small">左邊那家開口就要 3 個櫃，右邊那家只要 150 箱。<b style="color:var(--bone)">分數低的那個，才是能給你第二單的人。</b></p>
+</div></section>
+
+<!-- 8 香港 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>行家細節 一</span><i></i><b>中國香港</b></div>
+  <div class="two">
+    <div>
+      <div class="mega">100<span style="font-size:.4em">%</span> <span style="color:var(--stone2);font-size:.4em">→</span> 40<span style="font-size:.4em">%</span></div>
+      <p class="megasub">同一批酒，內銷開票 320 元的版本落地稅負 <b style="color:var(--bone)">100%</b>；開票 800 元的版本只有 <b style="color:var(--bone)">40%</b>。</p>
+    </div>
+    <div>
+      <h3>減稅只減「200 港元以上的那一段」</h3>
+      <p class="small" style="margin-top:0">
+        2024/10/16 起，酒精濃度高於 30% 的酒類，進口價 200 港元<b style="color:var(--bone)">以上的部分</b>稅率由 100% 降至 10%；
+        200 港元及以下的部分維持 100% 不變。
+      </p>
+      <p class="small">
+        大家都在講「香港減稅了、白酒出海春天來了」。<br>
+        但真正吃到紅利的只有高價位酒。
+      </p>
+      <p class="lede" style="margin-top:24px;color:var(--amber);max-width:24ch">
+        想用低價光瓶酒打進香港，是稅制上最貴的一條路。
+      </p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 9 越南 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>行家細節 二</span><i></i><b>越南 · 新加坡</b></div>
+  <div class="two">
+    <div>
+      <div class="mega">20<span style="font-size:.34em">度</span></div>
+      <p class="megasub">越南特別消費稅以 20 度為分界：<b style="color:var(--bone)">20 度以上 65%，以下 35%</b>。一度之差，稅率差近一半。</p>
+    </div>
+    <div>
+      <h3>低度化首先是一筆帳，不是情懷</h3>
+      <p class="small" style="margin-top:0">
+        產業裡談低度化，講的都是「迎合年輕人口味」。<br>
+        但在出海這件事上，它首先是稅。
+      </p>
+      <ul class="pl" style="font-size:clamp(12px,1.3vw,17px)">
+        <li>新加坡按<b>純酒精量</b>課稅：S$88／公升純酒精。53 度 500ml 一瓶含 0.265 公升純酒精，光消費稅就 S$23.32——<b>與你的出廠價無關</b>。</li>
+        <li>越南 SCT 從 <b>2027 年起逐年上調</b>：70%、75%、80%、85%，2031 年到 90%。今天算得動的帳，2027 年就不成立了。</li>
+      </ul>
+      <p class="small" style="color:var(--amber)">產品裡直接反推：為了這個市場，你該出什麼度數、什麼容量的酒。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 10 美國 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>行家細節 三</span><i></i><b>美國</b></div>
+  <div class="two">
+    <div>
+      <div class="mega">$13.50 <span style="color:var(--stone2);font-size:.4em">→</span> $2.70</div>
+      <p class="megasub">聯邦消費稅，每 proof gallon。差額約 <b style="color:var(--bone)">10.7 元人民幣／瓶</b>——一個 20 尺櫃就是十幾萬。</p>
+    </div>
+    <div>
+      <h3>CBMA 額度，必須由中國酒廠主動指派</h3>
+      <p class="small" style="margin-top:0">
+        2023 年起，美國進口商須先按 $13.50 全額繳給 CBP，
+        再憑<b style="color:var(--bone)">外國生產商指派的 CBMA 額度</b>向 TTB 申請退稅。
+      </p>
+      <p class="small">
+        你不指派，進口商就得自己吞這筆錢——他會從你的報價裡扣回去，或者直接不進你的酒。
+      </p>
+      <p class="lede" style="margin-top:24px;color:var(--amber);max-width:26ch">
+        這是你能給進口商的最大讓利，而且不花你一毛錢。仁懷有幾家酒廠知道這件事？
+      </p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 11 第一口 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>行家細節 四</span><i></i><b>這一條跟稅無關，跟你的樣品能不能活過第一口有關</b></div>
+  <h2 style="margin-bottom:clamp(12px,2vh,22px);max-width:26ch">非華人第一次聞到白酒，<br>說的是這五個詞。</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(8px,1.4vw,16px);margin-bottom:clamp(16px,2.6vh,30px)">
+    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">臭起司</span>
+    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">八角</span>
+    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">鳳梨</span>
+    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">麝香</span>
+    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">汽油</span>
+  </div>
+  <div class="two">
+    <div>
+      <p class="lede">這些高強度酯類與吡嗪類香氣，在調酒裡可以被其他材料平衡，
+      但在菜餚裡會主導整道菜——容錯率很低。<b style="color:var(--bone)">所以海外的主戰場是吧檯，不是廚房。</b></p>
+    </div>
+    <div>
+      <h3 style="color:var(--amber)">所以系統會提醒業務員</h3>
+      <p class="lede" style="max-width:34ch">第一次讓對方試酒，<b style="color:var(--bone)">不要單獨純飲</b>——
+      先用調飲或搭一道濃味的菜，讓香氣有東西可以靠。</p>
+      <p class="small">這種事沒有人會在展會上告訴你，但它決定了你寄出去的樣品有沒有機會活過第一口。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 12 技術 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>技術路徑</span><i></i><b>為什麼這麼做，為什麼不那麼做</b></div>
+  <h2 style="margin-bottom:10px">錢算錯不起，<br>所以錢的部分不歸模型管。</h2>
+  <div class="pipe">
+    <span>名片／對話</span><span class="ar">→</span>
+    <span class="llm">LLM 抽取</span><span class="ar">→</span>
+    <span class="llm">六訊號初判</span><span class="ar">→</span>
+    <span class="human">人工覆核</span><span class="ar">→</span>
+    <span class="rule">風險評分</span><span class="ar">→</span>
+    <span class="rule">落地價</span><span class="ar">→</span>
+    <span class="rule">持牌核查</span><span class="ar">→</span>
+    <span class="rule">條款選取</span><span class="ar">→</span>
+    <span class="llm">LLM 寫回信</span>
+  </div>
+  <div class="grid g3">
+    <div class="cell">
+      <div class="tag">規則引擎 × LLM</div>
+      <h4>稅則不交給模型</h4>
+      <p>稅率、牌照、條款全部是可審計的 TypeScript 純函式，每一條帶<b>來源與生效日期</b>，介面上滑鼠移到 ⓘ 就看得到。模型只做兩件事：抽結構、寫人話。</p>
+    </div>
+    <div class="cell">
+      <div class="tag">AI 初判 · 人做決定</div>
+      <h4>六項訊號還是人來按</h4>
+      <p>AI 看得到文字，<b>看不到展位上對方說「標籤不用改」時的表情</b>。他改了訊號，風險分數、合同條款、回信內容立刻跟著重算。</p>
+    </div>
+    <div class="cell">
+      <div class="tag">離線可跑完主鏈路</div>
+      <h4>斷網也能 demo</h4>
+      <p>三個案例帶本機預解析；落地價、牌照核查、規格反推、條款全部本機計算。<b>已實測：攔截全部 API 回 503，主鏈路照樣從頭跑到尾。</b></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 13 差異 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>最常被問的一題</span></div>
+  <h2 style="margin-bottom:10px">「那我直接問<br>通用大模型不就好了？」</h2>
+  <p class="lede" style="margin-bottom:6px">可以問，而且會得到一個聽起來很像樣的答案。<br>問題出在三個地方——恰好就是拿這個答案去跟老闆報價時，會出事的三個地方。</p>
+  <div class="grid g3">
+    <div class="cell">
+      <div class="tag">細節</div>
+      <h4>它給你的是一個模糊區間</h4>
+      <p>「約 30–50% 綜合稅負」。但新加坡按純酒精量課稅、越南 20 度分界、美國 CBMA 要你主動指派——
+      <b>這些不是常識，是散在各國官方文件裡、要一條條查出來的東西。</b></p>
+    </div>
+    <div class="cell">
+      <div class="tag">穩定性</div>
+      <h4>同一題問兩次，數字會不一樣</h4>
+      <p>報價是要拿去跟人談的，數字不能每次都變。<b>這裡的每一分錢都是純函式算出來的</b>——同樣的輸入永遠得到同樣的輸出，而且可以逐行覆核。</p>
+    </div>
+    <div class="cell">
+      <div class="tag">可追溯</div>
+      <h4>它不會告訴你出處與生效日期</h4>
+      <p>香港那條是 2024/10/16 起生效，越南那條 2027 年就要改。<b>你把資料交給老闆時，需要的是「這數字哪來的、什麼時候會變」</b>，不是一段流利的敘述。</p>
+    </div>
+  </div>
+  <p class="small" style="margin-top:clamp(12px,2vh,22px)">
+    我們不是在跟通用模型比誰更會講話，<b style="color:var(--bone)">是把一個垂直領域的規則翻出來、寫死、標上出處。</b>
+    模型負責它真正擅長的兩件事：把亂七八糟的微信對話讀成結構，和把結論寫成一封能寄出去的信。
+  </p>
+</div></section>
+
+<!-- 14 落地 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow"><span>落地可行性</span><i></i><b>不是「未來可以接入大數據平台」</b></div>
+  <h2 style="margin-bottom:14px">第一步，是三個下午。</h2>
+  <div class="grid g2">
+    <div class="cell">
+      <div class="tag">誰真的會用</div>
+      <h4>遵義綜保區的外貿服務團隊</h4>
+      <p>他們已經在做「陪跑式」服務、辦 2–3 週的長培班，<b>一個團隊服務 89 家企業</b>。這套工具是他們的放大器，不是又一個要企業自己學的系統。</p>
+    </div>
+    <div class="cell">
+      <div class="tag">資料從哪來</div>
+      <h4>全部是公開資料 ＋ 已存在的台帳</h4>
+      <p>稅則與牌照來自香港政府公報、新加坡海關、越南 2025 新 SCT 法、美國 TTB／FDA。<b>產區側的 89 家備案名單，綜保區手上就有。</b></p>
+    </div>
+    <div class="cell">
+      <div class="tag">成本</div>
+      <h4>單次解析一毛錢以內</h4>
+      <p>兩次模型呼叫。落地價、牌照核查是本機計算，零邊際成本。<b>真正的成本在規則庫維護</b>——越南 2027 年就要改稅率，這需要一個人定期核。</p>
+    </div>
+    <div class="cell">
+      <div class="tag">第一步</div>
+      <h4>找 3 家真實企業跑一遍</h4>
+      <p>2025 年首次通過綜保區出海的那 11 家裡挑 3 家，把他們真實的買家對話跑一遍，回頭<b>校準六項訊號的權重</b>。不需要寫任何程式。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 15 收尾 -->
+<section class="slide"><div class="inner" style="text-align:center">
+  <div class="eyebrow" style="justify-content:center"><span>第二單 · SecondOrder</span></div>
+  <h2 style="max-width:100%;margin:0 auto clamp(18px,3vh,34px);font-size:clamp(28px,5vw,68px)">
+    讓 89 家裡的第 6 家，<br>拿到他的第二單。
+  </h2>
+  <p class="lede wide" style="margin:0 auto;max-width:50ch">
+    這個賽道要的不是通用 AI Demo，<br>
+    是讓某一個具體崗位上的人，明天真的好過一點。<br><br>
+    <b style="color:var(--bone)">那個人是仁懷酒廠裡，剛從展會回來、
+    手上握著 12 張名片卻不知道該回哪一封的外貿專員。</b>
+  </p>
+</div></section>
+
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var i=0, n=slides.length;
+  var bar=document.getElementById('bar'), pg=document.getElementById('pg');
+  function show(k){
+    if(k<0||k>=n) return;
+    slides[i].classList.remove('on');
+    i=k;
+    var s=slides[i];
+    s.classList.remove('on');
+    void s.offsetWidth;            // 重新觸發進場動畫
+    s.classList.add('on');
+    // 重播該頁內的長條動畫
+    s.querySelectorAll('.fn .b i, .buyer .bar i').forEach(function(el){
+      el.style.animation='none'; void el.offsetWidth; el.style.animation='';
+    });
+    bar.style.width=((i+1)/n*100)+'%';
+    pg.textContent=(i+1)+' / '+n;
+  }
+  function next(){show(i+1)} function prev(){show(i-1)}
+  document.addEventListener('keydown',function(e){
+    if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(e.key)>-1){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key)>-1){e.preventDefault();prev()}
+    else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(n-1)}
+  });
+  document.getElementById('nx').addEventListener('click',next);
+  document.getElementById('pv').addEventListener('click',prev);
+  document.getElementById('deck').addEventListener('click',function(e){
+    if(e.target.closest('#hud')) return;
+    (e.clientX < window.innerWidth*0.28) ? prev() : next();
+  });
+  var x0=null;
+  document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(x0===null) return; var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50){ dx<0?next():prev() } x0=null;
+  },{passive:true});
+  bar.style.width=(1/n*100)+'%'; pg.textContent='1 / '+n;
+})();
+</script>
+
+</body>
+</html>

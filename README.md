@@ -164,6 +164,16 @@ Next.js 16 標準應用，可直接部署到 Vercel（`vercel deploy`）或任�
 
 ---
 
+## 交付文件
+
+| 文件 | 說明 |
+|---|---|
+| [`DEMO.md`](./DEMO.md) | **現場 demo 指南**：60 秒啟動、約 100 秒的逐句腳本、評委常問的五題與答法、出事時怎麼辦 |
+| [`docs/作品說明.html`](./docs/作品說明.html) | 一頁式作品說明（直接用瀏覽器開） |
+| [`docs/pitch.html`](./docs/pitch.html) | 15 頁 pitch deck，方向鍵或點擊翻頁 |
+
+---
+
 ## 專案結構
 
 ```
