@@ -15,8 +15,8 @@ const SPECS = [
 ]
 
 export function SpecAdvisor({
-  market, m, domesticPrice, logistics, margin, cbma,
-}: { market: MarketId; m: Market; domesticPrice: number; logistics: number; margin: number; cbma: boolean }) {
+  market, m, domesticPrice, logistics, margin, cbma, channel,
+}: { market: MarketId; m: Market; domesticPrice: number; logistics: number; margin: number; cbma: boolean; channel: 'retail' | 'onPremise' }) {
   const rows = useMemo(
     () =>
       SPECS.map((sp) => {
@@ -25,11 +25,11 @@ export function SpecAdvisor({
         const logi = logistics * (sp.ml === 500 ? 1 : 0.55)
         const r = computePrice({
           domesticPrice: dp, ml: sp.ml, abv: sp.abv, logistics: logi,
-          market, exportMargin: margin, cbmaAssigned: cbma,
+          market, exportMargin: margin, cbmaAssigned: cbma, channel,
         })
         return { ...sp, r, taxRate: Math.round((r.taxTotal / r.cif) * 100), per100: r.retailLocal / (sp.ml / 100) }
       }),
-    [market, domesticPrice, logistics, margin, cbma],
+    [market, domesticPrice, logistics, margin, cbma, channel],
   )
   const base = rows[0]
   const best = [...rows].sort((a, b) => a.taxRate - b.taxRate)[0]

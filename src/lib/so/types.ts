@@ -35,8 +35,13 @@ export type Market = {
   currency: string
   /** 1 单位当地币 = ? 人民币，仅供估算 */
   fx: number
-  /** 通路加价层级，[进口商, 批发商, 零售商] 毛利率 */
-  channelMarkup: { label: string; rate: number; note: string }[]
+  /** 通路加价层级（毛利率口径）。白酒海外主要走餐饮，两套差很多，所以分开给 */
+  channelMarkup: {
+    retail: { label: string; rate: number; note: string }[]
+    onPremise: { label: string; rate: number; note: string }[]
+  }
+  /** 加价率的依据 */
+  markupSource: string
   licences: LicenceReq[]
   /** 该市场的关键提醒，是产品的「行家知识」 */
   insights: { title: string; body: string; tone: 'warn' | 'edge' | 'info' }[]

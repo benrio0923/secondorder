@@ -5,6 +5,9 @@ const FX = { hk: 0.92, sg: 5.5, vn: 0.00028, us: 7.1, kr: 0.0053 }
 
 const r2 = (n: number) => Math.round(n * 100) / 100
 
+const SRC =
+  '美国三层制公开数据：进口商／供应商毛利率约 50–55%，批发商 20–40%（新品牌 30–35%），零售加价 25–30%（约当毛利率 20–23%），餐饮端毛利率 75–85%。非美市场以此结构推估，实际依当地通路层级调整。'
+
 export const MARKETS: Record<string, Market> = {
   hk: {
     id: 'hk',
@@ -14,10 +17,17 @@ export const MARKETS: Record<string, Market> = {
     currency: 'HKD',
     fx: FX.hk,
     gate: '一般进口商即可，无需专门酒牌（零售端另需酒牌）',
-    channelMarkup: [
-      { label: '进口商', rate: 0.25, note: '香港进口商层级薄，多为贸易＋分销一体' },
-      { label: '零售／餐饮', rate: 0.6, note: '餐饮端加价可达 2–3 倍，此处取零售口径' },
-    ],
+    channelMarkup: {
+      retail: [
+        { label: '进口商', rate: 0.35, note: '香港进口商层级薄，多为贸易＋分销一体，毛利率略低于美国的 50%' },
+        { label: '零售', rate: 0.25, note: '' },
+      ],
+      onPremise: [
+        { label: '进口商', rate: 0.35, note: '香港进口商层级薄，贸易与分销常由同一家做' },
+        { label: '餐饮／酒吧', rate: 0.78, note: '香港餐饮端加价高，是白酒真正的主战场' },
+      ],
+    },
+    markupSource: SRC,
     licences: [
       {
         who: 'buyer',
@@ -76,11 +86,19 @@ export const MARKETS: Record<string, Market> = {
     currency: 'SGD',
     fx: FX.sg,
     gate: '买方须持有海关 海关准证＋酒类执照（酒类执照）',
-    channelMarkup: [
-      { label: '进口商', rate: 0.3, note: '' },
-      { label: '批发商', rate: 0.2, note: '若进口商兼批发可省一层' },
-      { label: '零售', rate: 0.45, note: '' },
-    ],
+    channelMarkup: {
+      retail: [
+        { label: '进口商', rate: 0.5, note: '' },
+        { label: '批发商', rate: 0.3, note: '进口商兼批发可省这一层' },
+        { label: '零售', rate: 0.23, note: '' },
+      ],
+      onPremise: [
+        { label: '进口商', rate: 0.5, note: '' },
+        { label: '批发商', rate: 0.3, note: '' },
+        { label: '餐饮／酒吧', rate: 0.78, note: '新加坡华人餐饮密集，是白酒最现实的落地场景' },
+      ],
+    },
+    markupSource: SRC,
     licences: [
       {
         who: 'buyer',
@@ -155,11 +173,19 @@ export const MARKETS: Record<string, Market> = {
     currency: 'VND',
     fx: FX.vn,
     gate: '买方须持有酒类进口与分销许可；实务上中小酒企多为「资质挂靠」',
-    channelMarkup: [
-      { label: '进口商', rate: 0.35, note: '挂靠时另有挂靠费，通常不入报价单' },
-      { label: '批发商', rate: 0.25, note: '' },
-      { label: '零售', rate: 0.4, note: '' },
-    ],
+    channelMarkup: {
+      retail: [
+        { label: '进口商', rate: 0.5, note: '挂靠时另有挂靠费，通常不入报价单' },
+        { label: '批发商', rate: 0.3, note: '' },
+        { label: '零售', rate: 0.23, note: '' },
+      ],
+      onPremise: [
+        { label: '进口商', rate: 0.5, note: '挂靠时另有挂靠费，通常不入报价单' },
+        { label: '批发商', rate: 0.3, note: '' },
+        { label: '餐饮', rate: 0.75, note: '胡志明市的中餐厅是越南白酒最常见的落地场景' },
+      ],
+    },
+    markupSource: SRC,
     licences: [
       {
         who: 'buyer',
@@ -244,11 +270,19 @@ export const MARKETS: Record<string, Market> = {
     currency: 'USD',
     fx: FX.us,
     gate: '买方须同时持有 TTB 进口商基本许可＋该款酒的 酒标核准证核准',
-    channelMarkup: [
-      { label: '进口商', rate: 0.3, note: '' },
-      { label: '批发商', rate: 0.3, note: '三层制强制分层，这一层无法跳过' },
-      { label: '零售', rate: 0.35, note: '' },
-    ],
+    channelMarkup: {
+      retail: [
+        { label: '进口商', rate: 0.52, note: '供应商／进口商毛利率一般在 50–55%' },
+        { label: '批发商', rate: 0.32, note: '三层制强制分层，这一层跳不过；新品牌一般 30–35%' },
+        { label: '零售', rate: 0.23, note: '零售加价 25–30%，换算毛利率约 20–23%' },
+      ],
+      onPremise: [
+        { label: '进口商', rate: 0.52, note: '' },
+        { label: '批发商', rate: 0.32, note: '三层制强制分层' },
+        { label: '餐饮／酒吧', rate: 0.8, note: '美国餐饮端烈酒毛利率 75–85%，同一瓶酒在餐厅的价格是零售的两倍以上' },
+      ],
+    },
+    markupSource: SRC,
     licences: [
       {
         who: 'buyer',
@@ -366,11 +400,19 @@ export const MARKETS: Record<string, Market> = {
     currency: 'KRW',
     fx: FX.kr,
     gate: '买方须持有酒类进口业与贩卖业执照',
-    channelMarkup: [
-      { label: '进口商', rate: 0.3, note: '' },
-      { label: '批发商', rate: 0.2, note: '' },
-      { label: '零售', rate: 0.4, note: '' },
-    ],
+    channelMarkup: {
+      retail: [
+        { label: '进口商', rate: 0.5, note: '' },
+        { label: '批发商', rate: 0.3, note: '' },
+        { label: '零售', rate: 0.23, note: '' },
+      ],
+      onPremise: [
+        { label: '进口商', rate: 0.5, note: '' },
+        { label: '批发商', rate: 0.3, note: '' },
+        { label: '餐饮', rate: 0.78, note: '' },
+      ],
+    },
+    markupSource: SRC,
     licences: [
       {
         who: 'buyer',

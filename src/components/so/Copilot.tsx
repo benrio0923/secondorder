@@ -36,6 +36,8 @@ export default function Copilot() {
   const [logi, setLogi] = useState(18)
   const [margin, setMargin] = useState(0.15)
   const [cbma, setCbma] = useState(false)
+  const [chan, setChan] = useState<'retail' | 'onPremise'>('retail')
+  const [markup, setMarkup] = useState<number[] | undefined>(undefined)
   const [aroma, setAroma] = useState<AromaId>('sauce')
   const [bottleId, setBottleId] = useState<string | null>('gz-10')
 
@@ -47,8 +49,12 @@ export default function Copilot() {
   const m = MARKETS[market]
   const risk = useMemo(() => scoreRisk(verdicts), [verdicts])
   const price = useMemo(
-    () => computePrice({ domesticPrice: dp, ml, abv, logistics: logi, market, exportMargin: margin, cbmaAssigned: cbma }),
-    [dp, ml, abv, logi, market, margin, cbma],
+    () =>
+      computePrice({
+        domesticPrice: dp, ml, abv, logistics: logi, market,
+        exportMargin: margin, cbmaAssigned: cbma, channel: chan, markupOverride: markup,
+      }),
+    [dp, ml, abv, logi, market, margin, cbma, chan, markup],
   )
   const clauses = useMemo(() => pickClauses(risk.badKeys).slice(0, 4), [risk.badKeys])
   // 去留是规则说了算，模型只负责把理由写成人话
@@ -386,7 +392,10 @@ export default function Copilot() {
             right={
               <select
                 value={market}
-                onChange={(e) => setMarket(e.target.value as MarketId)}
+                onChange={(e) => {
+                  setMarket(e.target.value as MarketId)
+                  setMarkup(undefined)
+                }}
                 className="rounded border border-white/15 bg-ink2 px-2.5 py-1.5 text-[12px] text-bone outline-none"
               >
                 {MARKET_LIST.map((x) => (
@@ -464,6 +473,72 @@ export default function Copilot() {
               <BottlePicker id={bottleId} onPick={pickBottle} />
             </div>
 
+            <div className="mb-4 rounded border border-white/10 bg-white/[0.02] p-3.5">
+              <div className="mb-2.5 flex flex-wrap items-center gap-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-amber">他打算怎么卖</span>
+                {([['onPremise', '餐饮通路', '中餐厅、酒吧'], ['retail', '零售通路', '商超、酒类专卖']] as const).map(
+                  ([k, label, sub]) => (
+                    <button
+                      key={k}
+                      onClick={() => {
+                        setChan(k)
+                        setMarkup(undefined)
+                      }}
+                      className={`rounded border px-3 py-1.5 text-[12.5px] transition ${
+                        chan === k
+                          ? 'border-amber/60 bg-amber/10 text-amber'
+                          : 'border-white/12 text-stone hover:border-white/30 hover:text-bone'
+                      }`}
+                    >
+                      {label}
+                      <span className="ml-1.5 text-[10.5px] opacity-60">{sub}</span>
+                    </button>
+                  ),
+                )}
+              </div>
+              <div className="grid gap-2.5 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div className="flex flex-wrap gap-2.5">
+                  {price.channel.map((c, i) => (
+                    <label key={c.label} className="flex items-center gap-1.5">
+                      <span className="text-[11.5px] text-stone">{c.label}</span>
+                      <input
+                        type="number"
+                        min={0}
+                        max={95}
+                        value={Math.round(c.rate * 100)}
+                        onChange={(e) => {
+                          const v = Math.min(95, Math.max(0, Number(e.target.value) || 0)) / 100
+                          const next = price.channel.map((x) => x.rate)
+                          next[i] = v
+                          setMarkup(next)
+                        }}
+                        className="w-[54px] rounded border border-white/12 bg-ink/70 px-1.5 py-1 text-right font-mono text-[12px] tabular-nums text-bone outline-none focus:border-amber/50"
+                      />
+                      <span className="text-[10.5px] text-stone">%</span>
+                    </label>
+                  ))}
+                  {markup && (
+                    <button
+                      onClick={() => setMarkup(undefined)}
+                      className="self-center font-mono text-[10.5px] text-amber underline underline-offset-2"
+                    >
+                      还原
+                    </button>
+                  )}
+                </div>
+                <span className="text-[10.5px] leading-snug text-stone/60 sm:max-w-[300px] sm:text-right">
+                  毛利率口径，可改。{chan === 'onPremise' ? '餐饮端 75–85%；高价位酒实务上会往下压' : '零售端约 20–23%'}
+                </span>
+              </div>
+              <p className="mt-2.5 border-t border-white/8 pt-2.5 text-[11px] leading-relaxed text-stone">
+                <span className="text-bone">白酒在海外的主战场是餐饮，不是货架。</span>
+                同一瓶酒走餐饮通路的终端价，会是走零售的两倍以上——因为餐饮端毛利率 75–85%，零售只有 20–23%。
+                谈第一单时若不问清楚对方打算怎么卖，你算出来的落地价是错的。
+                <span className="text-stone/70">（餐饮端的高毛利率是行业均值，高价位酒实务上会往下压，所以这三个数字都留给你改。）</span>
+                <span className="text-stone/60">　依据：{m.markupSource}</span>
+              </p>
+            </div>
+
             <div className="mb-5 grid gap-3 rounded border border-white/10 bg-white/[0.02] p-3.5 sm:grid-cols-5">
               <NumField label="内销开票价" value={dp} set={setDp} step={20} unit="元" />
               <NumField label="容量" value={ml} set={setMl} step={50} unit="ml" />
@@ -499,7 +574,7 @@ export default function Copilot() {
             <Waterfall p={price} m={m} />
 
             <div className="mt-5">
-              <SpecAdvisor market={market} m={m} domesticPrice={dp} logistics={logi} margin={margin} cbma={cbma} />
+              <SpecAdvisor market={market} m={m} domesticPrice={dp} logistics={logi} margin={margin} cbma={cbma} channel={chan} />
             </div>
 
             <div className="mt-5 rounded border border-white/10 bg-white/[0.02] p-3.5">

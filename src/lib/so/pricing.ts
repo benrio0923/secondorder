@@ -10,6 +10,10 @@ export type PriceInput = {
   logistics: number
   market: MarketId
   cbmaAssigned?: boolean
+  /** 走零售通路还是餐饮通路——白酒在海外主要走餐饮，两者终端价差很大 */
+  channel?: 'retail' | 'onPremise'
+  /** 覆写各层毛利率（使用者可调） */
+  markupOverride?: number[]
   /** 出口报价相对「保本线」的加成，0.15 = 加 15% */
   exportMargin: number
 }
@@ -73,11 +77,13 @@ export function computePrice(raw: PriceInput): PriceResult {
   const landed = cif + taxTotal
 
   let cur = landed
-  const channel = m.channelMarkup.map((c) => {
+  const tiers = m.channelMarkup[input.channel ?? 'retail']
+  const channel = tiers.map((c, ci) => {
+    const rate = input.markupOverride?.[ci] ?? c.rate
     const from = cur
-    const to = cur / (1 - c.rate)
+    const to = cur / (1 - Math.min(0.95, Math.max(0, rate)))
     cur = to
-    return { label: c.label, from: r2(from), to: r2(to), rate: c.rate, note: c.note }
+    return { label: c.label, from: r2(from), to: r2(to), rate, note: c.note }
   })
   const retail = cur
 
