@@ -15,6 +15,7 @@ import { PitchKit } from './PitchKit'
 import { BottlePicker } from './BottlePicker'
 import { SampleCheck } from './SampleCheck'
 import { AfterShip } from './AfterShip'
+import { Stakes } from './Stakes'
 import { wantsSample } from '@/lib/so/sample'
 import { BAIJIU_BY_ID } from '@/lib/so/baijiu'
 import type { AromaId } from '@/lib/so/aroma'
@@ -615,6 +616,12 @@ export default function Copilot() {
           </Panel>
 
           <Panel eyebrow="步骤 8" title="首单决策简报">
+            <div className="mb-5">
+              <Stakes
+                price={price} risk={risk} market={market}
+                dp={dp} ml={ml} abv={abv} logi={logi} margin={margin} chan={chan}
+              />
+            </div>
             {!brief ? (
               <div className="flex flex-wrap items-center gap-3">
                 <Btn onClick={makeBrief} disabled={briefBusy}>
