@@ -13,6 +13,8 @@ import { Method } from './Method'
 import { SpecAdvisor } from './SpecAdvisor'
 import { PitchKit } from './PitchKit'
 import { BottlePicker } from './BottlePicker'
+import { SampleCheck } from './SampleCheck'
+import { wantsSample } from '@/lib/so/sample'
 import { BAIJIU_BY_ID } from '@/lib/so/baijiu'
 import type { AromaId } from '@/lib/so/aroma'
 
@@ -572,6 +574,10 @@ export default function Copilot() {
             )}
 
             <Waterfall p={price} m={m} />
+
+            <div className="mt-5">
+              <SampleCheck abv={abv} asked={wantsSample(raw, ex?.askedFor)} />
+            </div>
 
             <div className="mt-5">
               <SpecAdvisor market={market} m={m} domesticPrice={dp} logistics={logi} margin={margin} cbma={cbma} channel={chan} />
