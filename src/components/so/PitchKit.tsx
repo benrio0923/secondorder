@@ -2,11 +2,12 @@
 import { AROMA_LIST, AROMAS, FIRST_IMPRESSION, GLOBAL_HOOK, PRINCIPLE, USE_CASES } from '@/lib/so/aroma'
 import type { AromaId } from '@/lib/so/aroma'
 import type { Market } from '@/lib/so/types'
+import type { Baijiu } from '@/lib/so/baijiu'
 import { Chip } from './parts'
 
 export function PitchKit({
-  market, m, aroma, setAroma,
-}: { market: string; m: Market; aroma: AromaId; setAroma: (a: AromaId) => void }) {
+  market, m, aroma, setAroma, bottle,
+}: { market: string; m: Market; aroma: AromaId; setAroma: (a: AromaId) => void; bottle?: Baijiu | null }) {
   const a = AROMAS[aroma]
   const cases = USE_CASES[market] ?? []
 
@@ -36,8 +37,10 @@ export function PitchKit({
         <div className="bg-ink2/70 p-4">
           <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-amber">
             {a.name} · {a.nameEn}
+            {bottle && <span className="ml-2 text-stone">／{bottle.name}</span>}
           </div>
-          <div className="mb-2 text-[13px] text-bone">{a.profile}</div>
+          <div className="mb-2 text-[13px] text-bone">{bottle?.nose ?? a.profile}</div>
+          {bottle?.palate && <div className="mb-2 text-[12.5px] text-stone">{bottle.palate}</div>}
           <div className="mb-3 text-[11.5px] text-stone">代表：{a.rep}</div>
           <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-stone">配什麼吃</div>
           <div className="flex flex-wrap gap-1.5">

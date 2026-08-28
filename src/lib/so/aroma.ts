@@ -4,7 +4,7 @@
  * 資料出自團隊的《白酒海外入菜研究》，每條標註證據強度。
  */
 
-export type AromaId = 'sauce' | 'strong' | 'light'
+export type AromaId = 'sauce' | 'strong' | 'light' | 'herbal' | 'other'
 
 export type Aroma = {
   id: AromaId
@@ -48,6 +48,26 @@ export const AROMAS: Record<AromaId, Aroma> = {
     pairing: '細緻食材',
     dishes: ['清蒸海鮮', '點心', '清淡菜式'],
     pitch: '口感最接近伏特加、琴酒等國際主流烈酒，是非華人客群最低的入門門檻。',
+  },
+  herbal: {
+    id: 'herbal',
+    name: '董香',
+    nameEn: 'Herbal Aroma',
+    rep: '董酒（貴州獨有，含於「其他香型」約 6%）',
+    profile: '藥香舒適、酯香與醇香協調、飲後甘爽',
+    pairing: '藥膳與濃味',
+    dishes: ['藥膳燉品', '滷味', '重口味紅燒', '陳年火腿'],
+    pitch: '全世界唯一用一百多味本草入曲的白酒——對非華人來說，這個故事比風味更好講，也是最容易被記住的差異點。',
+  },
+  other: {
+    id: 'other',
+    name: '其他香型',
+    nameEn: 'Other',
+    rep: '兼香、馥郁香等複合香型',
+    profile: '複合香型，風味取決於具體工藝',
+    pairing: '視酒體而定',
+    dishes: ['依實際風味描述判斷'],
+    pitch: '複合香型不好一句話帶過，直接用這支酒自己的香氣與口感描述去講，比套香型分類更準。',
   },
 }
 

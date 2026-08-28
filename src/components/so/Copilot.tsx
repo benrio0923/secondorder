@@ -12,6 +12,8 @@ import { Waterfall } from './Waterfall'
 import { Method } from './Method'
 import { SpecAdvisor } from './SpecAdvisor'
 import { PitchKit } from './PitchKit'
+import { BottlePicker } from './BottlePicker'
+import { BAIJIU_BY_ID } from '@/lib/so/baijiu'
 import type { AromaId } from '@/lib/so/aroma'
 
 const fmt = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 0 })
@@ -35,6 +37,7 @@ export default function Copilot() {
   const [margin, setMargin] = useState(0.15)
   const [cbma, setCbma] = useState(false)
   const [aroma, setAroma] = useState<AromaId>('sauce')
+  const [bottleId, setBottleId] = useState<string | null>('gz-10')
 
   const [brief, setBrief] = useState<Brief | null>(null)
   const [briefBusy, setBriefBusy] = useState(false)
@@ -50,6 +53,15 @@ export default function Copilot() {
   const clauses = useMemo(() => pickClauses(risk.badKeys).slice(0, 4), [risk.badKeys])
   // 去留是規則說了算，模型只負責把理由寫成人話
   const ruleVerdict: Brief['verdict'] = risk.level === 'high' ? 'hold' : risk.level === 'mid' ? 'probe' : 'go'
+
+  function pickBottle(id: string | null) {
+    setBottleId(id)
+    if (!id) return
+    const b = BAIJIU_BY_ID[id]
+    if (!b) return
+    setAbv(b.abv)
+    setAroma(b.aroma === 'other' ? 'other' : b.aroma)
+  }
 
   function pickCase(id: string) {
     const c = CASES.find((x) => x.id === id)!
@@ -448,6 +460,10 @@ export default function Copilot() {
               <Stat label="終端零售" value={fmt(price.retail)} unit="元／瓶" tone={price.multiple > 6 ? 'bad' : undefined} sub={`${price.multiple} 倍於內銷開票價`} />
             </div>
 
+            <div className="mb-4">
+              <BottlePicker id={bottleId} onPick={pickBottle} />
+            </div>
+
             <div className="mb-5 grid gap-3 rounded border border-white/10 bg-white/[0.02] p-3.5 sm:grid-cols-5">
               <NumField label="內銷開票價" value={dp} set={setDp} step={20} unit="元" />
               <NumField label="容量" value={ml} set={setMl} step={50} unit="ml" />
@@ -508,7 +524,7 @@ export default function Copilot() {
             title="他一定會問「這酒在我這裡怎麼賣」"
             right={<span className="font-mono text-[10px] text-stone">香型 × 料理 × 該市場已驗證的用法</span>}
           >
-            <PitchKit market={market} m={m} aroma={aroma} setAroma={setAroma} />
+            <PitchKit market={market} m={m} aroma={aroma} setAroma={setAroma} bottle={bottleId ? BAIJIU_BY_ID[bottleId] : null} />
           </Panel>
 
           {/* ── 簡報 ── */}
