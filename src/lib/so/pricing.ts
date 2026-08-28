@@ -10,7 +10,7 @@ export type PriceInput = {
   logistics: number
   market: MarketId
   cbmaAssigned?: boolean
-  /** 走零售通路还是餐饮通路——白酒在海外主要走餐饮，两者终端价差很大 */
+  /** 走零售渠道还是餐饮渠道——白酒在海外主要走餐饮，两者终端价差很大 */
   channel?: 'retail' | 'onPremise'
   /** 覆写各层毛利率（使用者可调） */
   markupOverride?: number[]

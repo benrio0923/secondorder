@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       : '',
     `规则引擎的判定：${body.verdict ?? 'probe'}（这是定案，照着写）`,
     `套利风险评分：${body.riskScore ?? '未评'}／100（${body.riskLabel ?? ''}）`,
-    body.badSignals?.length ? `负向讯号：${body.badSignals.join('、')}` : '负向讯号：无',
+    body.badSignals?.length ? `负向信号：${body.badSignals.join('、')}` : '负向信号：无',
     body.extracted?.redFlags?.length ? `红旗：${body.extracted.redFlags.join('；')}` : '',
     body.extracted?.askedFor?.length ? `对方要求你提供：${body.extracted.askedFor.join('；')}` : '',
     body.price

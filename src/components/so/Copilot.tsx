@@ -108,7 +108,7 @@ export default function Copilot() {
     }
     if (!out) {
       setStage('input')
-      setAiNote('模型未回应，且这段文字没有本机备用。请手动勾选下方六项讯号后继续。')
+      setAiNote('模型未回应，且这段文字没有本机备用。请手动勾选下方六项信号后继续。')
       setEx({ signals: EMPTY })
       setStage('done')
       return
@@ -164,7 +164,7 @@ export default function Copilot() {
       '',
       `套利风险：${risk.score}/100（${risk.label}）`,
       ...(risk.badKeys.length
-        ? [`负向讯号：${risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}`]
+        ? [`负向信号：${risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}`]
         : []),
       '',
       '── 判定理由 ──',
@@ -307,7 +307,7 @@ export default function Copilot() {
             {stage === 'busy' ? '解析中…' : '解析这个买家'}
           </Btn>
           <span className="text-[11.5px] text-stone">
-            抽取买家身分与六项讯号 · 判定套利风险 · 算出落地价 · 生成回信
+            抽取买家身分与六项信号 · 判定套利风险 · 算出落地价 · 生成回信
           </span>
         </div>
         {stage === 'busy' && (
@@ -316,7 +316,7 @@ export default function Copilot() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
             </span>
-            <span className="text-[12.5px] text-bone">模型正在读这段对话，抽取买家身分与六项讯号</span>
+            <span className="text-[12.5px] text-bone">模型正在读这段对话，抽取买家身分与六项信号</span>
             <span className="ml-auto font-mono text-[11.5px] tabular-nums text-stone">{elapsed.toFixed(1)}s</span>
           </div>
         )}
@@ -479,7 +479,7 @@ export default function Copilot() {
             <div className="mb-4 rounded border border-white/10 bg-white/[0.02] p-3.5">
               <div className="mb-2.5 flex flex-wrap items-center gap-2">
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-amber">他打算怎么卖</span>
-                {([['onPremise', '餐饮通路', '中餐厅、酒吧'], ['retail', '零售通路', '商超、酒类专卖']] as const).map(
+                {([['onPremise', '餐饮渠道', '中餐厅、酒吧'], ['retail', '零售渠道', '商超、酒类专卖']] as const).map(
                   ([k, label, sub]) => (
                     <button
                       key={k}
@@ -535,7 +535,7 @@ export default function Copilot() {
               </div>
               <p className="mt-2.5 border-t border-white/8 pt-2.5 text-[11px] leading-relaxed text-stone">
                 <span className="text-bone">白酒在海外的主战场是餐饮，不是货架。</span>
-                同一瓶酒走餐饮通路的终端价，会是走零售的两倍以上——因为餐饮端毛利率 75–85%，零售只有 20–23%。
+                同一瓶酒走餐饮渠道的终端价，会是走零售的两倍以上——因为餐饮端毛利率 75–85%，零售只有 20–23%。
                 谈第一单时若不问清楚对方打算怎么卖，你算出来的落地价是错的。
                 <span className="text-stone/70">（餐饮端的高毛利率是行业均值，高价位酒实务上会往下压，所以这三个数字都留给你改。）</span>
                 <span className="text-stone/60">　依据：{m.markupSource}</span>

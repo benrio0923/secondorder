@@ -3,7 +3,7 @@ export type Clause = {
   title: string
   body: string
   blocks: string
-  /** 触发这条的讯号 */
+  /** 触发这条的信号 */
   trigger?: string[]
   priority: number
 }

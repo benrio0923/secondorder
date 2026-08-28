@@ -31,7 +31,7 @@ export function Waterfall({ p, m }: { p: PriceResult; m: Market }) {
       <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[10px] text-stone">
         <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-amber/70" />你的成本</span>
         <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-rose-500/60" />目的国税费</span>
-        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-sky-500/45" />通路加价</span>
+        <span className="flex items-center gap-1.5"><i className="h-2.5 w-2.5 rounded-sm bg-sky-500/45" />渠道加价</span>
       </div>
 
       <div className="space-y-[3px]">

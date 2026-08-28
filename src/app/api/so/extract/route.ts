@@ -9,7 +9,7 @@ export const runtime = 'nodejs'
 export const maxDuration = 60
 
 const SIGNAL_SPEC = SIGNALS.map(
-  (s) => `- ${s.id}（${s.label}）：true = ${s.good}；false = ${s.bad}；资讯不足填 null`,
+  (s) => `- ${s.id}（${s.label}）：true = ${s.good}；false = ${s.bad}；信息不足填 null`,
 ).join('\n')
 
 const MARKET_SPEC = MARKET_LIST.map((m) => `${m.id}=${m.name}`).join('、')
@@ -19,21 +19,21 @@ const SYSTEM = `你是中国白酒出口业务的尽职调查助手，服务对�
 
 只输出 JSON，一律使用繁体中文（引述原文除外，原文照抄不翻译）。
 
-判定六个讯号，这是核心：
+判定六个信号，这是核心：
 ${SIGNAL_SPEC}
 
 判定原则（严格照这些规则，不要自行放宽）：
 - 只根据文字里真正出现的证据判定。完全没有线索才填 null。
 
 downstream：
-  true = 讲得出具体售点（几家餐厅、哪个通路、什么场景）。
+  true = 讲得出具体售点（几家餐厅、哪个渠道、什么场景）。
   false = 只说「我有渠道」「看情况分销」「后面再说」这类没有指名的说法。
   提到「分销」但讲不出对象，是 false 不是 null。
 
 spec：
   true = 主动追问标签、度数、容量、检测报告、当地法规、合规文件。
   false = 只问价格和数量；或说「标签不用改／我们自己处理／不用你管」——
-          这代表他不打算让这批货用你的品牌合规落地，是强烈负向讯号。
+          这代表他不打算让这批货用你的品牌合规落地，是强烈负向信号。
   只是在讯息里提到「53度500ml」用来指认品项，不算 true。
 
 size：
@@ -63,7 +63,7 @@ market 只能是这些代码之一：${MARKET_SPEC}；判断不出来就填 null
  "contact": "联络人，抓不到填 null",
  "market": "市场代码或 null",
  "marketGuess": "地理线索，没有填 null",
- "role": "对方在产业链上的身分，例如：持牌进口商／贸易商／餐饮通路商",
+ "role": "对方在产业链上的身分，例如：持牌进口商／贸易商／餐饮渠道商",
  "claims": ["对方宣称的能力，每则不超过 20 字"],
  "askedFor": ["对方明确要求你提供的东西，每则不超过 25 字"],
  "signals": {"downstream":true/false/null, "spec":..., "size":..., "dest":..., "brand":..., "sellthrough":...},

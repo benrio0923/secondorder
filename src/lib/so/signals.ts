@@ -19,7 +19,7 @@ export const SIGNALS: Omit<BuyerSignal, 'verdict'>[] = [
     id: 'size',
     label: '首单多大',
     good: '偏小且谨慎，先试单、要铺货支持',
-    bad: '异常大且爽快，不议价、不要行销资源',
+    bad: '异常大且爽快，不议价、不要营销资源',
     weight: 18,
   },
   {
@@ -74,11 +74,11 @@ export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult 
   const label = level === 'high' ? '高度疑似套利型买家' : level === 'mid' ? '需要进一步尽调' : '偏向真实经销需求'
   const summary =
     answered === 0
-      ? '尚未取得足够讯号，先把必问清单问完。'
+      ? '尚未取得足够信号，先把必问清单问完。'
       : level === 'high'
-        ? `${badKeys.length} 项关键讯号为负。这一单的性质应重新评估，尤其在对方拒绝动销透明的情况下。`
+        ? `${badKeys.length} 项关键信号为负。这一单的性质应重新评估，尤其在对方拒绝动销透明的情况下。`
         : level === 'mid'
-          ? `有 ${badKeys.length} 项讯号为负，可以谈，但把防回流条款写死。`
-          : '讯号一致偏正向，可进入首单谈判，条款仍应完整。'
+          ? `有 ${badKeys.length} 项信号为负，可以谈，但把防回流条款写死。`
+          : '信号一致偏正向，可进入首单谈判，条款仍应完整。'
   return { score, level, label, answered, badKeys, summary }
 }

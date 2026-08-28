@@ -68,7 +68,7 @@ export const CASES: DemoCase[] = [
       contact: 'Nguyễn 先生',
       market: 'vn',
       role: '食品进口商（持证）',
-      claims: ['胡志明市食品进口商', '手上有 12 家中餐厅通路'],
+      claims: ['胡志明市食品进口商', '手上有 12 家中餐厅渠道'],
       askedFor: ['38 度规格', '第三方检测报告', '品鉴小样与品牌手册'],
       signals: {
         downstream: true,

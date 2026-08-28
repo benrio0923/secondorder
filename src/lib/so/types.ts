@@ -35,7 +35,7 @@ export type Market = {
   currency: string
   /** 1 单位当地币 = ? 人民币，仅供估算 */
   fx: number
-  /** 通路加价层级（毛利率口径）。白酒海外主要走餐饮，两套差很多，所以分开给 */
+  /** 渠道加价层级（毛利率口径）。白酒海外主要走餐饮，两套差很多，所以分开给 */
   channelMarkup: {
     retail: { label: string; rate: number; note: string }[]
     onPremise: { label: string; rate: number; note: string }[]
@@ -68,7 +68,7 @@ export type BuyerSignal = {
   label: string
   good: string
   bad: string
-  /** 使用者判定：true=好讯号 false=坏讯号 null=未知 */
+  /** 使用者判定：true=好信号 false=坏信号 null=未知 */
   verdict: boolean | null
   weight: number
 }

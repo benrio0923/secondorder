@@ -25,7 +25,7 @@ export function RiskDial({ risk }: { risk: RiskResult }) {
         <div className="font-serif text-lg leading-tight" style={{ color }}>{risk.label}</div>
         <p className="mt-1.5 text-[12.5px] leading-relaxed text-stone">{risk.summary}</p>
         <div className="mt-2 font-mono text-[10.5px] text-stone/70">
-          已判定 {risk.answered}／{SIGNALS.length} 项讯号
+          已判定 {risk.answered}／{SIGNALS.length} 项信号
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@ export function SignalGrid({
                       key={String(opt)}
                       onClick={() => onToggle(s.id, opt)}
                       className={`h-6 w-7 rounded border font-mono text-[11px] transition ${cls}`}
-                      title={opt === true ? s.good : opt === false ? s.bad : '资讯不足'}
+                      title={opt === true ? s.good : opt === false ? s.bad : '信息不足'}
                     >
                       {label}
                     </button>
