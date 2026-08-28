@@ -52,6 +52,9 @@ export type RiskResult = {
   answered: number
   badKeys: string[]
   summary: string
+  /** 已判定的信号比例——覆盖太低时，低分不代表安全，只代表你还没问够 */
+  coverage: number
+  thin: boolean
 }
 
 export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult {
@@ -70,15 +73,33 @@ export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult 
     }
   }
   const score = max === 0 ? 0 : Math.round((risk / max) * 100)
-  const level: RiskResult['level'] = score >= 55 ? 'high' : score >= 25 ? 'mid' : 'low'
-  const label = level === 'high' ? '高度疑似套利型买家' : level === 'mid' ? '需要进一步尽调' : '偏向真实经销需求'
+  const coverage = answered / SIGNALS.length
+  // 覆盖不足时不给「偏向真实」的结论——没看到坏消息不等于没有坏消息
+  const thin = coverage < 0.6
+  const raw: RiskResult['level'] = score >= 55 ? 'high' : score >= 25 ? 'mid' : 'low'
+  const level: RiskResult['level'] = thin && raw === 'low' ? 'mid' : raw
+
+  const label =
+    answered === 0
+      ? '信号不足，还不能判断'
+      : thin && raw === 'low'
+        ? '信号不足，不等于安全'
+        : level === 'high'
+          ? '高度疑似套利型买家'
+          : level === 'mid'
+            ? '需要进一步尽调'
+            : '偏向真实经销需求'
+
   const summary =
     answered === 0
-      ? '尚未取得足够信号，先把必问清单问完。'
-      : level === 'high'
-        ? `${badKeys.length} 项关键信号为负。这一单的性质应重新评估，尤其在对方拒绝动销透明的情况下。`
-        : level === 'mid'
-          ? `有 ${badKeys.length} 项信号为负，可以谈，但把防回流条款写死。`
-          : '信号一致偏正向，可进入首单谈判，条款仍应完整。'
-  return { score, level, label, answered, badKeys, summary }
+      ? '这段对话里六项信号一项都判不出来。先把必问清单问完，再回来评。'
+      : thin && raw === 'low'
+        ? `六项里只判定了 ${answered} 项，负面信号 ${badKeys.length} 项。分数低是因为信息少，不是因为对方干净——把没判定的那几项问清楚，分数才有意义。`
+        : level === 'high'
+          ? `${badKeys.length} 项关键信号为负。这一单的性质应重新评估，尤其在对方拒绝动销透明的情况下。`
+          : level === 'mid'
+            ? `有 ${badKeys.length} 项信号为负，可以谈，但把防回流条款写死。`
+            : '六项信号都判定过且一致偏正向，可进入首单谈判，条款仍应完整。'
+
+  return { score, level, label, answered, badKeys, summary, coverage, thin }
 }

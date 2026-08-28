@@ -55,6 +55,8 @@ export async function chatJSON<T>(
           { role: 'user', content: user },
         ],
         response_format: { type: 'json_object' },
+        // 同一段对话每次判定应该一致——业务员不能每刷新一次就看到不同的风险分
+        temperature: 0.1,
       },
       timeoutMs,
     )

@@ -24,8 +24,15 @@ export function RiskDial({ risk }: { risk: RiskResult }) {
       <div className="min-w-0">
         <div className="font-serif text-lg leading-tight" style={{ color }}>{risk.label}</div>
         <p className="mt-1.5 text-[12.5px] leading-relaxed text-stone">{risk.summary}</p>
-        <div className="mt-2 font-mono text-[10.5px] text-stone/70">
-          已判定 {risk.answered}／{SIGNALS.length} 项信号
+        <div className="mt-2 flex flex-wrap items-center gap-2 font-mono text-[10.5px]">
+          <span className="text-stone/70">
+            已判定 {risk.answered}／{SIGNALS.length} 项信号
+          </span>
+          {risk.thin && (
+            <span className="rounded border border-amber/30 bg-amber/10 px-2 py-0.5 text-amber">
+              覆盖不足，分数仅供参考
+            </span>
+          )}
         </div>
       </div>
     </div>
