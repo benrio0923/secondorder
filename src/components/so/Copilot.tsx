@@ -14,6 +14,7 @@ import { SpecAdvisor } from './SpecAdvisor'
 import { PitchKit } from './PitchKit'
 import { BottlePicker } from './BottlePicker'
 import { SampleCheck } from './SampleCheck'
+import { AfterShip } from './AfterShip'
 import { wantsSample } from '@/lib/so/sample'
 import { BAIJIU_BY_ID } from '@/lib/so/baijiu'
 import type { AromaId } from '@/lib/so/aroma'
@@ -609,7 +610,11 @@ export default function Copilot() {
           </Panel>
 
           {/* ── 简报 ── */}
-          <Panel eyebrow="步骤 7" title="首单决策简报">
+          <Panel eyebrow="步骤 7" title="首单发出之后的 90 天">
+            <AfterShip risk={risk} />
+          </Panel>
+
+          <Panel eyebrow="步骤 8" title="首单决策简报">
             {!brief ? (
               <div className="flex flex-wrap items-center gap-3">
                 <Btn onClick={makeBrief} disabled={briefBusy}>
