@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -121,7 +121,7 @@ footer{padding:40px 0 64px}
       <span class="a">赛道二 · 传统行业 AI 解决方案</span><i></i>
       <span class="b">方向：AI × 白酒 · 经销商运营 Agent</span>
     </div>
-    <h1>第二单<small></small></h1>
+    <h1>第二单<small>首单决策副驾</small></h1>
     <p class="lede">
       贵州白酒出海的首单决策副驾。把一张展会名片，变成一份可执行的首单决策简报——
       判断对方是真的想卖酒还是在做税差、算出这瓶酒到他货架上要卖多少钱、告诉你合同该写死哪几条。
@@ -287,6 +287,33 @@ footer{padding:40px 0 64px}
     </p>
   </div>
 
+  <div class="cards c3" style="margin-top:22px">
+    <div class="card">
+      <div class="tagline">检查一 · 渠道</div>
+      <div class="big">3 倍</div>
+      <h4>他打算怎么卖，决定了你算的价对不对</h4>
+      <p>白酒在海外的主战场是餐饮，不是货架。同一瓶酒走餐饮渠道的终端价是走零售的三倍以上——
+      餐饮端毛利率 <b>75–85%</b>，零售只有 <b>20–23%</b>。</p>
+      <p>两套渠道可切换，三层加价率都能改。依据是美国三层制的公开数据。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">检查二 · 样品</div>
+      <div class="big">24 度</div>
+      <h4>你可能根本寄不出那两支样品</h4>
+      <p>53 度白酒在国际运输规则里是<b>第 3 类易燃液体</b>。DHL、FedEx、UPS 一般不收，
+      须走化工品专线，还要非危险品报告、可运输证明、保函，收件方必须是持进口许可证的法人。</p>
+      <p style="color:var(--amber)">20 度是越南税率分界、24 度是危险品分界、70 度是禁运线——一支酒的度数同时决定了三件事。</p>
+    </div>
+    <div class="card">
+      <div class="tagline">检查三 · 90 天</div>
+      <div class="big">D+7</div>
+      <h4>第一单发出去之后，才是第二单的战场</h4>
+      <p>这个工具叫「第二单」，功能就不能停在报价与签约。D+7 要落地仓照片
+      （<b>货停在保税仓不动，是套利最明显的信号</b>）、D+30 要终端陈列照片、D+90 是决策点。</p>
+      <p>每个节点都对应一条合同条款；买家风险高时，D+7 与 D+30 会被特别标出来。</p>
+    </div>
+  </div>
+
   <h2 style="margin-top:38px;font-size:20px">三张名片，三种答案</h2>
   <p class="sub" style="margin-bottom:18px">同一场展会拿到的三张名片，系统给出三个层次的判定。</p>
 
@@ -424,11 +451,34 @@ footer{padding:40px 0 64px}
     </table>
   </div>
 
+  <h2 style="margin-top:36px;font-size:20px">如果给 100 天 PoC 陪跑</h2>
+  <p class="sub" style="margin-bottom:18px">前三件事不需要写新代码，第四件才是工程。</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>时间</th><th>做什么</th><th>要写代码吗</th></tr></thead>
+      <tbody>
+        <tr><td class="n">第 1–2 周</td><td>从综保区 89 家台账里选 10 家试点（含 11 家首次出海的其中 3 家）。需要的是一次对接会。</td><td class="n">否</td></tr>
+        <tr><td class="n">第 3–6 周</td><td>用这 10 家真实的买家对话校准六项信号权重。<b>这是整个产品最需要被证伪的地方。</b></td><td class="n">否</td></tr>
+        <tr><td class="n">第 7–10 周</td><td>跟 3 家走完一次首单，拿实际报关单回来对。<b>误差 5% 以内这工具就能用，差 20% 就得重做税则模型。</b></td><td class="n">否</td></tr>
+        <tr><td class="n">第 11–14 周</td><td>搬进企业微信——业务员不会为了判断一个买家去开网页，他整天在微信里。</td><td class="n">是</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p style="margin:0"><b>怎么收钱？现在谈还太早。</b>
+    这个阶段谈商业模式是自欺欺人。先证明它能让 89 家里搭上线的从 5 家变成 10 家，再谈谁付钱。
+    真要往下推，最现实的入口是产区服务平台的一个模块——综保区本来就在做外贸陪跑，有预算、有台账、有企业名单；
+    酒企自己订阅是第二步，而且要等到它已经进了微信之后。</p>
+  </div>
+
   <div class="note">
     <p style="margin:0"><b>我们没有解决的事，也写在这里：</b>
     美国州级酒税未计入（各州差异极大）；越南关税采最惠国 50%，ACFTA 优惠税率须逐案核定；
     韩国税目为二手来源，界面上标注「建议向韩国国税厅核实」；
     对标酒款为示意价；六项信号的权重目前是团队设定值，<b>尚未用真实案例校准——这是上线前的第一件事</b>。<br><br>
+    <b>产品形态还不对。</b>外贸专员整天在微信里，不会为了判断一个买家去开网页。
+    网页是 demo 的形态，真正会被用起来的是企业微信机器人——这件事写进了 100 天计划的第四步。<br><br>
     规则库目前涵盖五个市场。日本原本在候选名单里，但公开资料对スピリッツ税率的表述不够明确，<b>宁可不收</b>——
     加一个市场的成本大约是一个人半天，因为税则本来就是公开的；但收一条不确定的税率，赔上的是整个规则库的可信度。</p>
   </div>
@@ -448,6 +498,7 @@ footer{padding:40px 0 64px}
         <tr><td>生产建置</td><td class="n">bun run build &amp;&amp; bun run start　<span class="s">已通过，路由：/ · /api/so/extract · /api/so/brief</span></td></tr>
         <tr><td>部署</td><td>可直接部署到 Vercel 或任何支援 Node.js 的环境。两个 API route 为 <span class="mono">runtime='nodejs'</span>、<span class="mono">maxDuration=60</span>。</td></tr>
         <tr><td>环境变数</td><td class="n">OPENAI_API_KEY · OPENAI_BASE_URL · N25_TEXT_MODEL<span class="s">缺少金钥时自动走本机备用路径，主链路仍可完整展示</span></td></tr>
+        <tr><td>合规检查</td><td class="n">src/lib/so/sample.ts · aftership.ts　<span class="s">样品运输危险品分级、度数三条分界线、首单后 90 天的七个节点</span></td></tr>
         <tr><td>品项库</td><td class="n">src/lib/so/baijiu.ts　<span class="s">56 支贵州白酒：企业、产区带、香型、典型酒精度、酿造工艺、香气与口感，每支标注资料可信度</span></td></tr>
         <tr><td>知识库</td><td class="n">src/lib/so/aroma.ts　<span class="s">香型 × 料理对应、非华人的第一印象、各市场已验证的白酒用法（每条标注证据强度）</span></td></tr>
         <tr><td>核心程序</td><td class="n">src/lib/so/markets.ts　<span class="s">5 个市场的税则、牌照、行家洞察、对标酒款——产品的核心资产都在这一个文件</span></td></tr>
