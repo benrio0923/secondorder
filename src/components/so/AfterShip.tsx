@@ -1,10 +1,28 @@
 'use client'
 import { useState } from 'react'
+import { Btn } from './parts'
 import { MILESTONES } from '@/lib/so/aftership'
 import type { RiskResult } from '@/lib/so/signals'
 
-export function AfterShip({ risk }: { risk: RiskResult }) {
+export function AfterShip({ risk, buyer, market }: { risk: RiskResult; buyer?: string; market?: string }) {
   const [open, setOpen] = useState<number | null>(30)
+  const [copied, setCopied] = useState(false)
+
+  function asChecklist(): string {
+    const head = `【首单跟进清单】${buyer ?? '（买家未具名）'}${market ? '　' + market : ''}　套利风险 ${risk.score}/100`
+    const body = MILESTONES.map((m) => {
+      const star = m.criticalWhenRisky && risk.level !== 'low' ? '　★这个买家特别要盯' : ''
+      return [
+        `${m.label}　${m.title}${star}`,
+        ...m.todo.map((t) => `　　□ ${t}`),
+        `　　防的是：${m.guards}`,
+        m.clause ? `　　依据条款：${m.clause}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n')
+    }).join('\n\n')
+    return [head, '', body, '', '（日期从合同条款推出，发货日为 D+0。请以实际发货日为准往后排。）'].join('\n')
+  }
   const risky = risk.level !== 'low'
   const max = MILESTONES[MILESTONES.length - 1].day
 
@@ -99,6 +117,23 @@ export function AfterShip({ risk }: { risk: RiskResult }) {
             </div>
           )
         })}
+      </div>
+
+      <div className="mt-3.5 flex flex-wrap items-center gap-3">
+        <Btn
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            navigator.clipboard?.writeText(asChecklist())
+            setCopied(true)
+            setTimeout(() => setCopied(false), 1800)
+          }}
+        >
+          {copied ? '已拷贝，贴进日历或群里' : '拷贝成待办清单'}
+        </Btn>
+        <span className="text-[11.5px] text-stone">
+          带勾选框的纯文本，可以直接贴进企业微信群或日历备注——发货那天贴一次，后面三个月就有人盯了。
+        </span>
       </div>
 
       {risky && (

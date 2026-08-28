@@ -611,7 +611,7 @@ export default function Copilot() {
 
           {/* ── 简报 ── */}
           <Panel eyebrow="步骤 7" title="首单发出之后的 90 天">
-            <AfterShip risk={risk} />
+            <AfterShip risk={risk} buyer={ex.company ?? undefined} market={`${m.flag} ${m.name}`} />
           </Panel>
 
           <Panel eyebrow="步骤 8" title="首单决策简报">
