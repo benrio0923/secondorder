@@ -74,6 +74,38 @@ export function Method() {
         </div>
       </Panel>
 
+      <Panel eyebrow="最常被問的一題" title="那我直接問通用大模型不就好了？">
+        <p className="mb-4 max-w-[72ch] text-[13px] leading-relaxed text-stone">
+          可以問，而且它會給你一個聽起來很像樣的答案。問題出在三個地方——而這三件事，
+          恰好就是一個外貿專員拿這個答案去跟老闆報價時，會出事的三個地方。
+        </p>
+        <div className="grid gap-px overflow-hidden rounded border border-white/10 bg-white/8 sm:grid-cols-3">
+          {[
+            {
+              t: '它不知道這些細節',
+              b: '新加坡按純酒精量課稅、越南 SCT 以 20 度為分界、美國 CBMA 額度必須由中國生產商主動指派——這些不是常識，是散在各國官方文件裡、要一條條查出來的東西。通用模型多半會給你一個「約 30–50% 綜合稅負」的模糊區間。',
+            },
+            {
+              t: '同一題問兩次，答案會不一樣',
+              b: '報價要拿去跟人談，數字不能每次都變。這裡的每一分錢都是規則庫的純函式算出來的——同樣的輸入永遠得到同樣的輸出，而且可以逐行覆核。模型只負責讀對話和寫回信，碰不到數字。',
+            },
+            {
+              t: '它不會告訴你出處與生效日期',
+              b: '每一條稅率都標了來源和版本：香港那條是 2024/10/16 起生效，越南那條 2027 年就要改。你把資料交給老闆時，需要的是「這個數字哪來的、什麼時候會變」，不是一段流利的敘述。',
+            },
+          ].map((x) => (
+            <div key={x.t} className="bg-ink2/60 p-4">
+              <div className="mb-2 font-serif text-[14.5px] leading-snug text-bone">{x.t}</div>
+              <p className="text-[12px] leading-relaxed text-stone">{x.b}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 max-w-[72ch] text-[12.5px] leading-relaxed text-stone">
+          換句話說：<span className="text-bone">我們不是在跟通用模型比誰更會講話，是在把一個垂直領域的規則翻出來、寫死、標上出處。</span>
+          模型在這套系統裡負責的是它真正擅長的兩件事——把一段亂七八糟的微信對話讀成結構，和把結論寫成一封能寄出去的信。
+        </p>
+      </Panel>
+
       <Panel eyebrow="落地可行性" title="這套東西要真上線，第一步得幹什麼">
         <div className="space-y-px overflow-hidden rounded border border-white/10 bg-white/8">
           {LAND.map((l) => (

@@ -23,6 +23,8 @@ export default function Copilot() {
   const [verdicts, setVerdicts] = useState(EMPTY)
   const [market, setMarket] = useState<MarketId>('sg')
   const [aiNote, setAiNote] = useState<string | null>(null)
+  const [uncovered, setUncovered] = useState<string | null>(null)
+  const [elapsed, setElapsed] = useState(0)
 
   const [dp, setDp] = useState(320)
   const [ml, setMl] = useState(500)
@@ -34,6 +36,7 @@ export default function Copilot() {
   const [brief, setBrief] = useState<Brief | null>(null)
   const [briefBusy, setBriefBusy] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [copiedAll, setCopiedAll] = useState(false)
 
   const m = MARKETS[market]
   const risk = useMemo(() => scoreRisk(verdicts), [verdicts])
@@ -52,12 +55,16 @@ export default function Copilot() {
     setBrief(null)
     setVerdicts(EMPTY)
     setAiNote(null)
+    setUncovered(null)
   }
 
   async function analyze() {
     setStage('busy')
     setBrief(null)
     setAiNote(null)
+    setElapsed(0)
+    const t0 = Date.now()
+    const timer = setInterval(() => setElapsed((Date.now() - t0) / 1000), 100)
     let out: Extracted | null = null
     try {
       const res = await fetch('/api/so/extract', {
@@ -67,6 +74,7 @@ export default function Copilot() {
       })
       if (res.ok) out = (await res.json()).extracted as Extracted
     } catch {}
+    clearInterval(timer)
     const fb = CASES.find((c) => c.raw === raw)?.fallback
     if (!out && fb) {
       out = fb
@@ -81,7 +89,13 @@ export default function Copilot() {
     }
     setEx(out)
     setVerdicts({ ...EMPTY, ...(out.signals ?? {}) })
-    if (out.market && MARKETS[out.market]) setMarket(out.market as MarketId)
+    if (out.market && MARKETS[out.market]) {
+      setMarket(out.market as MarketId)
+      setUncovered(null)
+    } else {
+      // 規則庫沒有這個市場——說出來，不要默默套用預設值
+      setUncovered(out.marketGuess || '無法判斷')
+    }
     setStage('done')
     setTimeout(() => document.getElementById('so-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
   }
@@ -112,6 +126,43 @@ export default function Copilot() {
     }
     setBriefBusy(false)
     setTimeout(() => document.getElementById('so-brief')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+  }
+
+  function fullBrief(): string {
+    if (!brief) return ''
+    const L = (s: string) => s
+    return [
+      `【首單決策簡報】${ex?.company ?? '未具名買家'}　${m.flag} ${m.name}`,
+      `判定：${brief.verdict === 'hold' ? '暫緩' : brief.verdict === 'probe' ? '追問後再定' : '可談'}　${brief.headline}`,
+      '',
+      `套利風險：${risk.score}/100（${risk.label}）`,
+      ...(risk.badKeys.length
+        ? [`負向訊號：${risk.badKeys.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}`]
+        : []),
+      '',
+      '── 判定理由 ──',
+      ...(brief.reasons ?? []).map((r) => `· ${r}`),
+      '',
+      '── 落地價測算（人民幣／瓶）──',
+      `內銷開票 ${fmt(dp)} → 出口保本線 ${fmt(price.breakeven)} → FOB ${fmt(price.fob)} → CIF ${fmt(price.cif)}`,
+      `目的國稅費 ${fmt(price.taxTotal)}（占 CIF ${Math.round((price.taxTotal / price.cif) * 100)}%）→ 完稅落地 ${fmt(price.landed)}`,
+      `終端零售約 ${fmt(price.retail)} 元（${fmt(price.retailLocal)} ${m.currency}），為內銷開票價的 ${price.multiple} 倍`,
+      '',
+      `── ${m.name}的持牌門檻 ──`,
+      `買方：${m.gate}`,
+      ...m.licences.map((l) => `· [${l.who === 'buyer' ? '買方' : '你方'}] ${l.name}${l.form ? `（${l.form}）` : ''}｜缺了會怎樣：${l.ifMissing}`),
+      '',
+      '── 必問清單 ──',
+      ...(brief.questions ?? []).map((q, i) => `${i + 1}. ${q}`),
+      '',
+      '── 建議寫進第一份合同的條款 ──',
+      ...clauses.map((c) => `【${c.title}】擋掉：${c.blocks}\n${c.body}`),
+      '',
+      '── 第一封回信草稿 ──',
+      brief.reply,
+      '',
+      '（落地價為估算值，實際以海關核定為準；稅則來源與版本見工具介面）',
+    ].map(L).join('\n')
   }
 
   function localBrief(): Brief {
@@ -232,6 +283,16 @@ export default function Copilot() {
             抽取買家身分與六項訊號 · 判定套利風險 · 算出落地價 · 生成回信
           </span>
         </div>
+        {stage === 'busy' && (
+          <div className="mt-3.5 flex items-center gap-3 rounded border border-amber/25 bg-amber/[0.05] px-3.5 py-2.5">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
+            </span>
+            <span className="text-[12.5px] text-bone">模型正在讀這段對話，抽取買家身分與六項訊號</span>
+            <span className="ml-auto font-mono text-[11.5px] tabular-nums text-stone">{elapsed.toFixed(1)}s</span>
+          </div>
+        )}
         {aiNote && <p className="mt-3 text-[12px] text-amber">{aiNote}</p>}
       </Panel>
 
@@ -316,6 +377,17 @@ export default function Copilot() {
               </select>
             }
           >
+            {uncovered && (
+              <div className="mb-4 rounded border border-rose-500/35 bg-rose-950/25 px-3.5 py-3">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-rose-300">規則庫未涵蓋</span>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-bone">
+                  這個買家看起來在<span className="text-rose-200">「{uncovered}」</span>，
+                  目前規則庫只涵蓋香港、新加坡、越南、美國、韓國五個市場。
+                  下方的落地價與牌照核查<span className="text-rose-200">不適用於這個買家</span>，
+                  請手動選一個最接近的市場作參考，或先把這個市場加進規則庫再來談。
+                </p>
+              </div>
+            )}
             <div className="mb-4 rounded border border-amber/25 bg-amber/[0.06] px-3.5 py-2.5">
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-amber">買方門檻</span>
               <p className="mt-1 text-[13px] leading-snug text-bone">{m.gate}</p>
@@ -508,9 +580,21 @@ export default function Copilot() {
                   </pre>
                 </div>
 
-                <Btn variant="ghost" size="sm" onClick={makeBrief} disabled={briefBusy}>
-                  {briefBusy ? '重新生成中…' : '重新生成'}
-                </Btn>
+                <div className="flex flex-wrap gap-2.5">
+                  <Btn
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard?.writeText(fullBrief())
+                      setCopiedAll(true)
+                      setTimeout(() => setCopiedAll(false), 1800)
+                    }}
+                  >
+                    {copiedAll ? '整份簡報已複製' : '複製整份決策簡報'}
+                  </Btn>
+                  <Btn variant="ghost" size="sm" onClick={makeBrief} disabled={briefBusy}>
+                    {briefBusy ? '重新生成中…' : '重新生成'}
+                  </Btn>
+                </div>
               </div>
             )}
           </Panel>

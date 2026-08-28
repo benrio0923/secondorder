@@ -46,7 +46,16 @@ export type PriceResult = {
 
 const r2 = (n: number) => Math.round(n * 100) / 100
 
-export function computePrice(input: PriceInput): PriceResult {
+export function computePrice(raw: PriceInput): PriceResult {
+  // 防護：任何非正數輸入都會讓比值變成 NaN/Infinity，畫面會直接壞掉
+  const input: PriceInput = {
+    ...raw,
+    domesticPrice: Math.max(1, raw.domesticPrice || 0),
+    ml: Math.max(1, raw.ml || 0),
+    abv: Math.min(96, Math.max(0, raw.abv || 0)),
+    logistics: Math.max(0, raw.logistics || 0),
+    exportMargin: Math.max(0, raw.exportMargin || 0),
+  }
   const m = MARKETS[input.market]
   const exVatBase = input.domesticPrice / 1.13
   // 白酒消費稅：從價 20% ＋ 從量 0.5 元／500ml。出口免徵（不退）。
@@ -55,7 +64,7 @@ export function computePrice(input: PriceInput): PriceResult {
   const vatRebate = exVatBase * 0.13
 
   // 出口保本線：內銷不含稅成本，扣掉出口免掉與退回的稅
-  const breakeven = exVatBase - consumptionTaxSaved - vatRebate
+  const breakeven = Math.max(0.01, exVatBase - consumptionTaxSaved - vatRebate)
   const fob = breakeven * (1 + input.exportMargin)
   const cif = fob + input.logistics
 
