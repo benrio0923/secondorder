@@ -240,10 +240,23 @@ footer{padding:40px 0 64px}
     <li><b>抽取買家身分、訴求與關鍵引述</b><span>誰、在哪個市場、什麼身分、要你提供什麼、哪幾句話值得警覺。</span></li>
     <li><b>六項訊號初判 → 套利風險評分</b><span>下游／規格／首單量／目的地／品牌素材／動銷透明度。AI 初判，六組按鈕交給業務員覆核。</span></li>
     <li><b>目的國持牌核查</b><span>買方必須持有什麼、你必須備齊什麼、缺了會怎樣。每條帶來源。</span></li>
-    <li><b>落地價逐層推演 ＋ 規格反推</b><span>從內銷開票價一路算到終端零售價，對標當地同價位烈酒；再反推該出什麼度數與容量。</span></li>
+    <li><b>落地價逐層推演 ＋ 規格反推</b><span>從 56 支真實的貴州酒裡選一支，一路算到終端零售價，對標當地同價位烈酒；再反推該出什麼度數與容量。</span></li>
     <li><b>賣點彈藥：香型 × 料理 × 該市場已驗證的用法</b><span>他一定會問「這酒在我這裡怎麼賣」。系統給出香型對應的料理方向、一句話說法、非華人第一次聞到白酒的真實反應，以及該市場已經被記錄下來的白酒用法。</span></li>
     <li><b>首單決策簡報</b><span>去／追問／暫緩的判定、必問清單、該寫進合同的條款、第一封回信草稿。可一鍵複製成約 1,200 字純文字。</span></li>
   </ol>
+
+  <div class="note" style="margin-top:22px">
+    <p style="margin:0 0 10px"><b>一件讓抽象變具體的事：工具裡是 56 支真實的貴州白酒。</b></p>
+    <p style="margin:0">
+      茅台系列、習酒、董酒、珍酒、國台、金沙回沙、鴨溪窖、貴州醇……每一支都有生產企業、產區帶、香型、
+      典型酒精度、釀造工藝，以及那支酒自己的香氣與口感描述。選一支，香型與度數就自動帶進落地價測算與賣點彈藥。<br><br>
+      現場最有說服力的一個動作：把 54 度的<b>董酒</b>換成 35 度的<b>貴州醇</b>，
+      新加坡的落地稅負<b style="color:var(--amber)">從 69% 掉到 48%</b>，終端價少一百多塊——
+      因為新加坡是按純酒精量課稅的。低度化不是抽象主張，
+      <b>是同一個產區裡兩支真實的酒之間，看得見的價差。</b><br><br>
+      每一支都標了資料可信度：「已查證」與「香型通則推定」分開標，介面上也會顯示。
+    </p>
+  </div>
 
   <div class="cards c2" style="margin-top:22px">
     <div class="card">
@@ -435,6 +448,7 @@ footer{padding:40px 0 64px}
         <tr><td>生產建置</td><td class="n">bun run build &amp;&amp; bun run start　<span class="s">已通過，路由：/ · /api/so/extract · /api/so/brief</span></td></tr>
         <tr><td>部署</td><td>可直接部署到 Vercel 或任何支援 Node.js 的環境。兩個 API route 為 <span class="mono">runtime='nodejs'</span>、<span class="mono">maxDuration=60</span>。</td></tr>
         <tr><td>環境變數</td><td class="n">OPENAI_API_KEY · OPENAI_BASE_URL · N25_TEXT_MODEL<span class="s">缺少金鑰時自動走本機備援路徑，主鏈路仍可完整展示</span></td></tr>
+        <tr><td>品項庫</td><td class="n">src/lib/so/baijiu.ts　<span class="s">56 支貴州白酒：企業、產區帶、香型、典型酒精度、釀造工藝、香氣與口感，每支標註資料可信度</span></td></tr>
         <tr><td>知識庫</td><td class="n">src/lib/so/aroma.ts　<span class="s">香型 × 料理對應、非華人的第一印象、各市場已驗證的白酒用法（每條標註證據強度）</span></td></tr>
         <tr><td>核心程式</td><td class="n">src/lib/so/markets.ts　<span class="s">5 個市場的稅則、牌照、行家洞察、對標酒款——產品的核心資產都在這一個檔案</span></td></tr>
       </tbody>
