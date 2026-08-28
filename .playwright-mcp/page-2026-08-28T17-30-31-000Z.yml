@@ -1,0 +1,18 @@
+- generic [ref=f6e1]:
+  - main [ref=f6e2]:
+    - generic [ref=f6e40]:
+      - paragraph [ref=f6e41]: Scene 05 — Matchmaking
+      - heading "25°N 山貨相親所" [level=2] [ref=f6e42]
+      - paragraph [ref=f6e43]: 幫你今天遇見的貴州味道，找一個台灣朋友。
+      - generic [ref=f6e44]:
+        - generic [ref=f6e45]:
+          - img "刺梨" [ref=f6e47]
+          - paragraph [ref=f6e48]: 🍐 刺梨
+          - paragraph [ref=f6e49]: GUIZHOU
+        - generic [ref=f6e51]:
+          - paragraph [ref=f6e53]: match
+          - paragraph [ref=f6e54]: 98%
+          - paragraph [ref=f6e55]: 貴州刺梨 × 台灣高山茶
+      - button "讓它們生一個孩子" [active] [ref=f6e60] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f6e35] [cursor=pointer]
+  - alert [ref=f6e39]

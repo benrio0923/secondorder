@@ -1,0 +1,14 @@
+- generic [ref=f6e1]:
+  - main [ref=f6e2]:
+    - generic [ref=f6e65]:
+      - img "25° Ridge Bloom" [ref=f6e68]
+      - generic [ref=f6e69]:
+        - paragraph [ref=f6e70]: Scene 06 — Co-created
+        - generic [ref=f6e71]:
+          - heading "25° Ridge Bloom" [level=2] [ref=f6e72]
+          - paragraph [ref=f6e73]: 貴州刺梨 × 台灣高山茶
+          - paragraph [ref=f6e75]: 刺梨的野酸融入高山茶的回甘，氣泡把兩座山間的雲霧封進瓶中。
+          - paragraph [ref=f6e76]: Between peaks, one sip
+        - button "收進我的 Passport" [active] [ref=f6e79] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f6e35] [cursor=pointer]
+  - alert [ref=f6e39]

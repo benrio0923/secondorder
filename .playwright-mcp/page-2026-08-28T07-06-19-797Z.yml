@@ -1,0 +1,15 @@
+- generic [active] [ref=f1e1]:
+  - main [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - img [ref=f1e6]:
+        - generic [ref=f1e12]: TAIWAN
+        - generic [ref=f1e13]: GUIZHOU
+      - generic [ref=f1e14]:
+        - heading "25°N" [level=1] [ref=f1e17]
+        - paragraph [ref=f1e18]: Where Two Mountains Meet
+        - generic [ref=f1e19]:
+          - paragraph [ref=f1e20]: 一座高山島，一個山地省。
+          - paragraph [ref=f1e21]: 如果用你熟悉的地方，去認識一個陌生的地方呢？
+        - button "從台灣出發" [ref=f1e23] [cursor=pointer]
+      - button "skip intro" [ref=f1e27]
+  - button "Open Next.js Dev Tools" [ref=f1e33] [cursor=pointer]

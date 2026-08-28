@@ -1,0 +1,13 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - img [ref=e6]:
+      - generic [ref=e14]: TAIWAN
+      - generic [ref=e15]: GUIZHOU
+    - generic [ref=e16]:
+      - heading "25°N" [level=1] [ref=e19]
+      - paragraph [ref=e20]: Where Two Mountains Meet
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: 一座高山島，一個山地省。
+        - paragraph [ref=e23]: 如果用你熟悉的地方，去認識一個陌生的地方呢？
+      - button "從台灣出發" [ref=e25] [cursor=pointer]
+    - button "skip intro" [ref=e29]

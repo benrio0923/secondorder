@@ -1,0 +1,34 @@
+- generic [active] [ref=f2e1]:
+  - main [ref=f2e2]:
+    - generic [ref=f2e40]:
+      - paragraph [ref=f2e41]: Scene 03 — Journey
+      - heading "36 HOURS" [level=2] [ref=f2e42]
+      - heading "雲上酸香" [level=3] [ref=f2e43]
+      - generic [ref=f2e44]:
+        - generic [ref=f2e45]:
+          - paragraph [ref=f2e46]: DAY 01
+          - button "15:30 🌫 入雲拾光 梵淨山" [ref=f2e47]:
+            - generic [ref=f2e48]: 15:30
+            - generic [ref=f2e49]: 🌫
+            - generic [ref=f2e52]: 入雲拾光
+            - generic [ref=f2e54]: 梵淨山
+        - button "19:20 🍐 刺梨微酸 刺梨山谷" [ref=f2e57]:
+          - generic [ref=f2e58]: 19:20
+          - generic [ref=f2e59]: 🍐
+          - generic [ref=f2e62]: 刺梨微酸
+          - generic [ref=f2e64]: 刺梨山谷
+        - button "22:10 🥣 熱湯起霧 苗家酸湯" [ref=f2e67]:
+          - generic [ref=f2e68]: 22:10
+          - generic [ref=f2e69]: 🥣
+          - generic [ref=f2e72]: 熱湯起霧
+          - generic [ref=f2e74]: 苗家酸湯
+        - generic [ref=f2e76]:
+          - paragraph [ref=f2e77]: DAY 02
+          - button "08:40 🎒 帶走一件 苗家酸湯" [ref=f2e78]:
+            - generic [ref=f2e79]: 08:40
+            - generic [ref=f2e80]: 🎒
+            - generic [ref=f2e83]: 帶走一件
+            - generic [ref=f2e85]: 苗家酸湯
+      - button "旅行不是去過而已" [ref=f2e87] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f2e35] [cursor=pointer]
+  - alert [ref=f2e39]
