@@ -235,81 +235,91 @@ export default function Copilot() {
 
   return (
     <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-8 sm:px-8">
-      <header className="rise mb-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+      <header className="rise mb-8 flex flex-wrap items-center gap-x-5 gap-y-3">
         <h1 className="font-serif text-[28px] font-black leading-none tracking-tight text-bone">第二单</h1>
         <span className="h-[22px] w-px bg-white/15" />
         <span className="text-[12.5px] text-stone">贵州白酒出海 · 首单决策副驾</span>
         <span className="tag ml-auto text-stone2">AI × 白酒 · 经销商运营</span>
       </header>
 
-      {stage !== 'done' && (
-        <p className="rise mb-5 max-w-[54ch] text-[14px] leading-relaxed text-stone" style={{ animationDelay: '60ms' }}>
-          贴上展会拿到的对话，八秒后告诉你：
-          <span className="text-bone">这个买家该不该做、先问他什么、这瓶酒到他货架上要卖多少钱。</span>
-        </p>
-      )}
-
-      {/* ── 输入 ── */}
       {stage !== 'done' ? (
-        <div className="rise rounded-[3px] border border-white/[.08] bg-ink2/40 p-5 sm:p-6">
-          <div className="mb-4">
-            <div className="tag mb-2.5 text-stone2">同一场展会的三张名片</div>
-            <div className="grid gap-px overflow-hidden rounded-[3px] border border-white/[.07] bg-white/[.06] sm:grid-cols-3">
-              {CASES.map((c, ci) => {
-                const pre = scoreRisk(c.fallback.signals ?? {})
-                const on = raw === c.raw
-                const mk = c.fallback.market ? MARKETS[c.fallback.market] : null
-                const col = pre.level === 'high' ? 'var(--color-halt)' : pre.level === 'mid' ? 'var(--color-probe)' : 'var(--color-go)'
-                return (
-                  <button
-                    key={c.id}
-                    onClick={() => pickCase(c.id)}
-                    className={`rise relative bg-ink2 px-4 py-3.5 text-left transition ${on ? '' : 'opacity-70 hover:opacity-100'}`}
-                    style={{ animationDelay: `${ci * 70}ms` }}
-                  >
-                    {on && <span className="absolute inset-x-0 top-0 h-[2px]" style={{ background: col }} />}
-                    <div className="mb-2.5 flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className={`truncate text-[13px] ${on ? 'text-bone' : 'text-bone/75'}`}>
-                          {mk?.flag} {c.fallback.company}
+        <div className="plate corners rounded-[2px] border border-white/[.09]">
+          <div className="bg" style={{ backgroundImage: 'url(/img/cellar.png)', opacity: 0.34 }} />
+          <div className="veil" />
+
+          {/* 开场 */}
+          <div className="relative px-6 pb-2 pt-9 sm:px-10 sm:pt-12">
+            <p className="rise font-serif text-[27px] leading-[1.35] text-bone sm:text-[34px]" style={{ animationDelay: '60ms' }}>
+              扫码验茅台真假，大家都会。
+              <br />
+              <span className="text-amber">这次扫的不是酒，是买家。</span>
+            </p>
+            <p className="rise mt-4 max-w-[46ch] text-[13.5px] leading-relaxed text-stone" style={{ animationDelay: '140ms' }}>
+              贴上展会拿到的对话，八秒后告诉你他该不该做、先问他什么、这瓶酒到他货架上要卖多少钱。
+            </p>
+          </div>
+
+          <div className={`relative px-6 pb-7 pt-7 sm:px-10 ${stage === 'busy' ? 'scan' : ''}`}>
+            <div className="mb-4">
+              <div className="tag mb-2.5 text-stone2">同一场展会的三张名片</div>
+              <div className="grid gap-px overflow-hidden rounded-[2px] border border-white/[.08] bg-white/[.07] sm:grid-cols-3">
+                {CASES.map((c, ci) => {
+                  const pre = scoreRisk(c.fallback.signals ?? {})
+                  const on = raw === c.raw
+                  const mk = c.fallback.market ? MARKETS[c.fallback.market] : null
+                  const col = pre.level === 'high' ? 'var(--color-halt)' : pre.level === 'mid' ? 'var(--color-probe)' : 'var(--color-go)'
+                  return (
+                    <button
+                      key={c.id}
+                      onClick={() => pickCase(c.id)}
+                      className={`rise group relative bg-ink2/90 px-4 py-4 text-left transition ${on ? '' : 'opacity-60 hover:opacity-95'}`}
+                      style={{ animationDelay: `${220 + ci * 80}ms` }}
+                    >
+                      {on && <span className="absolute inset-x-0 top-0 h-[2px]" style={{ background: col }} />}
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className={`truncate text-[13px] ${on ? 'text-bone' : 'text-bone/70'}`}>
+                            {mk?.flag} {c.fallback.company}
+                          </div>
+                          <div className="mt-1 truncate text-[11px] text-stone2">{c.source}</div>
                         </div>
-                        <div className="mt-0.5 truncate text-[11px] text-stone2">{c.source}</div>
+                        <span className="num shrink-0 text-[26px] leading-none" style={{ color: col }}>{pre.score}</span>
                       </div>
-                      <span className="num shrink-0 text-[24px] leading-none" style={{ color: col }}>{pre.score}</span>
-                    </div>
-                    <div className="h-[2px] overflow-hidden rounded-full bg-white/[.07]">
-                      <div className="widen h-full" style={{ width: `${Math.max(3, pre.score)}%`, background: col, animationDelay: `${ci * 70 + 200}ms` }} />
-                    </div>
-                  </button>
-                )
-              })}
+                      <div className="h-[2px] overflow-hidden rounded-full bg-white/[.08]">
+                        <div className="widen h-full" style={{ width: `${Math.max(3, pre.score)}%`, background: col, animationDelay: `${420 + ci * 80}ms` }} />
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-          <div className="tag mb-2 text-stone2">或者贴上你自己的对话</div>
-          <textarea
-            value={raw}
-            onChange={(e) => setRaw(e.target.value)}
-            rows={7}
-            spellCheck={false}
-            className="w-full resize-y rounded-[3px] border border-white/[.09] bg-ink/60 p-4 font-mono text-[12.5px] leading-[1.75] text-bone outline-none transition placeholder:text-stone2 focus:border-amber/45 focus:bg-ink/80"
-            placeholder="微信对话、邮件、名片上的文字…"
-          />
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <Btn onClick={analyze} disabled={stage === 'busy' || raw.trim().length < 10}>
-              {stage === 'busy' ? '分析中…' : '分析这个买家'}
-            </Btn>
-            {stage === 'busy' && (
-              <span className="flex items-center gap-2.5 text-[12.5px] text-stone">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
+
+            <div className="tag mb-2 text-stone2">或者贴上你自己的对话</div>
+            <textarea
+              value={raw}
+              onChange={(e) => setRaw(e.target.value)}
+              rows={7}
+              spellCheck={false}
+              className="w-full resize-y rounded-[2px] border border-white/[.09] bg-ink/70 p-4 font-mono text-[12.5px] leading-[1.75] text-bone outline-none transition placeholder:text-stone2 focus:border-amber/45 focus:bg-ink/90"
+              placeholder="微信对话、邮件、名片上的文字…"
+            />
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Btn onClick={analyze} disabled={stage === 'busy' || raw.trim().length < 10}>
+                {stage === 'busy' ? '验真中…' : '验一下这个买家'}
+              </Btn>
+              {stage === 'busy' && (
+                <span className="flex items-center gap-2.5 text-[12.5px] text-stone">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
+                  </span>
+                  正在扫这段对话
+                  <span className="num text-stone2">{elapsed.toFixed(1)}s</span>
                 </span>
-                读对话、判信号、算落地价
-                <span className="font-mono tabular-nums text-stone/70">{elapsed.toFixed(1)}s</span>
-              </span>
-            )}
+              )}
+            </div>
+            {aiNote && <p className="mt-3 text-[12px] text-amber">{aiNote}</p>}
           </div>
-          {aiNote && <p className="mt-3 text-[12px] text-amber">{aiNote}</p>}
         </div>
       ) : (
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[3px] border border-white/[.06] bg-white/[.015] px-4 py-2.5">
@@ -340,6 +350,7 @@ export default function Copilot() {
             risk={risk}
             brief={brief}
             price={price}
+            abv={abv}
             busy={briefBusy}
             copied={copied}
             copiedAll={copiedAll}

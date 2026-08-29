@@ -119,3 +119,75 @@ body {
 /* 输入框 */
 input[type=number]::-webkit-inner-spin-button { opacity: .25 }
 :focus-visible { outline: 2px solid var(--color-amber); outline-offset: 2px }
+
+/* ── 印章砸下：缩放 + 旋转 + 落定后的震一下 ── */
+@keyframes slam {
+  0%   { opacity: 0; transform: scale(2.6) rotate(-16deg) }
+  55%  { opacity: 1; transform: scale(.94) rotate(2.5deg) }
+  70%  { transform: scale(1.04) rotate(-1.5deg) }
+  85%  { transform: scale(.99) rotate(.6deg) }
+  100% { opacity: 1; transform: scale(1) rotate(0) }
+}
+.slam { animation: slam .72s cubic-bezier(.3,1.3,.4,1) backwards }
+
+/* 印章砸下时整块跟着震一下 */
+@keyframes jolt {
+  0%,100% { transform: translate(0,0) }
+  32% { transform: translate(-2px,1px) }
+  36% { transform: translate(2px,-1px) }
+  40% { transform: translate(-1px,0) }
+  44% { transform: translate(1px,0) }
+}
+.jolt { animation: jolt .72s ease-out backwards }
+
+/* ── 验真扫描线 ── */
+@keyframes scanline {
+  0%   { top: -4%; opacity: 0 }
+  8%   { opacity: 1 }
+  92%  { opacity: 1 }
+  100% { top: 104%; opacity: 0 }
+}
+.scan::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  height: 88px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(224,138,46,.13) 45%, rgba(224,138,46,.55) 50%, rgba(224,138,46,.13) 55%, transparent);
+  animation: scanline 1.5s cubic-bezier(.5,0,.5,1) infinite;
+}
+
+/* ── 数字滚动位 ── */
+@keyframes flick { from { opacity: .3; transform: translateY(4px) } to { opacity: 1; transform: none } }
+.flick { animation: flick .35s ease-out backwards }
+
+/* ── 边角刻线，仪器感 ── */
+.corners { position: relative }
+.corners::before, .corners::after {
+  content: "";
+  position: absolute;
+  width: 13px; height: 13px;
+  border-color: rgba(224,138,46,.55);
+  border-style: solid;
+  pointer-events: none;
+}
+.corners::before { top: -1px; left: -1px; border-width: 1px 0 0 1px }
+.corners::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0 }
+
+/* ── 图片氛围底 ── */
+.plate { position: relative; overflow: hidden }
+.plate > .bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .2;
+  filter: saturate(.55) contrast(1.15);
+}
+.plate > .veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11,9,8,.55), rgba(11,9,8,.93) 62%, var(--color-ink));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slam, .jolt, .flick { animation: none }
+  .scan::after { animation: none; opacity: 0 }
+}
