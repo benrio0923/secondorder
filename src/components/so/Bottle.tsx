@@ -29,7 +29,7 @@ export function Bottle({ score, level, abv = 53 }: { score: number; level: 'low'
 
   const hi = level === 'high'
   const mid = level === 'mid'
-  const glow = hi ? '#D6453F' : mid ? '#E08A2E' : '#B8781F'
+  const glow = hi ? "#BE3A2E" : mid ? "#9A5414" : "#8A5A16"
 
   // 瓶子永远是满的——变的是里面装什么。
   // 琥珀是酒，红色是税差，从瓶底把酒顶上来。
@@ -55,20 +55,20 @@ export function Bottle({ score, level, abv = 53 }: { score: number; level: 'low'
             <stop offset="1" stopColor="#8E211D" />
           </linearGradient>
           <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="rgba(242,237,230,.13)" />
-            <stop offset=".22" stopColor="rgba(242,237,230,.035)" />
-            <stop offset=".64" stopColor="rgba(242,237,230,.02)" />
-            <stop offset="1" stopColor="rgba(242,237,230,.1)" />
+            <stop offset="0" stopColor="rgba(28,22,19,.06)" />
+            <stop offset=".22" stopColor="rgba(28,22,19,.015)" />
+            <stop offset=".64" stopColor="rgba(28,22,19,.012)" />
+            <stop offset="1" stopColor="rgba(28,22,19,.05)" />
           </linearGradient>
           <filter id="soft" x="-70%" y="-70%" width="240%" height="240%">
             <feGaussianBlur stdDeviation="11" />
           </filter>
         </defs>
 
-        <ellipse cx="80" cy={y + 26} rx="56" ry="38" fill={glow} opacity=".17" filter="url(#soft)" style={{ transition: 'cy .18s linear' }} />
+        <ellipse cx="80" cy={y + 26} rx="56" ry="38" fill={glow} opacity=".22" filter="url(#soft)" style={{ transition: 'cy .18s linear' }} />
 
         {/* 瓶身 */}
-        <path d={OUT} fill="url(#glass)" stroke="rgba(242,237,230,.22)" strokeWidth="1.5" />
+        <path d={OUT} fill="url(#glass)" stroke="rgba(28,22,19,.34)" strokeWidth="1.6" />
 
         {/* 液体 */}
         <g clipPath="url(#bin)">
@@ -89,17 +89,17 @@ export function Bottle({ score, level, abv = 53 }: { score: number; level: 'low'
           </path>
           </g>
 
-          <rect x="44" y={TOP} width="6" height="262" fill="rgba(255,255,255,.13)" />
+          <rect x="44" y={TOP} width="6" height="262" fill="rgba(255,255,255,.3)" />
         </g>
 
         {/* 瓶口 */}
-        <rect x="64" y="10" width="32" height="14" rx="2.5" fill="rgba(242,237,230,.09)" stroke="rgba(242,237,230,.24)" strokeWidth="1.4" />
+        <rect x="64" y="10" width="32" height="14" rx="2.5" fill="rgba(28,22,19,.05)" stroke="rgba(28,22,19,.34)" strokeWidth="1.4" />
 
         {/* 标签：装的是什么，就写什么 */}
         <g style={{ opacity: fill >= 0 ? 1 : 0, transition: 'opacity .4s .6s' }}>
-          <rect x="44" y="148" width="72" height="44" rx="1.5" fill="rgba(11,9,8,.88)" stroke={glow} strokeWidth="1.1" />
+          <rect x="44" y="148" width="72" height="44" rx="1.5" fill="#FAF6EF" stroke={glow} strokeWidth="1.1" />
           <text x="80" y="170" textAnchor="middle" fill={glow} className="num" fontSize="20">{hi ? '33' : abv}</text>
-          <text x="80" y="183.5" textAnchor="middle" fill="var(--color-stone)" fontSize="7.5" letterSpacing="1.6">
+          <text x="80" y="183.5" textAnchor="middle" fill="var(--color-ink3)" fontSize="7.5" letterSpacing="1.6">
             {hi ? '税差 %' : mid ? '存疑 °' : '酱香 °'}
           </text>
         </g>
@@ -110,8 +110,8 @@ export function Bottle({ score, level, abv = 53 }: { score: number; level: 'low'
           const key = v === 25 || v === 55
           return (
             <g key={v}>
-              <line x1="129" y1={ty} x2={key ? 139 : 135} y2={ty} stroke={key ? 'rgba(242,237,230,.3)' : 'rgba(242,237,230,.14)'} strokeWidth="1" />
-              <text x="143" y={ty + 3} fill="var(--color-stone2)" fontSize="7.5" className="num">{v}</text>
+              <line x1="129" y1={ty} x2={key ? 139 : 135} y2={ty} stroke={key ? "rgba(28,22,19,.34)" : "rgba(28,22,19,.16)"} strokeWidth="1" />
+              <text x="143" y={ty + 3} fill="var(--color-ink3)" fontSize="7.5" className="num">{v}</text>
             </g>
           )
         })}
@@ -120,9 +120,9 @@ export function Bottle({ score, level, abv = 53 }: { score: number; level: 'low'
       <div className="mt-2.5 text-center">
         <div className="flex items-baseline justify-center gap-2">
           <span className="num text-[40px] leading-none" style={{ color: glow }}>{n}</span>
-          <span className="tag text-stone2">套利风险</span>
+          <span className="tag text-ink3">套利风险</span>
         </div>
-        <p className="mx-auto mt-2 max-w-[15em] text-[11px] leading-relaxed text-stone2">
+        <p className="mx-auto mt-2 max-w-[15em] text-[11px] leading-relaxed text-ink3">
           {hi ? '红的是税差。他要的不是这瓶酒，是那 33%。'
               : mid ? '还看不清瓶里装的是什么，先问清楚。'
               : '瓶里是酒，不是税差。这是来买酒的。'}

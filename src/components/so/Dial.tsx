@@ -34,7 +34,7 @@ export function Dial({ score, level }: { score: number; level: 'low' | 'mid' | '
             <line
               key={i}
               x1="84" y1="10" x2="84" y2={i % 5 === 0 ? 19 : 15}
-              stroke={on ? color : 'rgba(242,237,230,.14)'}
+              stroke={on ? color : "rgba(28,22,19,.16)"}
               strokeWidth={i % 5 === 0 ? 1.6 : 1}
               transform={`rotate(${a} 84 84)`}
               style={{ transition: 'stroke .5s', transitionDelay: `${i * 12}ms` }}
@@ -44,7 +44,7 @@ export function Dial({ score, level }: { score: number; level: 'low' | 'mid' | '
         {/* 底弧 */}
         <circle
           cx="84" cy="84" r={R} fill="none"
-          stroke="rgba(242,237,230,.07)" strokeWidth="7" strokeLinecap="round"
+          stroke="rgba(28,22,19,.09)" strokeWidth="7" strokeLinecap="round"
           strokeDasharray={`${C * arc} ${C}`}
         />
         {/* 进度弧 */}
@@ -57,7 +57,7 @@ export function Dial({ score, level }: { score: number; level: 'low' | 'mid' | '
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="num text-[52px] leading-none" style={{ color }}>{n}</span>
-        <span className="tag mt-1.5 text-stone2">套利风险</span>
+        <span className="tag mt-1.5 text-ink3">套利风险</span>
       </div>
     </div>
   )
