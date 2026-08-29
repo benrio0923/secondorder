@@ -48,6 +48,19 @@ export default function DeliverPage() {
         />
         <AfterShip risk={s.risk} buyer={s.ex?.company ?? undefined} market={`${s.m.flag} ${s.m.name}`} />
       </div>
+
+      <section className="band mt-3 rounded-[3px]">
+        <div className="shot" style={{ backgroundImage: 'url(/img/cups.jpg)' }} />
+        <div className="wash" />
+        <div className="inner px-5 py-7 sm:px-7">
+          <span className="tag text-gold">为什么这个工具叫「第二单」</span>
+          <p className="mt-2.5 max-w-[50ch] text-[14.5px] leading-[1.85] text-paper/90">
+            第一单靠展会、靠人情、靠一次降价，多数酒厂都签得下来。
+            <span className="font-medium text-gold">卡住的是第二单</span>——
+            货在他仓里没动，他就不会再下单，而你到那时才知道，已经晚了九十天。
+          </p>
+        </div>
+      </section>
     </Shell>
   )
 }
