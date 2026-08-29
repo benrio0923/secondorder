@@ -4,6 +4,15 @@
 
 ---
 
+## 零、线上版（备用，也可以直接用这个 demo）
+
+**https://secondorder-blond.vercel.app**
+
+本机跑不起来、或评委想自己点，直接给这个链接。功能与本机完全相同。
+唯一差别是首次打开有冷启动（约 9 秒）——**上台前先打开一次把它叫醒**。
+
+---
+
 ## 一、启动（赛前 3 分钟做完）
 
 ```bash
@@ -232,6 +241,7 @@ bun run build && bun run start      # → http://localhost:3000
 |---|---|
 | 模型没回应 | 什么都不用做。界面会自动切到本机预解析并标示出来，主链路照跑。顺口说一句「现场网络不稳是常态，所以我们做了离线路径」。 |
 | 完全断网 | 同上。落地价、牌照核查、规格反推、合同条款全部是本机计算。只有「生成回信」那一步会用备用草稿。 |
+| 本机整个起不来 | 直接开线上版 https://secondorder-blond.vercel.app，功能一模一样。 |
 | 页面卡住 | 重新整理，三张卡的分数是本机算的，马上就会出来。 |
 | 想给他们带走 | 90 天那一区有「拷贝成待办清单」，出来是带勾选框的纯文本，可以直接贴进企业微信群。评委要的话当场贴给他。 |
 | 想重跑 | 点另一张卡再点回来，状态会重置。 |
@@ -240,7 +250,8 @@ bun run build && bun run start      # → http://localhost:3000
 
 ## 六、交付清单
 
-- **Demo**：`bun run start` → http://localhost:3000
+- **Demo（线上）**：https://secondorder-blond.vercel.app
+- **Demo（本机）**：`bun run start` → http://localhost:3000
 - **仓库**：本地 git repo（`~/Downloads/guizo`，已 commit；要交链接的话推到 GitHub 即可）
 - **作品说明一页**：见团队共享的 Artifact 链接
 - **Pitch Deck**：14 页，方向键或点击翻页
