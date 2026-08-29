@@ -225,51 +225,64 @@ export default function Copilot() {
 
   return (
     <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-8 sm:px-8">
-      <header className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 border-b border-white/8 pb-4">
-        <h1 className="font-serif text-[26px] leading-none text-bone">
-          第二单
-          <span className="ml-3 align-baseline font-sans text-[12.5px] font-normal text-stone">
-            贵州白酒出海 · 首单决策副驾
-          </span>
-        </h1>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone/60">
-          AI × 白酒 · 经销商运营
-        </span>
+      <header className="rise mb-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <h1 className="font-serif text-[28px] font-black leading-none tracking-tight text-bone">第二单</h1>
+        <span className="h-[22px] w-px bg-white/15" />
+        <span className="text-[12.5px] text-stone">贵州白酒出海 · 首单决策副驾</span>
+        <span className="tag ml-auto text-stone2">AI × 白酒 · 经销商运营</span>
       </header>
+
+      {stage !== 'done' && (
+        <p className="rise mb-5 max-w-[54ch] text-[14px] leading-relaxed text-stone" style={{ animationDelay: '60ms' }}>
+          贴上展会拿到的对话，八秒后告诉你：
+          <span className="text-bone">这个买家该不该做、先问他什么、这瓶酒到他货架上要卖多少钱。</span>
+        </p>
+      )}
 
       {/* ── 输入 ── */}
       {stage !== 'done' ? (
-        <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4 sm:p-5">
-          <div className="mb-3 grid gap-px overflow-hidden rounded border border-white/10 bg-white/8 sm:grid-cols-3">
-            {CASES.map((c) => {
-              const pre = scoreRisk(c.fallback.signals ?? {})
-              const on = raw === c.raw
-              const mk = c.fallback.market ? MARKETS[c.fallback.market] : null
-              const col = pre.level === 'high' ? 'text-rose-300' : pre.level === 'mid' ? 'text-amber' : 'text-emerald-300'
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => pickCase(c.id)}
-                  className={`bg-ink2/60 px-3.5 py-2.5 text-left transition ${on ? 'ring-1 ring-inset ring-amber/50' : 'hover:bg-ink2'}`}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className={`truncate text-[12.5px] ${on ? 'text-amber' : 'text-bone'}`}>
-                      {mk?.flag} {c.fallback.company}
-                    </span>
-                    <span className={`shrink-0 font-mono text-[13px] ${col}`}>{pre.score}</span>
-                  </div>
-                  <div className="mt-0.5 truncate text-[11px] text-stone">{c.source}</div>
-                </button>
-              )
-            })}
+        <div className="rise rounded-[3px] border border-white/[.08] bg-ink2/40 p-5 sm:p-6">
+          <div className="mb-4">
+            <div className="tag mb-2.5 text-stone2">同一场展会的三张名片</div>
+            <div className="grid gap-px overflow-hidden rounded-[3px] border border-white/[.07] bg-white/[.06] sm:grid-cols-3">
+              {CASES.map((c, ci) => {
+                const pre = scoreRisk(c.fallback.signals ?? {})
+                const on = raw === c.raw
+                const mk = c.fallback.market ? MARKETS[c.fallback.market] : null
+                const col = pre.level === 'high' ? 'var(--color-halt)' : pre.level === 'mid' ? 'var(--color-probe)' : 'var(--color-go)'
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => pickCase(c.id)}
+                    className={`rise relative bg-ink2 px-4 py-3.5 text-left transition ${on ? '' : 'opacity-70 hover:opacity-100'}`}
+                    style={{ animationDelay: `${ci * 70}ms` }}
+                  >
+                    {on && <span className="absolute inset-x-0 top-0 h-[2px]" style={{ background: col }} />}
+                    <div className="mb-2.5 flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className={`truncate text-[13px] ${on ? 'text-bone' : 'text-bone/75'}`}>
+                          {mk?.flag} {c.fallback.company}
+                        </div>
+                        <div className="mt-0.5 truncate text-[11px] text-stone2">{c.source}</div>
+                      </div>
+                      <span className="num shrink-0 text-[24px] leading-none" style={{ color: col }}>{pre.score}</span>
+                    </div>
+                    <div className="h-[2px] overflow-hidden rounded-full bg-white/[.07]">
+                      <div className="widen h-full" style={{ width: `${Math.max(3, pre.score)}%`, background: col, animationDelay: `${ci * 70 + 200}ms` }} />
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           </div>
+          <div className="tag mb-2 text-stone2">或者贴上你自己的对话</div>
           <textarea
             value={raw}
             onChange={(e) => setRaw(e.target.value)}
             rows={7}
             spellCheck={false}
-            className="w-full resize-y rounded border border-white/12 bg-ink/70 p-3.5 font-mono text-[12.5px] leading-relaxed text-bone outline-none transition placeholder:text-stone/40 focus:border-amber/50"
-            placeholder="贴上微信对话、邮件、或名片上的文字…"
+            className="w-full resize-y rounded-[3px] border border-white/[.09] bg-ink/60 p-4 font-mono text-[12.5px] leading-[1.75] text-bone outline-none transition placeholder:text-stone2 focus:border-amber/45 focus:bg-ink/80"
+            placeholder="微信对话、邮件、名片上的文字…"
           />
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <Btn onClick={analyze} disabled={stage === 'busy' || raw.trim().length < 10}>
@@ -289,9 +302,9 @@ export default function Copilot() {
           {aiNote && <p className="mt-3 text-[12px] text-amber">{aiNote}</p>}
         </div>
       ) : (
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded border border-white/10 bg-white/[0.02] px-4 py-2.5">
-          <span className="min-w-0 truncate font-mono text-[11.5px] text-stone">
-            {raw.replace(/\n/g, ' ').slice(0, 76)}…
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[3px] border border-white/[.06] bg-white/[.015] px-4 py-2.5">
+          <span className="min-w-0 truncate font-mono text-[11px] text-stone2">
+            {raw.replace(/\n/g, ' ').slice(0, 82)}…
           </span>
           <button
             onClick={() => {
@@ -299,7 +312,7 @@ export default function Copilot() {
               setEx(null)
               setBrief(null)
             }}
-            className="shrink-0 font-mono text-[11px] text-amber underline underline-offset-2"
+            className="tag shrink-0 text-amber transition hover:text-gold"
           >
             换一个买家
           </button>
@@ -542,8 +555,8 @@ export default function Copilot() {
             </div>
           </Fold>
 
-          <p className="pt-3 text-center font-mono text-[10.5px] leading-relaxed text-stone/50">
-            税则与牌照均标注来源与版本，落地价为估算值，实际以海关核定为准
+          <p className="pt-5 text-center text-[10.5px] leading-relaxed text-stone2">
+            税则与牌照均标注来源与版本 · 落地价为估算值，实际以海关核定为准
           </p>
         </div>
       )}

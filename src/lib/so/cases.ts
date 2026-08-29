@@ -52,41 +52,6 @@ export const CASES: DemoCase[] = [
     },
   },
   {
-    id: 'vn-anphu',
-    tag: '展会后邮件',
-    source: '越南胡志明 · 食品餐饮展',
-    raw: `【名片】An Phú Foods Co., Ltd｜Nguyễn Văn Minh｜Ho Chi Minh City
-
-您好，我们是胡志明市的食品进口商 An Phú Foods。
-请问你们 500ml 的规格有 38 度的吗？越南这边 20 度以上的特别消费税刚修法，2027 年开始逐年上调。
-标签需要越南文，成分备案我们可以协助办理，但需要你们提供第三方检测报告。
-第一批想先做 150 箱，放在胡志明市 12 家中餐厅试销。
-有没有品鉴用的小样和品牌手册？我们要培训服务生怎幺介绍酱香。
-动销报告我们每月都做，可以同步给你们。`,
-    fallback: {
-      company: 'An Phú Foods',
-      contact: 'Nguyễn 先生',
-      market: 'vn',
-      role: '食品进口商（持证）',
-      claims: ['胡志明市食品进口商', '手上有 12 家中餐厅渠道'],
-      askedFor: ['38 度规格', '第三方检测报告', '品鉴小样与品牌手册'],
-      signals: {
-        downstream: true,
-        spec: true,
-        size: true,
-        dest: true,
-        brand: true,
-        sellthrough: true,
-      },
-      redFlags: [],
-      quotes: [
-        '请问你们 500ml 的规格有 38 度的吗？',
-        '第一批想先做 150 箱，放在胡志明市 12 家中餐厅试销',
-        '动销报告我们每月都做，可以同步给你们',
-      ],
-    },
-  },
-  {
     id: 'us-pacific',
     tag: '英文邮件',
     source: '美国加州 · 进口商主动来信',
@@ -126,6 +91,42 @@ And we'll need the CBMA assignment from you — otherwise the FET at $13.50/PG k
       ],
     },
   },
+  {
+    id: 'vn-anphu',
+    tag: '展会后邮件',
+    source: '越南胡志明 · 食品餐饮展',
+    raw: `【名片】An Phú Foods Co., Ltd｜Nguyễn Văn Minh｜Ho Chi Minh City
+
+您好，我们是胡志明市的食品进口商 An Phú Foods。
+请问你们 500ml 的规格有 38 度的吗？越南这边 20 度以上的特别消费税刚修法，2027 年开始逐年上调。
+标签需要越南文，成分备案我们可以协助办理，但需要你们提供第三方检测报告。
+第一批想先做 150 箱，放在胡志明市 12 家中餐厅试销。
+有没有品鉴用的小样和品牌手册？我们要培训服务生怎幺介绍酱香。
+动销报告我们每月都做，可以同步给你们。`,
+    fallback: {
+      company: 'An Phú Foods',
+      contact: 'Nguyễn 先生',
+      market: 'vn',
+      role: '食品进口商（持证）',
+      claims: ['胡志明市食品进口商', '手上有 12 家中餐厅渠道'],
+      askedFor: ['38 度规格', '第三方检测报告', '品鉴小样与品牌手册'],
+      signals: {
+        downstream: true,
+        spec: true,
+        size: true,
+        dest: true,
+        brand: true,
+        sellthrough: true,
+      },
+      redFlags: [],
+      quotes: [
+        '请问你们 500ml 的规格有 38 度的吗？',
+        '第一批想先做 150 箱，放在胡志明市 12 家中餐厅试销',
+        '动销报告我们每月都做，可以同步给你们',
+      ],
+    },
+  },
+
 ]
 
 export const CASE_BY_ID = Object.fromEntries(CASES.map((c) => [c.id, c]))

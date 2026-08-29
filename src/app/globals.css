@@ -1,17 +1,29 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink: #0A100D;
-  --color-ink2: #101A15;
-  --color-moss: #182720;
-  --color-jade: #3E6B58;
-  --color-bone: #EFEAE0;
-  --color-stone: #8B928B;
-  --color-amber: #D9873F;
-  --color-gold: #C9A24A;
+  /* 底色偏暖的近黑——白酒是暖的，不是科技蓝 */
+  --color-ink: #0B0908;
+  --color-ink2: #131010;
+  --color-ink3: #1A1615;
+  --color-bone: #F2EDE6;
+  --color-stone: #8E8781;
+  --color-stone2: #635D58;
 
-  --font-serif: "Noto Serif TC", "Songti TC", "Source Han Serif TC", serif;
-  --font-sans: "Inter", "Noto Serif TC", ui-sans-serif, system-ui, sans-serif;
+  /* 琥珀是酒液，整个界面唯一的暖色主角 */
+  --color-amber: #E08A2E;
+  --color-amber2: #C4741F;
+  --color-gold: #D4A94E;
+
+  /* 判定三色 */
+  --color-halt: #D6453F;
+  --color-probe: #E08A2E;
+  --color-go: #4FA97A;
+  --color-halt-t: #D6453F;
+
+  --font-serif: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  --font-sans: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  --font-num: "Oswald", "Noto Sans SC", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 html, body {
@@ -24,46 +36,86 @@ html, body {
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-::selection { background: var(--color-gold); color: var(--color-ink); }
+::selection { background: var(--color-amber); color: var(--color-ink); }
 
-/* 全畫面顆粒，讓所有場景有同一層底噪 */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: -50%;
-  pointer-events: none;
-  z-index: 60;
-  opacity: 0.16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  animation: grainShift 800ms steps(2) infinite;
-}
-
-@keyframes grainShift {
-  0% { transform: translate(0, 0) }
-  50% { transform: translate(-2%, 1%) }
-  100% { transform: translate(1%, -2%) }
-}
-
-.vignette::before {
+/* ── 底噪与网格：让深色底有材质，不是一片死黑 ── */
+.field::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 55;
-  background: radial-gradient(ellipse at center, transparent 46%, rgba(5, 9, 7, 0.72) 100%);
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(242,237,230,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,237,230,.022) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+.field::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.above { position: relative; z-index: 1; }
+
+/* ── 数字：压缩无衬线，像仪表 ── */
+.num {
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
 }
 
-.tracking-brand { letter-spacing: 0.42em; }
-
-.hairline { background: linear-gradient(90deg, transparent, rgba(239,234,224,0.55), transparent); }
-
-.glass {
-  background: rgba(16, 26, 21, 0.55);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(239, 234, 224, 0.1);
+/* ── 入场：一次编排好的错开揭示 ── */
+@keyframes rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+@keyframes widen { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+@keyframes sweep { from { stroke-dashoffset: var(--dash-full) } }
+.rise { animation: rise .5s cubic-bezier(.2,.75,.25,1) backwards }
+.widen { transform-origin: left; animation: widen .7s cubic-bezier(.2,.8,.2,1) backwards }
+@media (prefers-reduced-motion: reduce) {
+  .rise, .widen { animation: none }
 }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { scrollbar-width: none; }
+/* ── 封条：判定的视觉锚点 ── */
+.seal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+.seal::before {
+  content: "";
+  position: absolute;
+  inset: -14px -18px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+  opacity: .5;
+}
+.seal::after {
+  content: "";
+  position: absolute;
+  inset: -8px -12px;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  opacity: .28;
+}
+
+/* 输入框 */
+input[type=number]::-webkit-inner-spin-button { opacity: .25 }
+:focus-visible { outline: 2px solid var(--color-amber); outline-offset: 2px }
