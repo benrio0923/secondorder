@@ -98,7 +98,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
       {s.aiNote && <p className="mb-4 rounded-[2px] border border-amber/40 bg-amber/[0.06] px-3.5 py-2 text-[12px] text-amber2">{s.aiNote}</p>}
 
-      {children}
+      <div key={path} className="page-in">{children}</div>
 
       {/* 翻页 */}
       <div className="mt-8 flex items-center justify-between gap-3 border-t border-line pt-5">

@@ -162,6 +162,10 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3 }
   animation: scanline 1.5s cubic-bezier(.5,0,.5,1) infinite;
 }
 
+/* 换页：整块轻轻推上来，不是硬切 */
+@keyframes pageIn { from { opacity: 0; transform: translateY(9px) } to { opacity: 1; transform: none } }
+.page-in { animation: pageIn .36s cubic-bezier(.2,.75,.25,1) }
+
 @keyframes flick { from { opacity: .3; transform: translateY(4px) } to { opacity: 1; transform: none } }
 .flick { animation: flick .35s ease-out backwards }
 
@@ -196,7 +200,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3 }
 .tabs::-webkit-scrollbar { display: none }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise, .widen, .slam, .jolt, .flick { animation: none }
+  .rise, .widen, .slam, .jolt, .flick, .page-in { animation: none }
   .scan::after { animation: none; opacity: 0 }
 }
 

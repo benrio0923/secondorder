@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type { Brief, Extracted, Market } from '@/lib/so/types'
 import type { RiskResult } from '@/lib/so/signals'
 import type { PriceResult } from '@/lib/so/pricing'
-import { Bottle } from './Bottle'
+import { Bottle3D } from './Bottle3D'
 
 const fmt = (n: number) => Math.round(n).toLocaleString('en-US')
 
@@ -34,10 +34,10 @@ export function Verdict({
     >
       <div className="h-[2px] w-full widen" style={{ background: t.c }} />
 
-      <div className="grid gap-8 px-6 py-7 sm:grid-cols-[168px_1fr] sm:gap-10 sm:px-8">
+      <div className="grid gap-8 px-6 py-7 sm:grid-cols-[250px_1fr] sm:gap-10 sm:px-8">
         {/* 瓶 */}
         <div className="flex justify-center sm:justify-start">
-          <Bottle score={risk.score} level={risk.level} abv={abv} />
+          <Bottle3D score={risk.score} level={risk.level} abv={abv} />
         </div>
 
         {/* 判定 */}

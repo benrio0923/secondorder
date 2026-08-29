@@ -4,6 +4,7 @@ import { CASES } from '@/lib/so/cases'
 import { MARKETS } from '@/lib/so/markets'
 import { scoreRisk } from '@/lib/so/signals'
 import { useSession } from '@/lib/so/session'
+import { Motes } from '@/components/so/Motes'
 
 const CRAFT = [
   { img: '/img/grain.png', k: '红缨子高粱', v: '本地糯高粱，支链淀粉高，经得起九次蒸煮' },
@@ -26,6 +27,7 @@ export default function Scan() {
       <section className="band">
         <div className="shot" style={{ backgroundImage: 'url(/img/cellar.png)' }} />
         <div className="wash" />
+        <Motes />
         <div className="inner mx-auto grid max-w-[1080px] items-center gap-8 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1fr_300px] lg:gap-4">
           <div className="min-w-0">
             <div className="rise flex items-center gap-3">
