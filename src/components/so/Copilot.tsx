@@ -147,8 +147,18 @@ export default function Copilot() {
           raw,
         }),
       })
-      if (res.ok) setBrief((await res.json()).brief as Brief)
-      else setBrief(localBrief())
+      if (res.ok) {
+        const got = (await res.json()).brief as Brief
+        const fb = localBrief()
+        // 模型偶尔会漏字段——缺什么补什么，不能让业务员看到一块空白
+        setBrief({
+          verdict: got.verdict ?? fb.verdict,
+          headline: got.headline?.trim() || fb.headline,
+          reasons: got.reasons?.length ? got.reasons : fb.reasons,
+          questions: got.questions?.length ? got.questions : fb.questions,
+          reply: got.reply?.trim() || fb.reply,
+        })
+      } else setBrief(localBrief())
     } catch {
       setBrief(localBrief())
     }

@@ -74,8 +74,11 @@ export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult 
   }
   const score = max === 0 ? 0 : Math.round((risk / max) * 100)
   const coverage = answered / SIGNALS.length
+  // 这三项没答案就不该说「可谈」：他要卖给谁、货去哪、给不给动销数据
+  const CRITICAL = ['downstream', 'dest', 'sellthrough']
+  const missingCritical = CRITICAL.filter((k) => verdicts[k] === null || verdicts[k] === undefined)
   // 覆盖不足时不给「偏向真实」的结论——没看到坏消息不等于没有坏消息
-  const thin = coverage < 0.6
+  const thin = coverage < 0.6 || missingCritical.length > 0
   const raw: RiskResult['level'] = score >= 55 ? 'high' : score >= 25 ? 'mid' : 'low'
   const level: RiskResult['level'] = thin && raw === 'low' ? 'mid' : raw
 
@@ -83,7 +86,7 @@ export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult 
     answered === 0
       ? '信号不足，还不能判断'
       : thin && raw === 'low'
-        ? '信号不足，不等于安全'
+        ? '关键信号缺口，先问清楚'
         : level === 'high'
           ? '高度疑似套利型买家'
           : level === 'mid'
@@ -94,7 +97,9 @@ export function scoreRisk(verdicts: Record<string, boolean | null>): RiskResult 
     answered === 0
       ? '这段对话里六项信号一项都判不出来。先把必问清单问完，再回来评。'
       : thin && raw === 'low'
-        ? `六项里只判定了 ${answered} 项，负面信号 ${badKeys.length} 项。分数低是因为信息少，不是因为对方干净——把没判定的那几项问清楚，分数才有意义。`
+        ? missingCritical.length > 0
+          ? `他还没说清楚：${missingCritical.map((k) => SIGNALS.find((s) => s.id === k)?.label ?? k).join('、')}。这几项没答案就不该给「可谈」——分数低是因为信息少，不是因为对方干净。`
+          : `六项里只判定了 ${answered} 项。分数低是因为信息少，不是因为对方干净——把没判定的那几项问清楚，分数才有意义。`
         : level === 'high'
           ? `${badKeys.length} 项关键信号为负。这一单的性质应重新评估，尤其在对方拒绝动销透明的情况下。`
           : level === 'mid'
