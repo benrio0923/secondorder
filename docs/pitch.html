@@ -7,20 +7,20 @@
 <title>第二单 Pitch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
 <style>
 :root{
-  --ink:#0A100D; --ink2:#121A15; --surf:#18211B;
-  --bone:#EFEAE0; --bone2:#CBD0C7; --stone:#8B928B; --stone2:#69706A;
-  --amber:#D9873F; --gold:#C9A24A; --jade:#4ADE9B; --rose:#F5657A; --sky:#5AA9DE;
-  --line:rgba(239,234,224,.11); --line2:rgba(239,234,224,.06);
+  --ink:#FAF6EF; --ink2:#F3EDE2; --surf:#FFFFFF;
+  --bone:#1C1613; --bone2:#33291F; --stone:#574B41; --stone2:#8B7F6F;
+  --amber:#9A5414; --gold:#B07D22; --jade:#217A57; --rose:#BE3A2E; --sky:#3C74AA;
+  --line:rgba(28,22,19,.15); --line2:rgba(28,22,19,.075);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;height:100%;background:var(--ink);overflow:hidden}
 body{
   color:var(--bone);
-  font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+  font-family:"Noto Sans SC","PingFang SC",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
@@ -45,15 +45,15 @@ body{
 .eyebrow b{color:var(--stone);font-weight:400;letter-spacing:.16em}
 .eyebrow i{display:block;width:24px;height:1px;background:var(--line);flex:0 0 auto}
 
-h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(52px,10vw,132px);line-height:1;margin:0;letter-spacing:-.02em}
-h1 small{display:block;margin-top:18px;font-family:"Noto Sans TC",sans-serif;font-size:clamp(12px,1.5vw,19px);font-weight:400;letter-spacing:.3em;color:var(--stone)}
-h2{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(30px,4.6vw,62px);line-height:1.16;margin:0 0 clamp(16px,2.6vh,30px);letter-spacing:-.01em;text-wrap:balance;max-width:22ch}
-h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,29px);line-height:1.35;margin:0 0 14px}
+h1{font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(52px,10vw,132px);line-height:1;margin:0;letter-spacing:-.02em}
+h1 small{display:block;margin-top:18px;font-family:"Noto Sans SC",sans-serif;font-size:clamp(12px,1.5vw,19px);font-weight:400;letter-spacing:.3em;color:var(--stone)}
+h2{font-family:"Noto Serif SC",serif;font-weight:700;font-size:clamp(30px,4.6vw,62px);line-height:1.16;margin:0 0 clamp(16px,2.6vh,30px);letter-spacing:-.01em;text-wrap:balance;max-width:22ch}
+h3{font-family:"Noto Serif SC",serif;font-weight:700;font-size:clamp(19px,2.3vw,29px);line-height:1.35;margin:0 0 14px}
 .lede{font-size:clamp(15px,1.75vw,23px);line-height:1.7;color:var(--bone2);max-width:44ch;margin:0}
 .lede.wide{max-width:56ch}
 .small{font-size:clamp(12px,1.25vw,16px);line-height:1.7;color:var(--stone);max-width:60ch;margin:14px 0 0}
 
-.mega{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(80px,17vw,240px);line-height:.85;color:var(--amber);letter-spacing:-.03em}
+.mega{font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(80px,17vw,240px);line-height:.85;color:var(--amber);letter-spacing:-.03em}
 .mega.rose{color:var(--rose)}
 .megasub{font-size:clamp(14px,1.6vw,21px);color:var(--bone2);margin-top:20px;max-width:40ch;line-height:1.65}
 
@@ -61,7 +61,7 @@ h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,
 .fn{display:flex;flex-direction:column;gap:clamp(8px,1.5vh,15px);margin-top:clamp(14px,2.6vh,30px)}
 .fn .r{display:grid;grid-template-columns:minmax(120px,236px) 1fr auto;gap:clamp(12px,2vw,26px);align-items:center}
 .fn .l{font-size:clamp(12px,1.3vw,17px);color:var(--bone2);text-align:right;line-height:1.35}
-.fn .b{height:clamp(26px,4.4vh,48px);background:rgba(239,234,224,.045);border-radius:3px;overflow:hidden}
+.fn .b{height:clamp(26px,4.4vh,48px);background:rgba(28,22,19,.045);border-radius:3px;overflow:hidden}
 .fn .b i{display:block;height:100%;border-radius:3px;transform-origin:left;animation:grow .85s cubic-bezier(.2,.8,.25,1) forwards;transform:scaleX(0)}
 @keyframes grow{to{transform:scaleX(1)}}
 .fn .v{font-family:"IBM Plex Mono",monospace;font-size:clamp(17px,2.4vw,34px);width:clamp(88px,11vw,148px);text-align:right;font-variant-numeric:tabular-nums}
@@ -73,9 +73,9 @@ h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,
 @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
 .cell{background:var(--ink2);padding:clamp(16px,2.4vw,30px)}
 .cell .tag{font-family:"IBM Plex Mono",monospace;font-size:clamp(9px,.95vw,11px);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
-.cell .num{font-family:"Noto Serif TC",serif;font-size:clamp(26px,3.6vw,52px);line-height:1;color:var(--amber);margin-bottom:14px;letter-spacing:-.01em}
+.cell .num{font-family:"Noto Serif SC",serif;font-size:clamp(26px,3.6vw,52px);line-height:1;color:var(--amber);margin-bottom:14px;letter-spacing:-.01em}
 .cell .num.j{color:var(--jade)} .cell .num.r{color:var(--rose)}
-.cell h4{font-family:"Noto Serif TC",serif;font-size:clamp(15px,1.6vw,21px);font-weight:700;margin:0 0 10px;line-height:1.4}
+.cell h4{font-family:"Noto Serif SC",serif;font-size:clamp(15px,1.6vw,21px);font-weight:700;margin:0 0 10px;line-height:1.4}
 .cell p{font-size:clamp(11.5px,1.15vw,15px);line-height:1.7;color:var(--stone);margin:0}
 .cell p+p{margin-top:9px}
 .cell b{color:var(--bone2)}
@@ -87,9 +87,9 @@ h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,
 .steps b{display:block;font-size:clamp(13px,1.4vw,18px);color:var(--bone);margin-bottom:3px;font-weight:600}
 .steps span{font-size:clamp(11px,1.1vw,14px);color:var(--stone);line-height:1.6}
 .steps .who{font-family:"IBM Plex Mono",monospace;font-size:clamp(9px,.9vw,11px);letter-spacing:.1em;padding:2px 7px;border-radius:2px;margin-left:9px;white-space:nowrap}
-.who.ai{background:rgba(217,135,63,.14);color:var(--amber)}
-.who.rule{background:rgba(90,169,222,.14);color:var(--sky)}
-.who.human{background:rgba(239,234,224,.1);color:var(--bone2)}
+.who.ai{background:rgba(154,84,20,.14);color:var(--amber)}
+.who.rule{background:rgba(60,116,170,.14);color:var(--sky)}
+.who.human{background:rgba(28,22,19,.1);color:var(--bone2)}
 
 /* buyer cards */
 .buyers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(14px,2.6vh,30px)}
@@ -100,21 +100,21 @@ h3{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(19px,2.3vw,
 .buyer .src{font-size:clamp(10px,1vw,12.5px);color:var(--stone2);margin-bottom:16px}
 .buyer .score{font-family:"IBM Plex Mono",monospace;font-size:clamp(32px,4.6vw,64px);line-height:1;margin-bottom:8px}
 .buyer .verdict{font-size:clamp(11px,1.1vw,14px);margin-bottom:12px}
-.buyer .bar{height:5px;background:rgba(239,234,224,.07);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.buyer .bar{height:5px;background:rgba(28,22,19,.07);border-radius:3px;overflow:hidden;margin-bottom:14px}
 .buyer .bar i{display:block;height:100%;border-radius:3px;transform-origin:left;animation:grow .8s cubic-bezier(.2,.8,.25,1) forwards;transform:scaleX(0)}
 .buyer .why{font-size:clamp(10.5px,1.05vw,13.5px);line-height:1.65;color:var(--stone)}
 .hi{color:var(--rose)} .mi{color:var(--amber)} .lo{color:var(--jade)}
 
 /* pipeline */
 .pipe{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:clamp(14px,2.4vh,26px)}
-.pipe span{font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1.05vw,14px);padding:7px 11px;border:1px solid var(--line);border-radius:3px;background:rgba(239,234,224,.02)}
-.pipe .llm{color:var(--amber);border-color:rgba(217,135,63,.34)}
-.pipe .rule{color:var(--sky);border-color:rgba(90,169,222,.32)}
-.pipe .human{color:var(--bone);border-color:rgba(239,234,224,.3)}
+.pipe span{font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1.05vw,14px);padding:7px 11px;border:1px solid var(--line);border-radius:3px;background:rgba(28,22,19,.02)}
+.pipe .llm{color:var(--amber);border-color:rgba(154,84,20,.34)}
+.pipe .rule{color:var(--sky);border-color:rgba(60,116,170,.32)}
+.pipe .human{color:var(--bone);border-color:rgba(28,22,19,.3)}
 .pipe .ar{border:none;background:none;color:var(--stone2);padding:0 2px}
 
 .quote{border-left:3px solid var(--amber);padding-left:clamp(16px,2vw,26px);margin:clamp(14px,2.4vh,28px) 0 0;
-  font-family:"Noto Serif TC",serif;font-size:clamp(17px,2.3vw,32px);line-height:1.5;color:var(--bone);max-width:26ch}
+  font-family:"Noto Serif SC",serif;font-size:clamp(17px,2.3vw,32px);line-height:1.5;color:var(--bone);max-width:26ch}
 .quote cite{display:block;margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:clamp(10px,1vw,12.5px);font-style:normal;letter-spacing:.1em;color:var(--stone2)}
 
 .two{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4.5vw,72px);align-items:center}
@@ -162,10 +162,10 @@ ul.pl li b{color:var(--bone)}
   <div class="eyebrow"><span>问题</span><i></i><b>遵义综保区 2025 年工作总结</b></div>
   <h2>出海不缺第一单。<br>缺的是第二单。</h2>
   <div class="fn">
-    <div class="r"><span class="l">完成出口资质备案</span><span class="b"><i style="width:100%;background:rgba(217,135,63,.78);animation-delay:.05s"></i></span><span class="v">89<s>家</s></span></div>
-    <div class="r"><span class="l">新增出口意向</span><span class="b"><i style="width:39.3%;background:rgba(217,135,63,.58);animation-delay:.15s"></i></span><span class="v">35<s>39%</s></span></div>
-    <div class="r"><span class="l">首次通过综保区出海</span><span class="b"><i style="width:12.4%;background:rgba(90,169,222,.6);animation-delay:.25s"></i></span><span class="v">11<s>12%</s></span></div>
-    <div class="r"><span class="l">与东南亚经销商<br>建立初步联系</span><span class="b"><i style="width:5.6%;background:rgba(245,101,122,.8);animation-delay:.35s"></i></span><span class="v hi">5<s>5.6%</s></span></div>
+    <div class="r"><span class="l">完成出口资质备案</span><span class="b"><i style="width:100%;background:rgba(154,84,20,.78);animation-delay:.05s"></i></span><span class="v">89<s>家</s></span></div>
+    <div class="r"><span class="l">新增出口意向</span><span class="b"><i style="width:39.3%;background:rgba(154,84,20,.58);animation-delay:.15s"></i></span><span class="v">35<s>39%</s></span></div>
+    <div class="r"><span class="l">首次通过综保区出海</span><span class="b"><i style="width:12.4%;background:rgba(60,116,170,.6);animation-delay:.25s"></i></span><span class="v">11<s>12%</s></span></div>
+    <div class="r"><span class="l">与东南亚经销商<br>建立初步联系</span><span class="b"><i style="width:5.6%;background:rgba(190,58,46,.8);animation-delay:.35s"></i></span><span class="v hi">5<s>5.6%</s></span></div>
   </div>
   <p class="small">
     注意最后一级的措辞是<b style="color:var(--bone)">「建立初步联系」</b>——不是签约，更不是复购。
@@ -366,11 +366,11 @@ ul.pl li b{color:var(--bone)}
   <div class="eyebrow"><span>行家细节 四</span><i></i><b>这一条跟税无关，跟你的样品能不能活过第一口有关</b></div>
   <h2 style="margin-bottom:clamp(12px,2vh,22px);max-width:26ch">非华人第一次闻到白酒，<br>说的是这五个词。</h2>
   <div style="display:flex;flex-wrap:wrap;gap:clamp(8px,1.4vw,16px);margin-bottom:clamp(16px,2.6vh,30px)">
-    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">臭起司</span>
-    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">八角</span>
-    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">凤梨</span>
-    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">麝香</span>
-    <span style="font-family:'Noto Serif TC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(245,101,122,.3);background:rgba(245,101,122,.08);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">汽油</span>
+    <span style="font-family:'Noto Serif SC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(190,58,46,.42);background:rgba(190,58,46,.07);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">臭起司</span>
+    <span style="font-family:'Noto Serif SC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(190,58,46,.42);background:rgba(190,58,46,.07);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">八角</span>
+    <span style="font-family:'Noto Serif SC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(190,58,46,.42);background:rgba(190,58,46,.07);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">凤梨</span>
+    <span style="font-family:'Noto Serif SC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(190,58,46,.42);background:rgba(190,58,46,.07);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">麝香</span>
+    <span style="font-family:'Noto Serif SC',serif;font-size:clamp(22px,3.6vw,48px);color:var(--rose);border:1px solid rgba(190,58,46,.42);background:rgba(190,58,46,.07);padding:clamp(6px,1vh,14px) clamp(12px,1.8vw,26px);border-radius:4px">汽油</span>
   </div>
   <div class="two">
     <div>
