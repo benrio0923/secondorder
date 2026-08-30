@@ -284,6 +284,7 @@ Next.js 16 标准应用，可直接部署到 Vercel（`vercel deploy`）或任�
 | [`docs/作品说明.html`](./docs/作品说明.html) | 一页式作品说明（直接用浏览器开） |
 | [`docs/pitch.html`](./docs/pitch.html) | 15 页 pitch deck，方向键或点击翻页 |
 | [`docs/第二单_SecondOrder_路演.pptx`](./docs/第二单_SecondOrder_路演.pptx) | **五分钟路演 PPT**，21 页：12 页主视觉 ＋ 6 页评委问答 ＋ 技术选型与链接附录。每页备注栏写了对应的讲稿与时间点 |
+| [`docs/路演讲稿.md`](./docs/路演讲稿.md) | 五分钟逐字讲稿（同一份内容也写在 PPT 每页的备注栏里） |
 | [`docs/slides/`](./docs/slides/) | 主视觉 12 页原图，以及重建这份 PPT 的脚本与生成提示词 |
 | [`docs/cover/`](./docs/cover/) | 项目封面图（社交预览 1280×670、竖版 3:4） |
 
